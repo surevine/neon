@@ -3,15 +3,24 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Neon REST Services Webapp</display-name>
-  
-          <servlet>
-                <servlet-name>TestWebService</servlet-name>
-                <servlet-class>com.surevine.neon.TestWebService</servlet-class>
-        </servlet>
-        <servlet-mapping>
-                <servlet-name>TestWebService</servlet-name>
-                <url-pattern>/services/test</url-pattern>
-        </servlet-mapping>
-  
+	<display-name>Neon REST Services Webapp</display-name>
+
+	<servlet>
+		<servlet-name>TestWebService</servlet-name>
+		<servlet-class>com.surevine.neon.service.TestWebService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestWebService</servlet-name>
+		<url-pattern>/services/test</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TestRedisWebService</servlet-name>
+		<servlet-class>com.surevine.neon.service.TestRedisWebService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestRedisWebService</servlet-name>
+		<url-pattern>/services/test/redis</url-pattern>
+	</servlet-mapping>
+
 </web-app>
