@@ -3,6 +3,7 @@ package com.surevine.neon.service;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
@@ -10,6 +11,7 @@ import org.json.simple.JSONObject;
 import com.surevine.neon.ServletBase;
 import com.surevine.neon.redis.PooledJedis;
 
+@WebServlet(value="/s/test/redis", loadOnStartup=1)
 public class TestRedisWebService extends ServletBase {
 
 
