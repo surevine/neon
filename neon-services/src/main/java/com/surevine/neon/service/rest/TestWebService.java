@@ -1,4 +1,4 @@
-package com.surevine.neon.service;
+package com.surevine.neon.service.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

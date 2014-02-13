@@ -1,4 +1,4 @@
-package com.surevine.neon.service;
+package com.surevine.neon.service.rest;
 
 import com.surevine.neon.redis.PooledJedis;
 

@@ -1,4 +1,4 @@
-package com.surevine.neon.service.bean;
+package com.surevine.neon.model;
 
 public class SkillBean {
     public static final int SKILL_MENTOR = 5;
