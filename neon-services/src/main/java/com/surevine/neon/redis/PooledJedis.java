@@ -7,8 +7,8 @@ import java.util.Set;
 import redis.clients.jedis.Jedis;
 
 import com.google.common.base.Charsets;
-import com.surevine.neon.Properties;
-import com.surevine.neon.Profiler;
+import com.surevine.neon.util.Properties;
+import com.surevine.neon.util.Profiler;
 
 public class PooledJedis implements IPooledJedis {
 	

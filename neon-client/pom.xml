@@ -5,13 +5,12 @@
   <artifactId>neon-client</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>neon-client Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <name>neon-client</name>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
