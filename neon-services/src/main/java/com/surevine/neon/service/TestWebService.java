@@ -1,16 +1,18 @@
 package com.surevine.neon.service;
 
-//@WebServlet(value="/s/test", loadOnStartup=1)
-public class TestWebService {//extends ServletBase {
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.util.HashMap;
+import java.util.Map;
 
-
-//	private static final long serialVersionUID = -1598226494736457846L;
-//
-//	@SuppressWarnings("unchecked")
-//	protected JSONObject get(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//    	JSONObject rV = new JSONObject();
-//    	rV.put("hello", "world");
-//    	return rV;
-//    }
-
+@Path("/testweb/")
+@Produces("application/json")
+public class TestWebService {
+    @GET
+    public Map<String,String> test() {
+        Map<String,String> testMap = new HashMap<>();
+        testMap.put("hello","world");
+        return testMap;
+    }
 }
