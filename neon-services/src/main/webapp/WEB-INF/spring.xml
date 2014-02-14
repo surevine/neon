@@ -7,9 +7,35 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
     <bean class="com.surevine.neon.util.SpringApplicationContext"/>
     
+    <bean name="importRegistry" class="com.surevine.neon.inload.ImportRegistry" factory-method="getInstance">
+        <property name="registry">
+            <set>
+                <ref bean="basicDetailsImporter" />
+            </set>
+        </property>
+    </bean>
+    
     <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl" />
+
+    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" />
     
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
+    </bean>
+
+    <bean name="inloadControlService" class="com.surevine.neon.service.impl.InloadControlServiceImpl">
+        <property name="registry" ref="importRegistry" />
+        <property name="importerConfigurationDAO" ref="importerConfigurationDAO"/>
+    </bean>
+    
+    <!-- importers here. add to importRegistry above -->
+    <bean name="basicDetailsImporter" class="com.surevine.neon.inload.importers.BasicDetailsImporter">
+        <property name="configurationDAO" ref="importerConfigurationDAO"/>
+        <property name="profileDAO" ref="profileDAO"/>
+        <property name="configuration">
+            <map>
+                <entry key="enabled" value="true" />
+            </map>
+        </property>
     </bean>
 </beans>

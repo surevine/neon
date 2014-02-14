@@ -1,5 +1,8 @@
 package com.surevine.neon.model;
 
+/**
+ * Bean for holding details of a user's expertise
+ */
 public class SkillBean {
     public static final int SKILL_MENTOR = 5;
     public static final int SKILL_EXPERT = 4;

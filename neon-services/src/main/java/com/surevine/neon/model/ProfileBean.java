@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Bean holding a profile.
+ * Bean holding the details of a profile.
  */
 public class ProfileBean {
     private String userID;

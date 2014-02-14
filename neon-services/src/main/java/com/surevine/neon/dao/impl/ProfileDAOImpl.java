@@ -9,14 +9,10 @@ import java.util.Set;
 public class ProfileDAOImpl implements ProfileDAO {
     @Override
     public ProfileBean getProfileForUser(String userID) {
+        // doesn't do anything yet - mocked until importers have something in the DB to build a profile bean from
         return getMockBean();
     }
 
-    @Override
-    public ProfileBean getPartialProfileForUser(String userID, Set<String> namespaces) {
-        return getMockBean();
-    }
-    
     // mocking for now
     private ProfileBean getMockBean() {
         ProfileBean bean = new ProfileBean();
