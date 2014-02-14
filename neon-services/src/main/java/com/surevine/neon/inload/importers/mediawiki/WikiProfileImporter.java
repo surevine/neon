@@ -14,8 +14,11 @@ import org.apache.commons.io.IOUtils;
 
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
+import com.surevine.neon.dao.impl.ProfileDAOImpl;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.inload.importers.DataImportException;
+import com.surevine.neon.model.ProfileBean;
+import com.surevine.neon.model.SkillBean;
 
 public class WikiProfileImporter implements DataImporter {
 
@@ -26,6 +29,7 @@ public class WikiProfileImporter implements DataImporter {
     protected String personTemplatePattern="\\{\\{person\\|.*?\\}\\}";
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";
+    protected String wikiImageURLBase="http://wiki.surevine.net/index.php/File:{fileName}";
     
 	@Override
 	public String getImporterName() {
@@ -39,6 +43,10 @@ public class WikiProfileImporter implements DataImporter {
 	
 	public void setAMAPattern(String pattern) {
 		amaPattern=pattern;
+	}
+	
+	public void setWikiImageURLBase(String base) {
+		wikiImageURLBase=base;
 	}
 	
 	public void setMediaWikiProfilePage(String pagePattern) {
@@ -56,6 +64,31 @@ public class WikiProfileImporter implements DataImporter {
 
 	@Override
 	public void inload(String userID) {
+		MediaWikiProfile mediaWikiProfile=getMediaWikiProfile(userID);
+		ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
+		try {
+			genericProfile.setProfileImage(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
+		}
+		catch (MalformedURLException e) {
+			throw new DataImportException(userID,  this, "Could not create a valid profile image URL from "+wikiImageURLBase, e);
+		}
+		genericProfile.setName(mediaWikiProfile.getName());
+		genericProfile.setAdditionalProperty("Job Title", mediaWikiProfile.getJob());
+		genericProfile.setAdditionalProperty("Telephone", mediaWikiProfile.getNsec());
+		genericProfile.setAdditionalProperty("Alternate Telephone", mediaWikiProfile.getRussett());
+		genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
+		genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());
+		genericProfile.setTeamName(mediaWikiProfile.getSection());
+		Iterator<String> amas = mediaWikiProfile.getAskMeAbouts();
+		while (amas.hasNext()) {
+			SkillBean skill = new SkillBean();
+			skill.setSkillName(amas.next());
+			skill.setInferred(true);
+			skill.setRating(SkillBean.SKILL_MENTOR);
+			genericProfile.addOrUpdateSkill(skill);
+		}
+	}
+	protected MediaWikiProfile getMediaWikiProfile(String userID) {
 		MediaWikiProfile profile = new MediaWikiProfile(userID);
 		String rawMediaWikiProfilePage=getRawContent(userID);
 		System.out.println(rawMediaWikiProfilePage);
@@ -75,6 +108,7 @@ public class WikiProfileImporter implements DataImporter {
 			populateFromAskMeAboutTemplate(profile, amaMatcher.group(0));
 		}
 		System.out.println(profile);
+		return profile;
 	}
 	
 	protected void populateFromAskMeAboutTemplate(MediaWikiProfile profile, String rawAMATemplate) {
@@ -173,7 +207,9 @@ public class WikiProfileImporter implements DataImporter {
     }
     
     public static void main(String arg[]) {
-    	new WikiProfileImporter().inload("simonw");
+    	WikiProfileImporter importer = new WikiProfileImporter();
+    	importer.setProfileDAO(new ProfileDAOImpl());
+    	importer.inload("simonw");
     }
 
 }

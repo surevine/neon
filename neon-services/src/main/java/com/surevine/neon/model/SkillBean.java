@@ -20,7 +20,12 @@ public class SkillBean {
     }
 
     public void setSkillName(String skillName) {
-        this.skillName = skillName;
+    	if (skillName==null) {
+    		this.skillName=null;
+    	}
+    	else {
+    		this.skillName = skillName.toLowerCase().trim();
+    	}
     }
 
     public int getRating() {
@@ -45,5 +50,18 @@ public class SkillBean {
 
     public void setDisavowed(boolean disavowed) {
         this.disavowed = disavowed;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+    	if (!(o instanceof SkillBean)) {
+    		return false;
+    	}
+    	return ((SkillBean)o).getSkillName().equals(skillName);
+    }
+    
+    @Override
+    public int hashCode() {
+    	return skillName.hashCode();
     }
 }
