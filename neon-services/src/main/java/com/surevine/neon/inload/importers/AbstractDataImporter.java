@@ -1,11 +1,16 @@
 package com.surevine.neon.inload.importers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.surevine.neon.dao.ImporterConfigurationDAO;
@@ -22,7 +27,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     protected ProfileDAO profileDAO;
 
     public void setName(String name) {
-    	if (name==null || this.name.equals(name)) {
+    	if (this.name==null || this.name.equals(name)) {
     		this.name=name;
     	}
     	else {
@@ -67,5 +72,39 @@ public abstract class AbstractDataImporter implements DataImporter {
     public boolean isEnabled() {
         return configurationDAO.getBooleanConfigurationOption(name, "enabled");
     }
+    
+	protected String getRawWebData(String userID, String urlBase) {
+		log.info("Getting raw web content for "+userID);
+		String rV=null;
+		InputStream webIn=null;
+		URL targetURL=null;
+		try {
+			targetURL=new URL(urlBase.replaceAll("\\{username\\}", userID));
+			log.trace("Target URL for import: "+targetURL.toString());
+			webIn = targetURL.openStream();
+			rV=IOUtils.toString(webIn);
+		}
+		catch (MalformedURLException e) {
+			log.error(e);
+			throw new DataImportException(userID, this, "Could not generate a profile URL from "+urlBase, e);
+		}
+		catch (IOException ioe) {
+			log.error(ioe);
+			throw new DataImportException(userID, this, "Could not retrieve profile page "+targetURL, ioe);
+		}
+		finally {
+			IOUtils.closeQuietly(webIn);
+		}
+		if (rV==null || rV.trim().equals("")) {
+			throw new DataImportException(userID, this, "No data could be found for the user profile at "+targetURL);
+		}
+		if(log.isDebugEnabled()) {
+			log.debug("Retrieved "+rV.length()+" charecters of profile data");
+		}
+		if (log.isTraceEnabled()) {
+			log.trace("Raw profile data:  |"+rV+"|");
+		}
+		return rV;
+	}
 
 }

@@ -6,11 +6,9 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import com.surevine.neon.service.rest.RestInloadControlService;
-
 public class MediaWikiProfile {
 
-	private Logger logger = Logger.getLogger(RestInloadControlService.class);
+	private Logger log = Logger.getLogger(MediaWikiProfile.class);
 
 
 	private String profileImageLocation, name, job, sid, nsec, russett, room, PF, section, personalityType;

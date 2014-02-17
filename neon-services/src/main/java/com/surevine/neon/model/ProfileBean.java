@@ -50,6 +50,9 @@ public class ProfileBean {
     }
     
     public void setAdditionalProperty(String propertyName, String propertyValue) {
+    	if (propertyValue==null || propertyValue.trim().equals("")) { //If we only have a blank or null value, don't record anything
+    		return;
+    	}
     	this.additionalProperties.put(propertyName, propertyValue);
     }
 

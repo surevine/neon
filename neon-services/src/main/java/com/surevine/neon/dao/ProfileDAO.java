@@ -1,5 +1,6 @@
 package com.surevine.neon.dao;
 
+import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.ProfileBean;
 
 import java.util.Set;
@@ -25,5 +26,5 @@ public interface ProfileDAO {
      */
     public ProfileBean getProfileForUser(String userID);
     
-    public void persistProfile(ProfileBean profile);
+    public void persistProfile(ProfileBean profile, DataImporter importer);
 }

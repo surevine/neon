@@ -7,9 +7,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.naming.OperationNotSupportedException;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import com.surevine.neon.dao.ProfileDAO;
@@ -86,12 +83,12 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 			genericProfile.addOrUpdateSkill(skill);
 		}
 		log.debug("Generic Profile generated: "+genericProfile);
-		profileDAO.persistProfile(genericProfile);
+		profileDAO.persistProfile(genericProfile, this);
 	}
 	protected MediaWikiProfile getMediaWikiProfile(String userID) {
 		log.info("Creating A MediaWiki user profile object for "+userID);
 		MediaWikiProfile profile = new MediaWikiProfile(userID);
-		String rawMediaWikiProfilePage=getRawContent(userID);
+		String rawMediaWikiProfilePage=getRawWebData(userID, mediaWikiProfilePage);
 		Pattern matchPersonTemplate=Pattern.compile(personTemplatePattern, Pattern.CASE_INSENSITIVE);
 		Matcher personTemplateMatcher = matchPersonTemplate.matcher(rawMediaWikiProfilePage);
 		if (personTemplateMatcher.find()) {
@@ -174,40 +171,6 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 		}
 	}
 	
-	protected String getRawContent(String userID) {
-		log.info("Getting raw wiki content for "+userID);
-		String rV=null;
-		InputStream webIn=null;
-		URL targetURL=null;
-		try {
-			targetURL=new URL(mediaWikiProfilePage.replaceAll("\\{username\\}", userID));
-			log.trace("Target URL for import: "+targetURL.toString());
-			webIn = targetURL.openStream();
-			rV=IOUtils.toString(webIn);
-		}
-		catch (MalformedURLException e) {
-			log.error(e);
-			throw new DataImportException(userID, this, "Could not generate a mediawiki profile URL from "+mediaWikiProfilePage, e);
-		}
-		catch (IOException ioe) {
-			log.error(ioe);
-			throw new DataImportException(userID, this, "Could not retrieve profile page "+targetURL, ioe);
-		}
-		finally {
-			IOUtils.closeQuietly(webIn);
-		}
-		if (rV==null || rV.trim().equals("")) {
-			throw new DataImportException(userID, this, "No data could be found for the user profile at "+targetURL);
-		}
-		if(log.isDebugEnabled()) {
-			log.debug("Retrieved "+rV.length()+" charecters of profile data");
-		}
-		if (log.isTraceEnabled()) {
-			log.trace("Raw profile data:  |"+rV+"|");
-		}
-		return rV;
-	}
-    
     public static void main(String arg[]) {
     	WikiProfileImporter importer = new WikiProfileImporter();
     	importer.setProfileDAO(new ProfileDAOImpl());

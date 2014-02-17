@@ -26,4 +26,24 @@ public class VCardTelBean {
     public void setNumber(String number) {
         this.number = number;
     }
+    
+    @Override
+    public int hashCode() {
+    	return (type+number).hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+    	if (o instanceof VCardTelBean) {
+    		return ((VCardTelBean)o).number.equals(number) && ((VCardTelBean)o).type.equals("type");
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    @Override
+    public String toString() {
+    	return new StringBuilder().append("TelephoneNumber[type=").append(type).append("&number=").append(number).append("]").toString();
+    }
 }
