@@ -27,16 +27,21 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	private Logger log = Logger.getLogger(GitlabProfileImporter.class);
 
 	private transient String authentication_token="Pf4JKf6GEdeNmYEWxwBs";
+	private String gitlabURLBase="http://10.66.2.254/";
 	private String dateFormat="YYYY-MM-dd'T'HH:mm:ss'Z'";
 	private String commitDateFormat="yyyy-MM-dd'T'HH:mm:ssXXX";
-	private String profileBaseURL="http://10.66.2.254/api/v3/users?private_token={auth_token}&per_page=100&page={page_id}";
-	private String projectBaseURL="http://10.66.2.254/api/v3/projects?private_token={auth_token}&per_page=100&page={page_id}";
-	private String commitsBaseURL="http://10.66.2.254/api/v3/projects/{projectId}/repository/commits?private_token={auth_token}&per_page=100&page={page_id}";
-	private String projectMembershipURLBase="http://10.66.2.254/api/v3/projects/{projectId}/members?private_token={auth_token}&query={username}&per_page=100";
-	private String listProjectMembersURLBase="http://10.66.2.254/api/v3/projects/{projectId}/members?private_token={auth_token}&per_page=100&page={page_id}";
-	private String commitWebURLBase="http://10.66.2.254/root/{project_name}/commit/{commit_id}";
-	private String issueURLBase="http://10.66.2.254/api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
-	private String issueWebURLBase="http://10.66.2.254/root/{project_name}/issues/{issue_id}";
+	private String profileBaseURL="api/v3/users?private_token={auth_token}&per_page=100&page={page_id}";
+	private String projectBaseURL="api/v3/projects?private_token={auth_token}&per_page=100&page={page_id}";
+	private String commitsBaseURL="api/v3/projects/{projectId}/repository/commits?private_token={auth_token}&per_page=100&page={page_id}";
+	private String projectMembershipURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&query={username}&per_page=100";
+	private String listProjectMembersURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&per_page=100&page={page_id}";
+	private String commitWebURLBase="{project_name}/commit/{commit_id}";
+	private String issueURLBase="/api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
+	private String issueWebURLBase="{project_name}/issues/{issue_id}";
+	
+	public void setGitlabBaseURL(String base) {
+		gitlabURLBase=base;
+	}
 	
 	public void setGitlabAuthToken(String token) {
 		authentication_token=token;
@@ -134,7 +139,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					text.append(issue.optString("title")).append("'");
 					String projectID=Integer.toString(issue.getInt("project_id"));
 					String projectName=profile.getKnownProjectName(projectID);
-					String webURL = issueWebURLBase.replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
+					String webURL = gitlabURLBase.concat(issueWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
 					String issueText=text.toString();
 					log.debug("Issue text: "+text);
 					log.debug("Issue date: "+createdAt);
@@ -174,7 +179,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						log.warn("Could not parse project creation date", e);
 					}
 					log.debug("Date for commit: "+createdAt);
-					String webURL=commitWebURLBase.replaceAll("\\{project_name\\}", projectName).replaceAll("\\{commit_id\\}", commit.getString("id"));
+					String webURL=gitlabURLBase.concat(commitWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{commit_id\\}", commit.getString("id"));
 					log.debug("URL for commit: "+webURL);
 					ProjectActivityBean pab = new ProjectActivityBean(text,  webURL, createdAt, projectID, projectName);
 					profile.addProjectActivity(pab);
@@ -265,7 +270,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						log.debug("Memeber of a project with URL: "+webURL);
 						String text="Member of the '"+getSafeJsonString(project,  "name")+"' project";
 						log.debug("Memeber of a project text: "+text);
-						ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, getSafeJsonString(project,  "name"));
+						ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, getSafeJsonString(project,  "path_with_namespace"));
 						profile.addProjectActivity(pab);
 						captureConnections(userID, "Member of the same project as {destination}", projectID, profile);
 					}
@@ -301,7 +306,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	}
 
 	protected String getURLWithAuthToken(String base) {
-		return base.replaceAll("\\{auth_token\\}", authentication_token);
+		return gitlabURLBase.concat(base.replaceAll("\\{auth_token\\}", authentication_token));
 	}
 	
 	public static void main(String arg[]) {
