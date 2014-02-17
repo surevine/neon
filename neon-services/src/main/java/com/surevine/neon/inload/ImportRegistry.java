@@ -37,7 +37,9 @@ public class ImportRegistry {
      */              
     public void runImport() {
         for (DataImporter prov: this.registry) {
-            prov.runImport();
+            if (prov.cacheLapsed()) {
+                prov.runImport();
+            }
         }
     }
 
