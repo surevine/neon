@@ -1,6 +1,7 @@
 package com.surevine.neon.dao.impl;
 
 import com.surevine.neon.dao.ProfileDAO;
+import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.*;
 
 import java.net.URL;
@@ -99,4 +100,9 @@ public class ProfileDAOImpl implements ProfileDAO {
         bean.getActivityStream().add(a4);
         return bean;
     }
+    
+	@Override
+	public void persistProfile(ProfileBean profile, DataImporter importer) {
+    	// This will persist the details in the profilebean - which will be a partial or complete profile
+	}
 }

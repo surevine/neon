@@ -1,13 +1,10 @@
 package com.surevine.neon.inload;
 
-import com.surevine.neon.model.ProfileBean;
-
+import java.util.Date;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * Data providers provide some profile information as name:value pairs. They 
- * support one or more namespaces.
+ * Data providers provide some profile information.
  */
 public interface DataImporter {
     /**
@@ -17,30 +14,46 @@ public interface DataImporter {
     public String getImporterName();
 
     /**
-     * Whether or not this importer can get data related to the provided namespace
-     * @param namespace the namespace
-     * @return true if the importer can import data for the specified namespace, false if not
+     * The namespace this contributes to
+     * @return the namespace
      */
-    public boolean providesForNamespace(String namespace);
-
+    public String getNamespace();
+    
     /**
      * Sets the configuration for this importer. It's held in the DB so can be edited at runtime but a restart will 
      * replace the configuration with the one configured in the spring configuration
      * @param configuration the configuration - usually loaded by Spring at application start
      */
-    public void setConfiguration(Map<String,String> configuration);
+    public void setAdditionalConfiguration(Map<String,String> configuration);
     
     /**
-     * Tells the importer to run its data import for the specific user
-     * @param userID the user to import
+     * Sets the cache timeout
+     * @param timeout the timeout in seconds
      */
-    public void inload(String userID);
+    public void setCacheTimeout(int timeout);
 
     /**
-     * Tells the importer to run its data import for the specific users
-     * @param userIDs the users
+     * Sets whether it's enabled or not
+     * @param enabled whether it's enabled or not
      */
-    public void inload(Set<String> userIDs);
+    public void setEnabled(boolean enabled);
+
+    /**
+     * Sets the priority of this importer's data where there is more than one source that contributed to the same data
+     * @param priority the priority
+     */
+    public void setSourcePriority(int priority);
+    
+    /**
+     * Tells the importer to run its data import for all users already in the system 
+     */
+    public void runImport();
+
+    /**
+     * Tells the importer to run its data import for the specified userID - mostly used for new users
+     * @param userID the userID
+     */
+    public void runImport(String userID);
 
     /**
      * Is this enabled?
@@ -50,15 +63,14 @@ public interface DataImporter {
     public boolean isEnabled();
 
     /**
-     * Returns true if this is a live importer (i.e. it pulls directly from an external system rather than regularly
-     * updating a cached version of the data in the database)
-     * @return true if this is a live importer
+     * Gets the time this was last run
+     * @return the time this was last run
      */
-    public boolean isLive();
+    public Date getLastRun();
 
     /**
-     * Returns true if the cache is out of date for this importer
-     * @return true if the cache is out of date or false if it's in date (or if it doesn't cache at all - i.e. isLive == true)
+     * Return true if the cache is out of date
+     * @return true if the cache is out of date
      */
-    public boolean cacheOutOfDate();
+    public boolean cacheLapsed();
 }

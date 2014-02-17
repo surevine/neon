@@ -4,7 +4,6 @@ import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.inload.ImportRegistry;
 import com.surevine.neon.service.InloadControlService;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,17 +14,11 @@ public class InloadControlServiceImpl implements InloadControlService {
     private ImporterConfigurationDAO importerConfigurationDAO;
     
     @Override
-    public void inload(String userID, List<String> namespaces) {
-        for (String namespace: namespaces) {
-            registry.runImport(userID, namespace);
-        }
-    }
-
-    @Override
-    public void inload(String userID) {
+    public void runImport(String userID) {
         registry.runImport(userID);
     }
 
+    @Override
     public Map<String,String> getConfigForImporter(String importer) {
         return importerConfigurationDAO.getConfigurationForImporter(importer);
     }

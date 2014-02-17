@@ -7,10 +7,15 @@ import java.util.Map;
 
 public class ImporterConfigurationDAOImpl implements ImporterConfigurationDAO {
     @Override
-    public void configureImporter(String importerName, Map<String, String> config) {
+    public void addImporterConfiguration(String importerName, Map<String, String> config) {
         for (Map.Entry<String,String> configOption:config.entrySet()) {
-            PooledJedis.get().hset(NS_IMPORTER_PREFIX + ":" + importerName, configOption.getKey(), configOption.getValue());
+            addImporterConfigurationOption(NS_IMPORTER_PREFIX + ":" + importerName, configOption.getKey(), configOption.getValue());
         }
+    }
+
+    @Override
+    public void addImporterConfigurationOption(String importerName, String key, String value) {
+        PooledJedis.get().hset(NS_IMPORTER_PREFIX + ":" + importerName, key, value);
     }
 
     @Override

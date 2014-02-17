@@ -1,5 +1,6 @@
 package com.surevine.neon.dao;
 
+import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.ProfileBean;
 
 import java.util.Set;
@@ -30,4 +31,11 @@ public interface ProfileDAO {
      * @return the userIDs
      */
     public Set<String> getUserIDList();
+
+    /**
+     * Persists a portion of a profile bean contributed to by the argument data importer. The userID must exist.
+     * @param profile the partially populated profile bean
+     * @param importer the importer that contributed to the profile bean
+     */
+    public void persistProfile(ProfileBean profile, DataImporter importer);
 }

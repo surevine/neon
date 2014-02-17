@@ -4,7 +4,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 public class MediaWikiProfile {
+
+	private Logger log = Logger.getLogger(MediaWikiProfile.class);
+
 
 	private String profileImageLocation, name, job, sid, nsec, russett, room, PF, section, personalityType;
 	
