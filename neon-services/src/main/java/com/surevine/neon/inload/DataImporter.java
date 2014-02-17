@@ -1,5 +1,7 @@
 package com.surevine.neon.inload;
 
+import com.surevine.neon.model.ProfileBean;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public interface DataImporter {
      * @param configuration the configuration - usually loaded by Spring at application start
      */
     public void setConfiguration(Map<String,String> configuration);
-
+    
     /**
      * Tells the importer to run its data import for the specific user
      * @param userID the user to import
@@ -46,4 +48,17 @@ public interface DataImporter {
      * be changed at runtime.
      */
     public boolean isEnabled();
+
+    /**
+     * Returns true if this is a live importer (i.e. it pulls directly from an external system rather than regularly
+     * updating a cached version of the data in the database)
+     * @return true if this is a live importer
+     */
+    public boolean isLive();
+
+    /**
+     * Returns true if the cache is out of date for this importer
+     * @return true if the cache is out of date or false if it's in date (or if it doesn't cache at all - i.e. isLive == true)
+     */
+    public boolean cacheOutOfDate();
 }

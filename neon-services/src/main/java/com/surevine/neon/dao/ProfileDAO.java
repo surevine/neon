@@ -24,4 +24,10 @@ public interface ProfileDAO {
      * @return a populated ProfileBean for the user
      */
     public ProfileBean getProfileForUser(String userID);
+
+    /**
+     * Gets the set of userIDs we want profiles for in the system
+     * @return the userIDs
+     */
+    public Set<String> getUserIDList();
 }

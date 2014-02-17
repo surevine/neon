@@ -1,5 +1,7 @@
 package com.surevine.neon.inload;
 
+import com.surevine.neon.dao.ProfileDAO;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,6 +9,11 @@ import java.util.Set;
  * Spring configured singleton registry containing a list of data provides that contribute to a profile
  */
 public class ImportRegistry {
+    /**
+     * The profile DAO
+     */
+    private ProfileDAO dao;
+    
     /**
      * Singleton instance
      */
@@ -53,6 +60,10 @@ public class ImportRegistry {
         for (DataImporter prov: this.registry) {
             prov.inload(userID);
         }
+    }
+    
+    public void runScheduledImportForAllUsers() {
+        Set<String> users = 
     }
 
     /**
