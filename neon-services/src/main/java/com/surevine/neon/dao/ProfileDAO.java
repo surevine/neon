@@ -24,4 +24,6 @@ public interface ProfileDAO {
      * @return a populated ProfileBean for the user
      */
     public ProfileBean getProfileForUser(String userID);
+    
+    public void persistProfile(ProfileBean profile);
 }

@@ -5,41 +5,35 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-
-import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.dao.impl.ProfileDAOImpl;
 import com.surevine.neon.inload.DataImporter;
+import com.surevine.neon.inload.importers.AbstractDataImporter;
 import com.surevine.neon.inload.importers.DataImportException;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.SkillBean;
-import com.surevine.neon.service.rest.RestInloadControlService;
 
-public class WikiProfileImporter implements DataImporter {
+public class WikiProfileImporter extends AbstractDataImporter implements DataImporter {
 	
-    private Logger log = Logger.getLogger(RestInloadControlService.class);
+	{
+		setName("MEDIAWIKI_PROFILE_IMPORTER");
+	}
 
+	
+    private Logger log = Logger.getLogger(WikiProfileImporter.class);
 
-    private static final String IMPORTER_NAME = "MEDIAWIKI_PROFILE_IMPORTER";
-    private ImporterConfigurationDAO configurationDAO;
-    private ProfileDAO profileDAO;
     protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@client?action=raw";
     protected String personTemplatePattern="\\{\\{person\\|.*?\\}\\}";
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";
     protected String wikiImageURLBase="http://wiki.surevine.net/index.php/File:{fileName}";
-    
-	@Override
-	public String getImporterName() {
-		return IMPORTER_NAME;
-	}
 
 	@Override
 	public boolean providesForNamespace(String namespace) {
@@ -61,11 +55,6 @@ public class WikiProfileImporter implements DataImporter {
 	public void setMyersBriggsPattern(String mbPattern) {
 		myersBriggsPattern=mbPattern;
 	}
-
-    @Override
-    public void setConfiguration(Map<String, String> configuration) {
-        configurationDAO.configureImporter(IMPORTER_NAME, configuration);
-    }
 
 	@Override
 	public void inload(String userID) {
@@ -97,7 +86,7 @@ public class WikiProfileImporter implements DataImporter {
 			genericProfile.addOrUpdateSkill(skill);
 		}
 		log.debug("Generic Profile generated: "+genericProfile);
-		//TODO:  Persist profile here
+		profileDAO.persistProfile(genericProfile);
 	}
 	protected MediaWikiProfile getMediaWikiProfile(String userID) {
 		log.info("Creating A MediaWiki user profile object for "+userID);
@@ -218,28 +207,6 @@ public class WikiProfileImporter implements DataImporter {
 		}
 		return rV;
 	}
-
-	@Override
-	public void inload(Set<String> userIDs) {
-		log.info("Retrieving wiki profile data for "+userIDs.size()+" users");
-		Iterator<String> userIt = userIDs.iterator();
-		while (userIt.hasNext()) {
-			inload(userIt.next());
-		}
-	}
-
-    @Override
-    public boolean isEnabled() {
-        return configurationDAO.getBooleanConfigurationOption(IMPORTER_NAME, "enabled");
-    }
-
-    public void setConfigurationDAO(ImporterConfigurationDAO configurationDAO) {
-        this.configurationDAO = configurationDAO;
-    }
-
-    public void setProfileDAO(ProfileDAO profileDAO) {
-        this.profileDAO = profileDAO;
-    }
     
     public static void main(String arg[]) {
     	WikiProfileImporter importer = new WikiProfileImporter();

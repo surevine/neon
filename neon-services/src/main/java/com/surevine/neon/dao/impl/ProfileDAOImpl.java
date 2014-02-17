@@ -91,4 +91,9 @@ public class ProfileDAOImpl implements ProfileDAO {
         bean.getActivityStream().add(a4);
         return bean;
     }
+    
+	@Override
+	public void persistProfile(ProfileBean profile) {
+    	//Intentionally blank for now
+	}
 }
