@@ -1,11 +1,5 @@
 package com.surevine.neon.inload.importers.mediawiki;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.apache.log4j.Logger;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.dao.impl.ProfileDAOImpl;
 import com.surevine.neon.inload.DataImporter;
@@ -14,13 +8,16 @@ import com.surevine.neon.inload.importers.DataImportException;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.SkillBean;
 import com.surevine.neon.model.VCardTelBean;
+import org.apache.log4j.Logger;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WikiProfileImporter extends AbstractDataImporter implements DataImporter {
-	
-	{
-		setName("MEDIAWIKI_PROFILE_IMPORTER");
-	}
-
+    private static final String IMPORTER_NAME = "MEDIAWIKI_PROFILE_IMPORTER";
 	
     private Logger log = Logger.getLogger(WikiProfileImporter.class);
 
@@ -29,11 +26,6 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";
     protected String wikiImageURLBase="http://wiki.surevine.net/index.php/File:{fileName}";
-
-	@Override
-	public boolean providesForNamespace(String namespace) {
-        return ProfileDAO.NS_PROFILE_PREFIX.equals(namespace);
-	}
 	
 	public void setAMAPattern(String pattern) {
 		amaPattern=pattern;
@@ -51,42 +43,6 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 		myersBriggsPattern=mbPattern;
 	}
 
-	@Override
-	public void inload(String userID) {
-		
-		log.info("Creating or updating the user profile of "+userID);
-		
-		MediaWikiProfile mediaWikiProfile=getMediaWikiProfile(userID);
-		log.debug("MediaWiki Profile retrieved, converting to generic profile");
-		ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
-		try {
-			genericProfile.getVcard().getPhoto().setPhotoURL(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
-		}
-		catch (MalformedURLException e) {
-			throw new DataImportException(userID,  this, "Could not create a valid profile image URL from "+wikiImageURLBase, e);
-		}
-		genericProfile.getVcard().setFn(mediaWikiProfile.getName());
-		genericProfile.setAdditionalProperty("Job Title", mediaWikiProfile.getJob());
-		if (mediaWikiProfile.getNsec()!=null && !mediaWikiProfile.getNsec().trim().equals("")) {
-			genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("PSTN", mediaWikiProfile.getNsec()));
-		}
-		if (mediaWikiProfile.getRussett()!=null && !mediaWikiProfile.getRussett().trim().equals("")) {
-			genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("R", mediaWikiProfile.getRussett()));
-		}
-		genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
-		genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());
-		genericProfile.getVcard().setOrg(mediaWikiProfile.getSection());
-		Iterator<String> amas = mediaWikiProfile.getAskMeAbouts();
-		while (amas.hasNext()) {
-			SkillBean skill = new SkillBean();
-			skill.setSkillName(amas.next());
-			skill.setInferred(true);
-			skill.setRating(SkillBean.SKILL_MENTOR);
-			genericProfile.addOrUpdateSkill(skill);
-		}
-		log.debug("Generic Profile generated: "+genericProfile);
-		profileDAO.persistProfile(genericProfile, this);
-	}
 	protected MediaWikiProfile getMediaWikiProfile(String userID) {
 		log.info("Creating A MediaWiki user profile object for "+userID);
 		MediaWikiProfile profile = new MediaWikiProfile(userID);
@@ -111,7 +67,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 	}
 	
 	protected void populateFromAskMeAboutTemplate(MediaWikiProfile profile, String rawAMATemplate) {
-		log.info("Populating the user profile of "+profile.getSid()+" from the AMA template");
+		log.info("Populating the user profile of " + profile.getSid() + " from the AMA template");
 		Matcher amaContentMatcher = Pattern.compile("\\{\\{ask me about\\|(.*?)\\}", Pattern.CASE_INSENSITIVE).matcher(rawAMATemplate);
 		if (amaContentMatcher.find()) {
 			log.debug("Setting AMA to: "+amaContentMatcher.group(1));
@@ -176,7 +132,52 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
     public static void main(String arg[]) {
     	WikiProfileImporter importer = new WikiProfileImporter();
     	importer.setProfileDAO(new ProfileDAOImpl());
-    	importer.inload("simonw");
+    	importer.runImportImplementation("simonw");
     }
 
+    @Override
+    protected void runImportImplementation(String userID) {
+        log.info("Creating or updating the user profile of "+userID);
+
+        MediaWikiProfile mediaWikiProfile=getMediaWikiProfile(userID);
+        log.debug("MediaWiki Profile retrieved, converting to generic profile");
+        ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
+        try {
+            genericProfile.getVcard().getPhoto().setPhotoURL(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
+        }
+        catch (MalformedURLException e) {
+            throw new DataImportException(userID,  this, "Could not create a valid profile image URL from "+wikiImageURLBase, e);
+        }
+        genericProfile.getVcard().setFn(mediaWikiProfile.getName());
+        genericProfile.setAdditionalProperty("Job Title", mediaWikiProfile.getJob());
+        if (mediaWikiProfile.getNsec()!=null && !mediaWikiProfile.getNsec().trim().equals("")) {
+            genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("PSTN", mediaWikiProfile.getNsec()));
+        }
+        if (mediaWikiProfile.getRussett()!=null && !mediaWikiProfile.getRussett().trim().equals("")) {
+            genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("R", mediaWikiProfile.getRussett()));
+        }
+        genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
+        genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());
+        genericProfile.getVcard().setOrg(mediaWikiProfile.getSection());
+        Iterator<String> amas = mediaWikiProfile.getAskMeAbouts();
+        while (amas.hasNext()) {
+            SkillBean skill = new SkillBean();
+            skill.setSkillName(amas.next());
+            skill.setInferred(true);
+            skill.setRating(SkillBean.SKILL_MENTOR);
+            genericProfile.addOrUpdateSkill(skill);
+        }
+        log.debug("Generic Profile generated: "+genericProfile);
+        profileDAO.persistProfile(genericProfile, this);
+    }
+
+    @Override
+    public String getImporterName() {
+        return IMPORTER_NAME;
+    }
+
+    @Override
+    public String getNamespace() {
+        return ProfileDAO.NS_BASIC_DETAILS;
+    }
 }

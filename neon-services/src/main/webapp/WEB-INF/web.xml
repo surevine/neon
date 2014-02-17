@@ -17,4 +17,8 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
+
+    <listener>
+        <listener-class>com.surevine.neon.inload.ImportScheduleContextListener</listener-class>
+    </listener>
 </web-app>

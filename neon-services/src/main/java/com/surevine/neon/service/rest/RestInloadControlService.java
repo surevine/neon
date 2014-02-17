@@ -19,23 +19,13 @@ public class RestInloadControlService implements InloadControlService {
     private InloadControlService serviceImplementation;
 
     @GET
-    public void inload(@QueryParam("userID") String userID, @QueryParam("namespaces") List<String> namespaces) {
-        if (serviceImplementation == null) {
-            loadServiceFromSpringContext();
-        }
-
-        log.debug("Inloading data for userID [" + userID + "] against namespaces [" + namespaces + "]");
-        serviceImplementation.inload(userID, namespaces);
-    }
-
-    @GET
-    public void inload(@QueryParam("userID") String userID) {
+    public void runImport(@QueryParam("userID") String userID) {
         if (serviceImplementation == null) {
             loadServiceFromSpringContext();
         }
 
         log.debug("Inloading data for userID [" + userID + "]");
-        serviceImplementation.inload(userID);
+        serviceImplementation.runImport(userID);
     }
     
     @GET

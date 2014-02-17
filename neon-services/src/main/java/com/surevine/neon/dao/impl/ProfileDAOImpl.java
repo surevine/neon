@@ -6,6 +6,7 @@ import com.surevine.neon.model.*;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ProfileDAOImpl implements ProfileDAO {
@@ -13,6 +14,13 @@ public class ProfileDAOImpl implements ProfileDAO {
     public ProfileBean getProfileForUser(String userID) {
         // doesn't do anything yet - mocked until importers have something in the DB to build a profile bean from
         return getMockBean(userID);
+    }
+    
+    public Set<String> getUserIDList() {
+        Set<String> users = new HashSet<>();
+        users.add("nickl");
+        users.add("simonw");
+        return users;
     }
 
     // mocking for now
@@ -95,6 +103,6 @@ public class ProfileDAOImpl implements ProfileDAO {
     
 	@Override
 	public void persistProfile(ProfileBean profile, DataImporter importer) {
-    	//Intentionally blank for now
+    	// This will persist the details in the profilebean - which will be a partial or complete profile
 	}
 }

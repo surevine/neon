@@ -33,28 +33,26 @@ public class ImportRegistry {
     }
 
     /**
-     * Run all importers that support the specific namespace for the given userID
-     * @param userID the userID to import data for
-     * @param namespace the namespace to import data for
-     */
-    public void runImport(String userID, String namespace) {
+     * Run data importers
+     */              
+    public void runImport() {
         for (DataImporter prov: this.registry) {
-            if (prov.providesForNamespace(namespace)) {
-                prov.inload(userID);
+            if (prov.cacheLapsed()) {
+                prov.runImport();
             }
         }
     }
 
     /**
-     * Run all importers for the given userID
-     * @param userID the userID to import data for
-     */              
+     * Run data importers for a specified user
+     * @param userID the userID
+     */
     public void runImport(String userID) {
         for (DataImporter prov: this.registry) {
-            prov.inload(userID);
+            prov.runImport(userID);
         }
     }
-
+    
     /**
      * Gets the singleton instance
      * @return the singleton instance

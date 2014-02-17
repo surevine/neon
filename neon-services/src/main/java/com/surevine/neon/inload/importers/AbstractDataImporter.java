@@ -1,81 +1,128 @@
 package com.surevine.neon.inload.importers;
 
+import com.surevine.neon.dao.ImporterConfigurationDAO;
+import com.surevine.neon.dao.ProfileDAO;
+import com.surevine.neon.inload.DataImporter;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.OperationNotSupportedException;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.surevine.neon.dao.ImporterConfigurationDAO;
-import com.surevine.neon.dao.ProfileDAO;
-import com.surevine.neon.inload.DataImporter;
-import com.surevine.neon.inload.importers.mediawiki.WikiProfileImporter;
-
+/**
+ * Abstract data importer contains all the basic functionality required for importer configuration and state management.
+ * Most importers should extend this unless they have good reason not to.
+ */
 public abstract class AbstractDataImporter implements DataImporter {
-
-	private String name=null;
-
 	private ImporterConfigurationDAO configurationDAO;
     private Logger log = Logger.getLogger(AbstractDataImporter.class);
     protected ProfileDAO profileDAO;
 
-    public void setName(String name) {
-    	if (this.name==null || this.name.equals(name)) {
-    		this.name=name;
-    	}
-    	else {
-    		throw new DataImportException("system", this, "A profile importer cannot be renamed, and this importer was already called "+this.name);
-    	}
-    }
-    
-	public void setProfileDAO(ProfileDAO pd) {
-		profileDAO=pd;
-	}
-	
-	public ProfileDAO getProfileDAO() {
-		return profileDAO;
-	}
-    
-	@Override
-	public String getImporterName() {
-		return name;
-	}
+    /**
+     * Delegated import implementation
+     * @param userID the user ID to run the import for
+     */
+    protected abstract void runImportImplementation(String userID);
 
-	@Override
-	public abstract boolean providesForNamespace(String namespace);
+    /**
+     * Sets the implementation of the profile DAO
+     * @param pd the profile DAO
+     */
+    public void setProfileDAO(ProfileDAO pd) {
+        profileDAO=pd;
+    }
+
+    /**
+     * Sets the configuration DAO instance
+     * @param configurationDAO the configuration DAO
+     */
+    public void setConfigurationDAO(ImporterConfigurationDAO configurationDAO) {
+        this.configurationDAO = configurationDAO;
+    }
 
     @Override
-    public void setConfiguration(Map<String, String> configuration) {
-        configurationDAO.configureImporter(name, configuration);
+    public void setAdditionalConfiguration(Map<String, String> configuration) {
+        configurationDAO.addImporterConfiguration(getImporterName(), configuration);
     }
 
 	@Override
-	public abstract void inload(String userID);
-
-	@Override
-	public void inload(Set<String> userIDs) {
-		log.info("Retrieving wiki profile data for "+userIDs.size()+" users");
-		Iterator<String> userIt = userIDs.iterator();
-		while (userIt.hasNext()) {
-			inload(userIt.next());
+    public void runImport() {
+        Set<String> userIDs = profileDAO.getUserIDList();
+		log.info("Retrieving data for " + userIDs.size() + " users");
+		Iterator<String> userID = userIDs.iterator();
+		while (userID.hasNext()) {
+			runImport(userID.next());
 		}
 	}
 
     @Override
-    public boolean isEnabled() {
-        return configurationDAO.getBooleanConfigurationOption(name, "enabled");
+    public void runImport(String userID) {
+        try {
+            runImportImplementation(userID);
+            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateFormat.getTimeInstance(DateFormat.LONG).format(new Date()));
+        } catch (DataImportException die) {
+            log.warn("Importer " + getImporterName() + " failed to import data for user " + userID + "[" + die.getMessage() + "]");
+        }
     }
-    
-	protected String getRawWebData(String userID, String urlBase) {
+
+    @Override
+    public Date getLastRun() {
+        String lastRunString = configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT);
+        Date lastRun = null;
+        
+        if (lastRunString != null) {
+            try {
+                lastRun = DateFormat.getTimeInstance(DateFormat.LONG).parse(lastRunString);
+            } catch (ParseException pe) {
+                log.warn("Could not parse last run date for imoporter " + getImporterName() + ". The format of the date was incorrect.");
+            }
+        }
+        
+        return lastRun;
+    }
+
+    @Override
+    public boolean cacheLapsed() {
+        Date lastRun = getLastRun();
+        if (lastRun == null) {
+            return false;
+        }
+        
+        int cacheTimeout = Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT));
+        Long diffInMillis = new Date().getTime() - lastRun.getTime();
+        
+        return diffInMillis > (cacheTimeout * 1000);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return configurationDAO.getBooleanConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_ENABLED);
+    }
+
+    @Override
+    public void setCacheTimeout(int timeout) {
+        configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT, timeout + "");
+    }
+
+    @Override
+    public void setSourcePriority(int priority) {
+        configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_PRIORITY, priority + "");
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_ENABLED, Boolean.toString(enabled));
+    }
+
+    protected String getRawWebData(String userID, String urlBase) {
 		log.info("Getting raw web content for "+userID);
 		String rV=null;
 		InputStream webIn=null;

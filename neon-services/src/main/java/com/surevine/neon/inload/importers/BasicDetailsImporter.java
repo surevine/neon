@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Mock importer that acts as an example and proof of concept for the importer framework
  */
-public class BasicDetailsImporter implements DataImporter {
+public class BasicDetailsImporter extends AbstractDataImporter implements DataImporter {
     private static final String IMPORTER_NAME = "VCARD_BASIC_DETAILS";
     private ImporterConfigurationDAO configurationDAO;
     private ProfileDAO profileDAO;
@@ -21,39 +21,12 @@ public class BasicDetailsImporter implements DataImporter {
     }
 
     @Override
-    public boolean providesForNamespace(String namespace) {
-        return ProfileDAO.NS_BASIC_DETAILS.equals(namespace);
+    public String getNamespace() {
+        return ProfileDAO.NS_BASIC_DETAILS;
     }
 
     @Override
-    public void setConfiguration(Map<String, String> configuration) {
-        configurationDAO.configureImporter(IMPORTER_NAME, configuration);
-    }
-
-    @Override
-    public void inload(String userID) {
-        // here, for a real importer, we would head off to the service that supplies us with the data we need, retrieve
-        // that data, parse it to produce name value pairs for storage, and pass the data to the profileDAO for 
-        // persistence
-    }
-
-    @Override
-    public void inload(Set<String> userIDs) {
-        // here, for a real importer, we would head off to the service that supplies us with the data we need, retrieve
-        // that data, parse it to produce name value pairs for storage, and pass the data to the profileDAO for 
-        // persistence
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return configurationDAO.getBooleanConfigurationOption(IMPORTER_NAME, "enabled");
-    }
-
-    public void setConfigurationDAO(ImporterConfigurationDAO configurationDAO) {
-        this.configurationDAO = configurationDAO;
-    }
-
-    public void setProfileDAO(ProfileDAO profileDAO) {
-        this.profileDAO = profileDAO;
+    protected void runImportImplementation(String userID) throws DataImportException {
+        // no-op
     }
 }

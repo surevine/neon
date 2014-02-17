@@ -29,13 +29,26 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
     
     <!-- importers here. add to importRegistry above -->
-    <bean name="basicDetailsImporter" class="com.surevine.neon.inload.importers.BasicDetailsImporter">
+    <bean name="baseImporter" class="com.surevine.neon.inload.importers.AbstractDataImporter" abstract="true">
         <property name="configurationDAO" ref="importerConfigurationDAO"/>
         <property name="profileDAO" ref="profileDAO"/>
-        <property name="configuration">
-            <map>
-                <entry key="enabled" value="true" />
-            </map>
-        </property>
+    </bean>
+    
+    <bean name="basicDetailsImporter" class="com.surevine.neon.inload.importers.BasicDetailsImporter" parent="baseImporter">
+        <property name="enabled" value="true" />
+        <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
+    </bean>
+
+    <bean name="findImporter" class="com.surevine.neon.inload.importers.find.FindImporter" parent="baseImporter">
+        <property name="enabled" value="true" />
+        <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
+    </bean>
+
+    <bean name="mediaWikiImporter" class="com.surevine.neon.inload.importers.mediawiki.WikiProfileImporter" parent="baseImporter">
+        <property name="enabled" value="true" />
+        <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
     </bean>
 </beans>

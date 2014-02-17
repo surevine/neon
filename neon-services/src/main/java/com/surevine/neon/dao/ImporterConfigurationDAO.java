@@ -3,17 +3,27 @@ package com.surevine.neon.dao;
 import java.util.Map;
 
 public interface ImporterConfigurationDAO {
-    /**
-     * Prefix namespace for name/value configuration options
-     */
     public static final String NS_IMPORTER_PREFIX = "IMPORTER_CONFIG";
+    public static final String NS_IMPORTER_TIMEOUT = "CACHE_TIMEOUT_SECONDS";
+    public static final String NS_SUPPORTER_NAMESPACE = "DATA_NAMESPACE";
+    public static final String NS_ENABLED = "ENABLED";
+    public static final String NS_PRIORITY = "PRIORITY";
+    public static final String NS_LAST_IMPORT = "LAST_IMPORT";
 
     /**
      * Stores importer configuration
      * @param importerName the name of the importer
      * @param config the configuration for the importer
      */
-    public void configureImporter(String importerName, Map<String,String> config);
+    public void addImporterConfiguration(String importerName, Map<String,String> config);
+
+    /**
+     * Stores a single configuration item
+     * @param importerName the name of the importer
+     * @param key the key of the configuration item
+     * @param value the value of the configuration item
+     */
+    public void addImporterConfigurationOption(String importerName, String key, String value);
 
     /**
      * Gets the conifguration for a specific importer
@@ -37,7 +47,7 @@ public interface ImporterConfigurationDAO {
      * @return true if the string value is "true" false otherwise
      */
     public boolean getBooleanConfigurationOption(String importerName, String configurationKey);
-
+    
     /**
      * Sets or updates a config option for an importer
      * @param importerName the name of the importer

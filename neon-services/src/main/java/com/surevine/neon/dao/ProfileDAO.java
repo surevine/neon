@@ -31,6 +31,17 @@ public interface ProfileDAO {
      * @return a populated ProfileBean for the user
      */
     public ProfileBean getProfileForUser(String userID);
-    
+
+    /**
+     * Gets the set of userIDs we want profiles for in the system
+     * @return the userIDs
+     */
+    public Set<String> getUserIDList();
+
+    /**
+     * Persists a portion of a profile bean contributed to by the argument data importer. The userID must exist.
+     * @param profile the partially populated profile bean
+     * @param importer the importer that contributed to the profile bean
+     */
     public void persistProfile(ProfileBean profile, DataImporter importer);
 }
