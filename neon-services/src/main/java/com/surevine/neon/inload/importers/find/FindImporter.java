@@ -90,6 +90,19 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
             log.debug("Addint a telephone number: "+telephone);
             genericProfile.getVcard().getTelephoneNumbers().add(telephone);
         }
+
+        String usualLocation = findProfile.getString("roomNumber");
+        log.debug("Setting usual location to: "+usualLocation);
+        genericProfile.setAdditionalProperty("Typical Location", usualLocation);
+
+        String bio=findProfile.getString("description");
+        log.debug("Setting bio to: "+bio);
+        genericProfile.setBio(bio);
+
+        log.trace("Finished importing of FSRF record.  Persisting");
+
+        profileDAO.persistProfile(genericProfile, this);
+        log.info("Import of "+userID+" from FSRF complete");
     }
 
     @Override
