@@ -20,7 +20,6 @@ import com.surevine.neon.model.ConnectionBean;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.ProjectActivityBean;
 
-//TODO - add pagination - this will currently conk out once you have > 100 issues etc
 public class GitlabProfileImporter extends AbstractDataImporter implements DataImporter {
 
 	private static final String IMPORTER_NAME ="GITLAB_PROFILE_IMPORTER";
@@ -35,8 +34,9 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	private String commitsBaseURL="http://10.66.2.254/api/v3/projects/{projectId}/repository/commits?private_token={auth_token}&per_page=100&page={page_id}";
 	private String projectMembershipURLBase="http://10.66.2.254/api/v3/projects/{projectId}/members?private_token={auth_token}&query={username}&per_page=100";
 	private String listProjectMembersURLBase="http://10.66.2.254/api/v3/projects/{projectId}/members?private_token={auth_token}&per_page=100&page={page_id}";
-	private String commitWebURLBase="http://10.66.2.254/root/{project_name}/commit/{commit_id}&per_page=100&page={page_id}";
-
+	private String commitWebURLBase="http://10.66.2.254/root/{project_name}/commit/{commit_id}";
+	private String issueURLBase="http://10.66.2.254/api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
+	private String issueWebURLBase="http://10.66.2.254/root/{project_name}/issues/{issue_id}";
 	
 	public void setGitlabAuthToken(String token) {
 		authentication_token=token;
@@ -52,6 +52,10 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	
 	public void setProfileServiceBaseURL(String base) {
 		profileBaseURL=base;
+	}
+	
+	public void setIssueURLBase(String base) {
+		issueURLBase=base;
 	}
 	
 	public void setProjectBaseURL(String base) {
@@ -80,6 +84,66 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 		getBioDetails(genericProfile, userID);
 		getProjectMembershipDetails(genericProfile, userID);
 		getCommits(genericProfile, userID);
+		getIssues(genericProfile, userID);
+	}
+	
+	protected void getIssues(ProfileBean profile, String userID) {
+		log.info("Retrieving isues for user :"+userID);
+		int page=1;
+		while (true) {
+			String url = getURLWithAuthToken(issueURLBase).replaceAll("\\{page_id\\}", Integer.toString(page++));
+			JSONArray issues = new JSONArray(getRawWebData(userID, url));
+			if (issues.length()==0) {
+				break;
+			}
+			log.trace("Retrieved JSON from Gitlab issues service: "+issues);
+			for (int i=0; i < issues.length(); i++) {
+				JSONObject issue = issues.getJSONObject(0);
+				
+				//Work out if we're recording an event, and if so is it an authorship or an assignation?
+				boolean record=false;
+				boolean author=false;
+				JSONObject event=null;
+				if (issue.getJSONObject("author").optString("username").equalsIgnoreCase(userID)) {
+					record=true;
+					author=true;
+					event=issue.getJSONObject("author");
+				}
+				else if (issue.getJSONObject("assignee").optString("username").equals(userID)) {
+					record=true;
+					event=issue.getJSONObject("assignee");
+				}
+				
+				//If we have something to record...
+				if (record) {
+					
+					String createdAtStr = event.getString("created_at");
+					Date createdAt = new Date(0l);
+					try {
+						createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
+					} catch (ParseException e) {
+						log.warn("Could not parse project creation date", e);
+					}
+					StringBuilder text = new StringBuilder();
+					if (author) {
+						text.append("Created the issue '");
+					}
+					else {
+						text.append("Assigned to the issue '");
+					}
+					text.append(issue.optString("title")).append("'");
+					String projectID=Integer.toString(issue.getInt("project_id"));
+					String projectName=profile.getKnownProjectName(projectID);
+					String webURL = issueWebURLBase.replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
+					String issueText=text.toString();
+					log.debug("Issue text: "+text);
+					log.debug("Issue date: "+createdAt);
+					log.debug("Issue URL: "+webURL);
+					profile.addProjectActivity(new ProjectActivityBean(issueText, webURL, createdAt, projectID, projectName));
+				}
+				
+			}
+		}
 	}
 	
 	protected void getCommits(ProfileBean profile, String userID) {
@@ -216,7 +280,6 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 		int page=1;
 		while (true) {
 			String url = getURLWithAuthToken(listProjectMembersURLBase).replaceAll("\\{projectId\\}", projectID).replaceAll("\\{page_id\\}", Integer.toString(page++));
-			log.info("URL:****************"+url);
 			JSONArray members = new JSONArray(getRawWebData(userID, url));
 			log.debug("Members length: "+members.length());
 			if (members.length()==0) {

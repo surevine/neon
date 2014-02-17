@@ -119,7 +119,7 @@ public class ProfileBean {
     	Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
     	while (pabs.hasNext()) {
     		ProjectActivityBean pab = pabs.next();
-    		if (pab.getProjectID().equalsIgnoreCase(projectID)) {
+    		if (pab.getProjectID()!=null && pab.getProjectID().equalsIgnoreCase(projectID)) {
     			return pab.getProjectName();
     		}
     	}
