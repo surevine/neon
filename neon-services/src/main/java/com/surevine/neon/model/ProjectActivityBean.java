@@ -8,7 +8,16 @@ public class ProjectActivityBean {
 	private String activityDescription;
 	private Date when;
 	private String projectID;
+	private String projectName;
 	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	public String getProjectID() {
 		return projectID;
 	}
@@ -17,11 +26,12 @@ public class ProjectActivityBean {
 		this.projectID = projectID;
 	}
 
-	public ProjectActivityBean(String activityDescription, String url, Date when, String projectID) {
+	public ProjectActivityBean(String activityDescription, String url, Date when, String projectID, String projectName) {
 		this.activityDescription=activityDescription;
 		this.url=url;
 		this.when=when;
 		this.projectID=projectID;
+		this.projectName=projectName;
 	}
 	
 	public String getUrl() {

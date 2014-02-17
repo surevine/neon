@@ -14,6 +14,7 @@ public class ProfileBean {
     private StatusBean status = new StatusBean();
     private String bio; // needs a priority for multiple importers
     private Set<ProjectActivityBean> projectActivity = new HashSet<ProjectActivityBean>();
+    private Set<ConnectionBean> connections = new HashSet<ConnectionBean>();
 
     public String getUserID() {
         return userID;
@@ -21,6 +22,14 @@ public class ProfileBean {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+    
+    public Set<ConnectionBean> getConnections() {
+    	return connections;
+    }
+    
+    public void addConnection(ConnectionBean cb) {
+    	connections.add(cb);
     }
     
     public Set<ProjectActivityBean> getProjectActivity() {
@@ -95,5 +104,25 @@ public class ProfileBean {
 
     public void setActivityStream(List<ActivityBean> activityStream) {
         this.activityStream = activityStream;
+    }
+    
+    public Iterator<String> getIDsOfActiveProjects() {
+    	Set<String> target = new HashSet<String>();
+    	Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
+    	while (pabs.hasNext()) {
+    		target.add(pabs.next().getProjectID());
+    	}
+    	return target.iterator();
+    }
+    
+    public String getKnownProjectName(String projectID) {
+    	Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
+    	while (pabs.hasNext()) {
+    		ProjectActivityBean pab = pabs.next();
+    		if (pab.getProjectID().equalsIgnoreCase(projectID)) {
+    			return pab.getProjectName();
+    		}
+    	}
+    	return null;
     }
 }
