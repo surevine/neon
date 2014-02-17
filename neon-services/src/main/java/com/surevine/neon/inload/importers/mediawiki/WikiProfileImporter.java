@@ -76,18 +76,18 @@ public class WikiProfileImporter implements DataImporter {
 		log.debug("MediaWiki Profile retrieved, converting to generic profile");
 		ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
 		try {
-			genericProfile.setProfileImage(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
+			genericProfile.getVcard().getPhoto().setPhotoURL(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
 		}
 		catch (MalformedURLException e) {
 			throw new DataImportException(userID,  this, "Could not create a valid profile image URL from "+wikiImageURLBase, e);
 		}
-		genericProfile.setName(mediaWikiProfile.getName());
+		genericProfile.getVcard().setFn(mediaWikiProfile.getName());
 		genericProfile.setAdditionalProperty("Job Title", mediaWikiProfile.getJob());
 		genericProfile.setAdditionalProperty("Telephone", mediaWikiProfile.getNsec());
 		genericProfile.setAdditionalProperty("Alternate Telephone", mediaWikiProfile.getRussett());
 		genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
 		genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());
-		genericProfile.setTeamName(mediaWikiProfile.getSection());
+		genericProfile.getVcard().setOrg(mediaWikiProfile.getSection());
 		Iterator<String> amas = mediaWikiProfile.getAskMeAbouts();
 		while (amas.hasNext()) {
 			SkillBean skill = new SkillBean();
