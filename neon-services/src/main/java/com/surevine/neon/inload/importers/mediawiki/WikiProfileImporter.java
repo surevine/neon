@@ -1,13 +1,10 @@
 package com.surevine.neon.inload.importers.mediawiki;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.dao.impl.ProfileDAOImpl;
@@ -16,6 +13,7 @@ import com.surevine.neon.inload.importers.AbstractDataImporter;
 import com.surevine.neon.inload.importers.DataImportException;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.SkillBean;
+import com.surevine.neon.model.VCardTelBean;
 
 public class WikiProfileImporter extends AbstractDataImporter implements DataImporter {
 	
@@ -69,8 +67,12 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 		}
 		genericProfile.getVcard().setFn(mediaWikiProfile.getName());
 		genericProfile.setAdditionalProperty("Job Title", mediaWikiProfile.getJob());
-		genericProfile.setAdditionalProperty("Telephone", mediaWikiProfile.getNsec());
-		genericProfile.setAdditionalProperty("Alternate Telephone", mediaWikiProfile.getRussett());
+		if (mediaWikiProfile.getNsec()!=null && !mediaWikiProfile.getNsec().trim().equals("")) {
+			genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("PSTN", mediaWikiProfile.getNsec()));
+		}
+		if (mediaWikiProfile.getRussett()!=null && !mediaWikiProfile.getRussett().trim().equals("")) {
+			genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("R", mediaWikiProfile.getRussett()));
+		}
 		genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
 		genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());
 		genericProfile.getVcard().setOrg(mediaWikiProfile.getSection());
