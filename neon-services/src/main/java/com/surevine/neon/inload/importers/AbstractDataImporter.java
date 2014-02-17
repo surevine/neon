@@ -12,6 +12,8 @@ import javax.naming.OperationNotSupportedException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
@@ -106,5 +108,14 @@ public abstract class AbstractDataImporter implements DataImporter {
 		}
 		return rV;
 	}
-
+	
+	protected String getSafeJsonString(JSONObject o, String key) {
+		try {
+			return o.getString(key);
+		}
+		catch (JSONException e) {
+			log.warn("Could not retrieve the key "+key+" from "+o, e);
+			return null;
+		}
+	}
 }

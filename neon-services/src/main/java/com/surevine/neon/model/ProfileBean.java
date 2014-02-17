@@ -13,6 +13,7 @@ public class ProfileBean {
     private Map<String,String> additionalProperties = new HashMap<String,String>();
     private StatusBean status = new StatusBean();
     private String bio; // needs a priority for multiple importers
+    private Set<ProjectActivityBean> projectActivity = new HashSet<ProjectActivityBean>();
 
     public String getUserID() {
         return userID;
@@ -20,6 +21,14 @@ public class ProfileBean {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+    
+    public Set<ProjectActivityBean> getProjectActivity() {
+    	return projectActivity;
+    }
+    
+    public void addProjectActivity(ProjectActivityBean pab) {
+    	projectActivity.add(pab);
     }
 
     public Set<SkillBean> getSkills() {

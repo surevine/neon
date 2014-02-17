@@ -18,6 +18,12 @@ public interface ProfileDAO {
      * Namespace key for basic details
      */
     public static final String NS_BASIC_DETAILS = "BASIC";
+    
+    /**
+     * Namespace key for basic details
+     */
+    public static final String NS_PROJECT_DETAILS = "PROJECT";
+
 
     /**
      * Gets a profile for a specific user
