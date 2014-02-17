@@ -1,26 +1,22 @@
 package com.surevine.neon.model;
 
-import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Bean holding the details of a profile.
  */
 public class ProfileBean {
     private String userID;
+    private VCardBean vcard = new VCardBean();
     private Set<SkillBean> skills = new HashSet<SkillBean>();
+    private List<ActivityBean> activityStream = new ArrayList<>();
     private Map<String,String> additionalProperties = new HashMap<String,String>();
-    private URL profileImage;
-    private String name;
-    private String teamName;
-    
+    private StatusBean status = new StatusBean();
+    private String bio; // needs a priority for multiple importers
+
     public String getUserID() {
         return userID;
     }
-    
 
     public void setUserID(String userID) {
         this.userID = userID;
@@ -57,32 +53,35 @@ public class ProfileBean {
     	this.additionalProperties.put(propertyName, propertyValue);
     }
 
-	public URL getProfileImage() {
-		return profileImage;
-	}
+    public StatusBean getStatus() {
+        return status;
+    }
 
-	public void setProfileImage(URL profileImage) {
-		this.profileImage = profileImage;
-	}
+    public void setStatus(StatusBean status) {
+        this.status = status;
+    }
 
+    public String getBio() {
+        return bio;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
+    public VCardBean getVcard() {
+        return vcard;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setVcard(VCardBean vcard) {
+        this.vcard = vcard;
+    }
 
+    public List<ActivityBean> getActivityStream() {
+        return activityStream;
+    }
 
-	public String getTeamName() {
-		return teamName;
-	}
-
-
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
-	}
-    
+    public void setActivityStream(List<ActivityBean> activityStream) {
+        this.activityStream = activityStream;
+    }
 }
