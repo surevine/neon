@@ -3,7 +3,6 @@ package com.surevine.neon.inload.importers;
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
-import com.surevine.neon.util.DateUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -13,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -54,12 +55,7 @@ public abstract class AbstractDataImporter implements DataImporter {
         configurationDAO.addImporterConfiguration(getImporterName(), configuration);
     }
 
-    @Override
-    public int getSourcePriority() {
-        return Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_PRIORITY));
-    }
-
-    @Override
+	@Override
     public void runImport() {
         Set<String> userIDs = profileDAO.getUserIDList();
 		log.info("Retrieving data for " + userIDs.size() + " users");
@@ -73,7 +69,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     public void runImport(String userID) {
         try {
             runImportImplementation(userID);
-            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
+            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateFormat.getTimeInstance(DateFormat.LONG).format(new Date()));
         } catch (DataImportException die) {
             log.warn("Importer " + getImporterName() + " failed to import data for user " + userID + "[" + die.getMessage() + "]");
         }
@@ -85,7 +81,11 @@ public abstract class AbstractDataImporter implements DataImporter {
         Date lastRun = null;
         
         if (lastRunString != null) {
-            lastRun = DateUtil.stringToDate(lastRunString);
+            try {
+                lastRun = DateFormat.getTimeInstance(DateFormat.LONG).parse(lastRunString);
+            } catch (ParseException pe) {
+                log.warn("Could not parse last run date for imoporter " + getImporterName() + ". The format of the date was incorrect.");
+            }
         }
         
         return lastRun;
@@ -95,7 +95,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     public boolean cacheLapsed() {
         Date lastRun = getLastRun();
         if (lastRun == null) {
-            return true;
+            return false;
         }
         
         int cacheTimeout = Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT));

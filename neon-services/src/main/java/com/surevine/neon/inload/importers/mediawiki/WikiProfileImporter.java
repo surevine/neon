@@ -180,4 +180,9 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
     public String getNamespace() {
         return ProfileDAO.NS_BASIC_DETAILS;
     }
+
+	@Override
+	public int getSourcePriority() {
+		return 1;
+	}
 }
