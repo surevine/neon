@@ -3,6 +3,8 @@ package com.surevine.neon.dao.impl;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.*;
+import com.surevine.neon.redis.PooledJedis;
+import com.surevine.neon.util.Properties;
 
 import java.net.URL;
 import java.util.Date;
@@ -16,11 +18,25 @@ public class ProfileDAOImpl implements ProfileDAO {
         return getMockBean(userID);
     }
     
+    @Override
     public Set<String> getUserIDList() {
-        Set<String> users = new HashSet<>();
-        users.add("nickl");
-        users.add("simonw");
-        return users;
+        Set<String> userIDs = PooledJedis.get().smembers(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY);
+        return userIDs;
+    }
+
+    @Override
+    public void addUserIDToProfileList(String userID) {
+        if (!PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            PooledJedis.get().sadd(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        }
+    }
+
+    @Override
+    public void removeUserIDFromProfileList(String userID) {
+        if (PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            PooledJedis.get().srem(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        }
+        // TODO: Once profile persistence is implemented we need to clean up all the profile data for removed users too
     }
 
     // mocking for now
@@ -103,6 +119,6 @@ public class ProfileDAOImpl implements ProfileDAO {
     
 	@Override
 	public void persistProfile(ProfileBean profile, DataImporter importer) {
-    	// This will persist the details in the profilebean - which will be a partial or complete profile
+    	
 	}
 }

@@ -3,6 +3,7 @@ package com.surevine.neon.service.impl;
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.inload.ImportRegistry;
 import com.surevine.neon.service.InloadControlService;
+import com.surevine.neon.service.bean.ImporterConfigurationServiceBean;
 
 import java.util.Map;
 
@@ -19,12 +20,21 @@ public class InloadControlServiceImpl implements InloadControlService {
     }
 
     @Override
-    public Map<String,String> getConfigForImporter(String importer) {
-        return importerConfigurationDAO.getConfigurationForImporter(importer);
+    public ImporterConfigurationServiceBean getConfigForImporter(String importer) {
+        Map<String,String> config = importerConfigurationDAO.getConfigurationForImporter(importer);
+        ImporterConfigurationServiceBean bean = new ImporterConfigurationServiceBean();
+        bean.setConfiguration(config);
+        bean.setImporterName(importer);
+        return bean;
     }
 
     public void setRegistry(ImportRegistry registry) {
         this.registry = registry;
+    }
+
+    @Override
+    public void setConfiguration(ImporterConfigurationServiceBean configurationBean) {
+        importerConfigurationDAO.addImporterConfiguration(configurationBean.getImporterName(), configurationBean.getConfiguration());
     }
 
     public void setImporterConfigurationDAO(ImporterConfigurationDAO importerConfigurationDAO) {

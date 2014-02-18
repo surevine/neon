@@ -12,4 +12,16 @@ public interface ProfileService {
      * @return a ProfileBean instance containing the profile information
      */
     public ProfileBean getProfile(String userID);
+
+    /**
+     * Adds a user to the profile service
+     * @param userID the userID
+     */
+    public void addUser(String userID);
+
+    /**
+     * Removes a user from the profile service
+     * @param userID the userID
+     */
+    public void removeUser(String userID);
 }
