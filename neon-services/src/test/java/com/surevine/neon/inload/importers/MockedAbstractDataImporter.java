@@ -15,4 +15,9 @@ public class MockedAbstractDataImporter extends AbstractDataImporter {
     public String getNamespace() {
         return "MOCK_NAMESPACE";
     }
+
+	@Override
+	public int getSourcePriority() {
+		return 0;
+	}
 }
