@@ -73,4 +73,10 @@ public interface DataImporter {
      * @return true if the cache is out of date
      */
     public boolean cacheLapsed();
+
+    /**
+     * Gets the priority of this source
+     * @return the priority of this source
+     */
+    public int getSourcePriority();
 }

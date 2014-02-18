@@ -14,7 +14,7 @@ import java.util.TimerTask;
  * Schedules an import job to run every hour.
  */
 public class ImportScheduleContextListener implements ServletContextListener {
-    private static final long SCHEDULE_SECONDS = 1000*60*60;
+    private static final long SCHEDULE_SECONDS = 1000*30;
     private static final String CONTEXT_KEY = "profileImportTimer";
     
     private Logger logger = Logger.getLogger(ImportScheduleContextListener.class);
@@ -28,12 +28,12 @@ public class ImportScheduleContextListener implements ServletContextListener {
         TimerTask importTask = new TimerTask() {
             @Override
             public void run() {
-                logger.info("Running scheduled data import");
+                logger.debug("Running scheduled data import");
                 ImportRegistry registry = (ImportRegistry) SpringApplicationContext.getBean("importRegistry");
                 if (registry != null) {
                     registry.runImport();
                 } else {
-                    logger.warn("Could not run the data import: the import registry hasn't been initialised correctly");
+                    logger.debug("Could not run the data import: the import registry hasn't been initialised correctly");
                 }
             }
         };

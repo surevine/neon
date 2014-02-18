@@ -1,5 +1,7 @@
 package com.surevine.neon.inload;
 
+import org.apache.log4j.Logger;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +13,11 @@ public class ImportRegistry {
      * Singleton instance
      */
     private static ImportRegistry instance;
+
+    /**
+     * logger
+     */
+    private Logger logger = Logger.getLogger(ImportRegistry.class);
 
     /**
      * Registry of importers
@@ -36,6 +43,7 @@ public class ImportRegistry {
      * Run data importers
      */              
     public void runImport() {
+        logger.debug("Running scheduled data import for all users using " + registry.size() + " importer(s)");
         for (DataImporter prov: this.registry) {
             if (prov.cacheLapsed()) {
                 prov.runImport();
@@ -48,6 +56,7 @@ public class ImportRegistry {
      * @param userID the userID
      */
     public void runImport(String userID) {
+        logger.debug("Running data import for " + userID + " using " + registry.size() + " importer(s)");
         for (DataImporter prov: this.registry) {
             prov.runImport(userID);
         }

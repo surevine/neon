@@ -7,6 +7,7 @@ public class Properties {
     private String _hostname = "10.66.2.127";
     private boolean _profileRedis = false;
     private String systemNamespace = "NEON";
+    private boolean useMockProfile = false;
     
     private static Properties _instance = null;
     
@@ -34,6 +35,11 @@ public class Properties {
         String systemNamespace = getBundleString(bundle, "redis.system.namespace");
         if (systemNamespace!=null) {
             this.systemNamespace=systemNamespace;
+        }
+
+        String useMockString = getBundleString(bundle, "dev.use_mock_profile");
+        if (useMockString!=null) {
+            this.useMockProfile= Boolean.parseBoolean(useMockString);
         }
     }
     
@@ -72,4 +78,7 @@ public class Properties {
         return systemNamespace;
     }
 
+    public boolean isUseMockProfile() {
+        return useMockProfile;
+    }
 }

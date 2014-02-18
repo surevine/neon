@@ -54,7 +54,12 @@ public abstract class AbstractDataImporter implements DataImporter {
         configurationDAO.addImporterConfiguration(getImporterName(), configuration);
     }
 
-	@Override
+    @Override
+    public int getSourcePriority() {
+        return Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_PRIORITY));
+    }
+
+    @Override
     public void runImport() {
         Set<String> userIDs = profileDAO.getUserIDList();
 		log.info("Retrieving data for " + userIDs.size() + " users");
@@ -90,7 +95,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     public boolean cacheLapsed() {
         Date lastRun = getLastRun();
         if (lastRun == null) {
-            return false;
+            return true;
         }
         
         int cacheTimeout = Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT));
