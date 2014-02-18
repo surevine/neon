@@ -14,6 +14,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             </set>
         </property>
     </bean>
+
+    <bean name="feedRegistry" class="com.surevine.neon.inload.FeedRegistry" factory-method="getInstance">
+        <property name="registry">
+            <set>
+                <ref bean="doesNothingExampleFeed" />
+            </set>
+        </property>
+    </bean>
     
     <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl" />
 
@@ -49,6 +57,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="mediaWikiImporter" class="com.surevine.neon.inload.importers.mediawiki.WikiProfileImporter" parent="baseImporter">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
+    </bean>
+    
+    <!-- data feeds -->
+    <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed">
+        <property name="enabled" value="true" />
         <property name="sourcePriority" value="1" />
     </bean>
 </beans>

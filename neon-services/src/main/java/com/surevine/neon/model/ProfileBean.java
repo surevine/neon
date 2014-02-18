@@ -15,6 +15,7 @@ public class ProfileBean {
     private String bio; // needs a priority for multiple importers
     private Set<ProjectActivityBean> projectActivity = new HashSet<ProjectActivityBean>();
     private Set<ConnectionBean> connections = new HashSet<ConnectionBean>();
+    private Map<String,ProfileMetaData> metaDataMap = new HashMap<>();
 
     public String getUserID() {
         return userID;
@@ -124,5 +125,13 @@ public class ProfileBean {
     		}
     	}
     	return null;
+    }
+
+    public Map<String, ProfileMetaData> getMetaDataMap() {
+        return metaDataMap;
+    }
+
+    public void setMetaDataMap(Map<String, ProfileMetaData> metaDataMap) {
+        this.metaDataMap = metaDataMap;
     }
 }
