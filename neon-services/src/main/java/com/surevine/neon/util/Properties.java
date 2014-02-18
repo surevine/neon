@@ -4,10 +4,11 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Properties {
-
     private String _hostname = "10.66.2.127";
     private boolean _profileRedis = false;
-
+    private String systemNamespace = "NEON";
+    private boolean useMockProfile = false;
+    
     private static Properties _instance = null;
     
     private long _connectionLifespan=60l*5l*1000l;
@@ -31,6 +32,15 @@ public class Properties {
         	_hostname=redisHostName;
         }
 
+        String systemNamespace = getBundleString(bundle, "redis.system.namespace");
+        if (systemNamespace!=null) {
+            this.systemNamespace=systemNamespace;
+        }
+
+        String useMockString = getBundleString(bundle, "dev.use_mock_profile");
+        if (useMockString!=null) {
+            this.useMockProfile= Boolean.parseBoolean(useMockString);
+        }
     }
     
     private String getBundleString(final ResourceBundle bundle, final String key) {
@@ -63,5 +73,12 @@ public class Properties {
 	public boolean getProfileRedis() {
 		return _profileRedis;
 	}
+    
+    public String getSystemNamespace() {
+        return systemNamespace;
+    }
 
+    public boolean isUseMockProfile() {
+        return useMockProfile;
+    }
 }

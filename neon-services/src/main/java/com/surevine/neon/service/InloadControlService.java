@@ -1,5 +1,7 @@
 package com.surevine.neon.service;
 
+import com.surevine.neon.service.bean.ImporterConfigurationServiceBean;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,14 @@ public interface InloadControlService {
     /**
      * Gets the configuration for a specific named importer
      * @param importer
-     * @return
+     * @return configuration bean with settings for the named importer
      */
-    public Map<String,String> getConfigForImporter(String importer);
+    public ImporterConfigurationServiceBean getConfigForImporter(String importer);
+
+    /**
+     * Updates or sets configuration options for an importer. Does not remove any existing config - can only add or 
+     * override.
+     * @param configurationBean the configuration
+     */
+    public void setConfiguration(ImporterConfigurationServiceBean configurationBean);
 }

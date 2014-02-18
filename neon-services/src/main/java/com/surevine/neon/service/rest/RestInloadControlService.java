@@ -1,6 +1,7 @@
 package com.surevine.neon.service.rest;
 
 import com.surevine.neon.service.InloadControlService;
+import com.surevine.neon.service.bean.ImporterConfigurationServiceBean;
 import com.surevine.neon.util.SpringApplicationContext;
 import org.apache.log4j.Logger;
 
@@ -30,12 +31,22 @@ public class RestInloadControlService implements InloadControlService {
     
     @GET
     @Path("importerconfig/{importerName}")
-    public Map<String,String> getConfigForImporter(@PathParam("importerName") String importer) {
+    public ImporterConfigurationServiceBean getConfigForImporter(@PathParam("importerName") String importer) {
         if (serviceImplementation == null) {
             loadServiceFromSpringContext();
         }
         
         return serviceImplementation.getConfigForImporter(importer);
+    }
+
+    @POST
+    public void setConfiguration(ImporterConfigurationServiceBean configurationBean) {
+        log.debug("Setting configuration for " + configurationBean.getImporterName());
+        if (serviceImplementation == null) {
+            loadServiceFromSpringContext();
+        }
+
+        serviceImplementation.setConfiguration(configurationBean);
     }
 
     private void loadServiceFromSpringContext() {

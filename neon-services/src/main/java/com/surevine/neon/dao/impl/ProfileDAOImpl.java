@@ -1,26 +1,102 @@
 package com.surevine.neon.dao.impl;
 
+import com.surevine.neon.dao.NamespaceHandler;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.*;
+import com.surevine.neon.redis.PooledJedis;
+import com.surevine.neon.util.Properties;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ProfileDAOImpl implements ProfileDAO {
+    private Logger logger = Logger.getLogger(ProfileDAOImpl.class);
+    private Map<String,NamespaceHandler> handlerMapping = new HashMap<>();
+        
     @Override
     public ProfileBean getProfileForUser(String userID) {
-        // doesn't do anything yet - mocked until importers have something in the DB to build a profile bean from
-        return getMockBean(userID);
+        ProfileBean bean = new ProfileBean();
+        bean.setUserID(userID);
+        for (NamespaceHandler handler:handlerMapping.values()) {
+            handler.load(bean);
+        }
+                
+        // TODO: MOCKED FOR NOW UNTIL IMPORT IS WORKING. Toggle the mock with dev.use_mock_profile application property
+        if (Properties.getProperties().isUseMockProfile()) {
+            return getMockBean(userID);
+        } else {
+            return bean;
+        }
     }
     
+    @Override
     public Set<String> getUserIDList() {
-        Set<String> users = new HashSet<>();
-        users.add("nickl");
-        users.add("simonw");
-        return users;
+        logger.debug("Getting list of current users");
+        Set<String> userIDs = PooledJedis.get().smembers(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY);
+        return userIDs;
+    }
+
+    @Override
+    public void addUserIDToProfileList(String userID) {
+        logger.debug("Adding user " + userID + " to the list of current users");
+        if (!PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            PooledJedis.get().sadd(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        }
+    }
+
+    @Override
+    public void removeUserIDFromProfileList(String userID) {
+        logger.debug("Removing user " + userID + " from the list of current users");
+        if (PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            PooledJedis.get().srem(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        }
+        // TODO: Once profile persistence is implemented we need to clean up all the profile data for removed users too
+    }
+
+    /**
+     * Basic structure is:
+     * 
+     * HSET NEON:PROFILE:{USER_ID}:{IMPORTER_NAMESPACE} then key value pairs of "{FIELD_NAME}:{IMPORTER_NAME} => {FIELD_VALUE}".
+     * The importer name is included as we accept multiple sources for a single data field, each source has a priority 
+     * so we can reconstruct the profile containing the highest priority value for each provided field.
+     * 
+     * @param profile the partially populated profile bean
+     * @param importer the importer that contributed to the profile bean
+     */
+    @Override
+    public void persistProfile(ProfileBean profile, DataImporter importer) {
+        // very complicated persistence to account for metadata, priorities and namespaces
+        String userID = profile.getUserID();
+        if (importer.getImporterName() == null) {
+            logger.error("Could not persist profile information as the importer name was not provided.");
+        } else if (importer.getNamespace() == null) {
+            logger.error("Could not persist profile information as the target namespace was not provided.");
+        } else if (userID == null) {
+            logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as the userID was not provided.");
+        } else {
+            NamespaceHandler handler = handlerMapping.get(importer.getNamespace());
+            if (handler != null) {
+                handler.persist(profile, importer);
+            } else {
+                logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as there is no handler configured for namespace " + importer.getNamespace());
+            }
+        }        
+    }
+
+    /**
+     * Sets up handlers to persist each namespace
+     * @param handlers list of handlers - if two handlers handle the same namespace the first one in the list is 
+     *                 registered
+     */
+    public void setHandlers(List<NamespaceHandler> handlers) {
+        for (NamespaceHandler handler:handlers) {
+            if (!handlerMapping.containsKey(handler.getNamespace())) {
+                logger.debug("Registering namespace handler " + handler.getClass().getName() + " for namespace " + handler.getNamespace());
+                handlerMapping.put(handler.getNamespace(), handler);
+            }
+        }
     }
 
     // mocking for now
@@ -100,9 +176,4 @@ public class ProfileDAOImpl implements ProfileDAO {
         bean.getActivityStream().add(a4);
         return bean;
     }
-    
-	@Override
-	public void persistProfile(ProfileBean profile, DataImporter importer) {
-    	// This will persist the details in the profilebean - which will be a partial or complete profile
-	}
 }

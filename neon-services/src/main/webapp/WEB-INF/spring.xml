@@ -23,7 +23,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </property>
     </bean>
     
-    <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl" />
+    <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl">
+        <property name="handlers">
+            <list>
+                <bean class="com.surevine.neon.dao.impl.BasicDetailsPersistenceHandler" />
+            </list>
+        </property>
+    </bean>
 
     <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" />
     

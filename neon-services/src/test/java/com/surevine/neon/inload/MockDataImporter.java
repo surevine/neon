@@ -94,4 +94,8 @@ public class MockDataImporter implements DataImporter {
     public boolean isHasRun() {
         return hasRun;
     }
+
+    public int getSourcePriority() {
+        return sourcePriority;
+    }
 }
