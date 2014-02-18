@@ -3,6 +3,7 @@ package com.surevine.neon.inload.importers;
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
+import com.surevine.neon.util.DateUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
@@ -12,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -69,7 +68,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     public void runImport(String userID) {
         try {
             runImportImplementation(userID);
-            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateFormat.getTimeInstance(DateFormat.LONG).format(new Date()));
+            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
         } catch (DataImportException die) {
             log.warn("Importer " + getImporterName() + " failed to import data for user " + userID + "[" + die.getMessage() + "]");
         }
@@ -81,11 +80,7 @@ public abstract class AbstractDataImporter implements DataImporter {
         Date lastRun = null;
         
         if (lastRunString != null) {
-            try {
-                lastRun = DateFormat.getTimeInstance(DateFormat.LONG).parse(lastRunString);
-            } catch (ParseException pe) {
-                log.warn("Could not parse last run date for imoporter " + getImporterName() + ". The format of the date was incorrect.");
-            }
+            lastRun = DateUtil.stringToDate(lastRunString);
         }
         
         return lastRun;
