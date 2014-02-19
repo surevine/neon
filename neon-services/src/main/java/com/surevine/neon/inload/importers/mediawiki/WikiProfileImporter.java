@@ -127,6 +127,11 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 			log.debug("Setting section to: "+sectionMatcher.group(1));
 			profile.setSection(sectionMatcher.group(1));
 		}
+		Matcher personalityMatcher=Pattern.compile("\\|mysers-briggs=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		if (personalityMatcher.find()) {
+			log.debug("Setting personality type to: "+personalityMatcher.group(1));
+			profile.setPersonalityType(personalityMatcher.group(1));
+		}
 	}
 	
     public static void main(String arg[]) {
