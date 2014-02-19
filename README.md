@@ -7,3 +7,6 @@ This project is in a very Alpha stage and currently being written with a single 
 
 Move along folks, nothing to see here :-)
 
+## Build status
+
+[![Build Status](https://travis-ci.org/surevine/neon.png?branch=master)](https://travis-ci.org/surevine/neon)

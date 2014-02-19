@@ -151,14 +151,14 @@ public class ProfileDAOImpl implements ProfileDAO {
         a1.setActivityType("GIT Commit");
         a1.setActivityDescription("Committed branch: BUG-1234");
         a1.setActivityTime(new Date());
-        a1.setSourceSystem("Gitlab");
+        a1.setSourceSystem("gitlab");
         bean.getActivityStream().add(a1);
 
         ActivityBean a2 = new ActivityBean();
         a2.setActivityType("GIT Commit");
         a2.setActivityDescription("Committed branch: BUG-2345");
         a2.setActivityTime(new Date());
-        a2.setSourceSystem("Gitlab");
+        a2.setSourceSystem("gitlab");
         bean.getActivityStream().add(a2);
 
         ActivityBean a3 = new ActivityBean();

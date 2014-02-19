@@ -51,9 +51,4 @@ public class BasicDetailsImporter extends AbstractDataImporter implements DataIm
         
         profileDAO.persistProfile(bean,this);
     }
-
-	@Override
-	public int getSourcePriority() {
-		return 0;
-	}
 }
