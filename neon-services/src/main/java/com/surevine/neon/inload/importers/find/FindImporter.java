@@ -114,9 +114,4 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
     public String getNamespace() {
         return ProfileDAO.NS_BASIC_DETAILS;
     }
-
-	@Override
-	public int getSourcePriority() {
-		return 2;
-	}
 }
