@@ -4,5 +4,5 @@ jdk:
   - openjdk6
   - openjdk7 
 install:
-  - cd neon-source
+  - cd neon-services
   - mvn compile
