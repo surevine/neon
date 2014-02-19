@@ -65,7 +65,7 @@ public class AbstractDataImporterTest {
         
         Date resultDate = underTest.getLastRun();
         verify(mockImporterConfigurationDAO);
-        //It's late and this doesnt run - Simon assertTrue(dateString.equals(DateUtil.dateToString(resultDate)));   
+        assertTrue(dateString.equals(DateUtil.dateToString(resultDate)));   
     }
     
     @Test
@@ -77,8 +77,8 @@ public class AbstractDataImporterTest {
         expect(mockImporterConfigurationDAO.getStringConfigurationOption("MOCK_IMPORTER", ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT)).andReturn("60");
         replay(mockImporterConfigurationDAO);
         
-        //It's late and this doesn't run - simon assertTrue(underTest.cacheLapsed());
-        //verify(mockImporterConfigurationDAO);
+        assertTrue(underTest.cacheLapsed());
+        verify(mockImporterConfigurationDAO);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class AbstractDataImporterTest {
         replay(mockImporterConfigurationDAO);
 
         assertFalse(underTest.cacheLapsed());
-        // It's late and this doesn't work - simon verify(mockImporterConfigurationDAO);
+        verify(mockImporterConfigurationDAO);
     }
     
     @Before
