@@ -9,13 +9,11 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl;
 import com.surevine.neon.dao.impl.ProfileDAOImpl;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.inload.importers.AbstractDataImporter;
-import com.surevine.neon.inload.importers.mediawiki.MediaWikiProfile;
 import com.surevine.neon.model.ConnectionBean;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.ProjectActivityBean;
@@ -36,7 +34,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	private String projectMembershipURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&query={username}&per_page=100";
 	private String listProjectMembersURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&per_page=100&page={page_id}";
 	private String commitWebURLBase="{project_name}/commit/{commit_id}";
-	private String issueURLBase="/api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
+	private String issueURLBase="api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
 	private String issueWebURLBase="{project_name}/issues/{issue_id}";
 
 	public void setGitlabBaseURL(String base) {
@@ -256,7 +254,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				else {
 					//Project membership
 					String memberURL = getURLWithAuthToken(projectMembershipURLBase).replaceAll("\\{projectId\\}", projectID);
-					JSONArray isMember = new JSONArray(getRawWebData(userID, getURLWithAuthToken(memberURL)));
+					JSONArray isMember = new JSONArray(getRawWebData(userID, memberURL));
 					if (isMember.length()>0) {
 						String createdAtStr = isMember.getJSONObject(0).getString("created_at");
 						Date createdAt = new Date(0l);
