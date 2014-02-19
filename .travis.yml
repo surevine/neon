@@ -4,4 +4,4 @@ jdk:
   - openjdk7 
 install:
   - cd neon-services
-  - mvn compile
+  - mvn test
