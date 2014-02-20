@@ -5,8 +5,10 @@
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
     
+    <!-- application context -->
     <bean class="com.surevine.neon.util.SpringApplicationContext"/>
     
+    <!-- registries -->
     <bean name="importRegistry" class="com.surevine.neon.inload.ImportRegistry" factory-method="getInstance">
         <property name="registry">
             <set>
@@ -23,16 +25,28 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </property>
     </bean>
     
+    <!-- DAO and data handlers -->
+    <bean name="jedis" class="com.surevine.neon.redis.PooledJedis" factory-method="get" />
+    
+    <bean name="abstractPersistenceHandler" class="com.surevine.neon.dao.impl.AbstractNamespaceHandler" abstract="true">
+        <property name="importerConfigurationDAO" ref="importerConfigurationDAO" />
+        <property name="jedis" ref="jedis" />
+    </bean>
+    
     <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl">
+        <property name="jedis" ref="jedis" />
         <property name="handlers">
             <list>
-                <bean class="com.surevine.neon.dao.impl.BasicDetailsPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.BasicDetailsPersistenceHandler" parent="abstractPersistenceHandler" />
             </list>
         </property>
     </bean>
 
-    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" />
+    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl">
+        <property name="jedis" ref="jedis" />
+    </bean>
     
+    <!-- service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
     </bean>
@@ -42,7 +56,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO"/>
     </bean>
     
-    <!-- importers here. add to importRegistry above -->
+    <!-- data importers - add to importRegistry above -->
     <bean name="baseImporter" class="com.surevine.neon.inload.importers.AbstractDataImporter" abstract="true">
         <property name="configurationDAO" ref="importerConfigurationDAO"/>
         <property name="profileDAO" ref="profileDAO"/>
@@ -65,8 +79,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
     </bean>
+
+    <bean name="gitlabImporter" class="com.surevine.neon.inload.importers.gitlab.GitlabProfileImporter" parent="baseImporter">
+        <property name="enabled" value="true" />
+        <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
+    </bean>
     
-    <!-- data feeds -->
+    <!-- data feeds - add to feedRegistry above -->
     <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed">
         <property name="enabled" value="true" />
         <property name="sourcePriority" value="1" />

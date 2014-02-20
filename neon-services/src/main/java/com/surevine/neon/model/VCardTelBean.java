@@ -35,7 +35,7 @@ public class VCardTelBean {
     @Override
     public boolean equals(Object o) {
     	if (o instanceof VCardTelBean) {
-    		return ((VCardTelBean)o).number.equals(number) && ((VCardTelBean)o).type.equals("type");
+    		return ((VCardTelBean)o).number.equals(number) && ((VCardTelBean)o).type.equals(type);
     	}
     	else {
     		return false;
@@ -44,6 +44,6 @@ public class VCardTelBean {
     
     @Override
     public String toString() {
-    	return new StringBuilder().append("TelephoneNumber[type=").append(type).append("&number=").append(number).append("]").toString();
+    	return new StringBuilder().append(type).append(";").append(number).toString();
     }
 }

@@ -4,7 +4,7 @@ import com.surevine.neon.dao.NamespaceHandler;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.*;
-import com.surevine.neon.redis.PooledJedis;
+import com.surevine.neon.redis.IPooledJedis;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -14,19 +14,19 @@ import java.util.*;
 public class ProfileDAOImpl implements ProfileDAO {
     private Logger logger = Logger.getLogger(ProfileDAOImpl.class);
     private Map<String,NamespaceHandler> handlerMapping = new HashMap<>();
+    private IPooledJedis jedis;
         
     @Override
     public ProfileBean getProfileForUser(String userID) {
-        ProfileBean bean = new ProfileBean();
-        bean.setUserID(userID);
-        for (NamespaceHandler handler:handlerMapping.values()) {
-            handler.load(bean);
-        }
-                
         // TODO: MOCKED FOR NOW UNTIL IMPORT IS WORKING. Toggle the mock with dev.use_mock_profile application property
         if (Properties.getProperties().isUseMockProfile()) {
             return getMockBean(userID);
         } else {
+            ProfileBean bean = new ProfileBean();
+            bean.setUserID(userID);
+            for (NamespaceHandler handler:handlerMapping.values()) {
+                handler.load(bean);
+            }
             return bean;
         }
     }
@@ -34,23 +34,23 @@ public class ProfileDAOImpl implements ProfileDAO {
     @Override
     public Set<String> getUserIDList() {
         logger.debug("Getting list of current users");
-        Set<String> userIDs = PooledJedis.get().smembers(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY);
+        Set<String> userIDs = jedis.smembers(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY);
         return userIDs;
     }
 
     @Override
     public void addUserIDToProfileList(String userID) {
         logger.debug("Adding user " + userID + " to the list of current users");
-        if (!PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
-            PooledJedis.get().sadd(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        if (!jedis.sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            jedis.sadd(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
         }
     }
 
     @Override
     public void removeUserIDFromProfileList(String userID) {
         logger.debug("Removing user " + userID + " from the list of current users");
-        if (PooledJedis.get().sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
-            PooledJedis.get().srem(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
+        if (jedis.sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
+            jedis.srem(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
         }
         // TODO: Once profile persistence is implemented we need to clean up all the profile data for removed users too
     }
@@ -97,6 +97,10 @@ public class ProfileDAOImpl implements ProfileDAO {
                 handlerMapping.put(handler.getNamespace(), handler);
             }
         }
+    }
+
+    public void setJedis(IPooledJedis jedis) {
+        this.jedis = jedis;
     }
 
     // mocking for now
