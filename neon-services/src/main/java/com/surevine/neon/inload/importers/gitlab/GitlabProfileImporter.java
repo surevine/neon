@@ -9,13 +9,11 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl;
 import com.surevine.neon.dao.impl.ProfileDAOImpl;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.inload.importers.AbstractDataImporter;
-import com.surevine.neon.inload.importers.mediawiki.MediaWikiProfile;
 import com.surevine.neon.model.ConnectionBean;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.ProjectActivityBean;
@@ -36,49 +34,49 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	private String projectMembershipURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&query={username}&per_page=100";
 	private String listProjectMembersURLBase="api/v3/projects/{projectId}/members?private_token={auth_token}&per_page=100&page={page_id}";
 	private String commitWebURLBase="{project_name}/commit/{commit_id}";
-	private String issueURLBase="/api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
+	private String issueURLBase="api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
 	private String issueWebURLBase="{project_name}/issues/{issue_id}";
-	
+
 	public void setGitlabBaseURL(String base) {
 		gitlabURLBase=base;
 	}
-	
+
 	public void setGitlabAuthToken(String token) {
 		authentication_token=token;
 	}
-	
+
 	public boolean providesForNamespace(String namespace) {
 		return namespace.equals(ProfileDAO.NS_PROFILE_PREFIX) || namespace.equals(ProfileDAO.NS_PROJECT_DETAILS);
 	}
-	
+
 	public void setCommitDateFormat(String format) {
 		commitDateFormat=format;
 	}
-	
+
 	public void setProfileServiceBaseURL(String base) {
 		profileBaseURL=base;
 	}
-	
+
 	public void setIssueURLBase(String base) {
 		issueURLBase=base;
 	}
-	
+
 	public void setProjectBaseURL(String base) {
 		projectBaseURL=base;
 	}
-	
+
 	public void setCommitsBaseURL(String base) {
 		commitsBaseURL=base;
 	}
-	
+
 	public void setDateFormat(String dateFormat) {
 		this.dateFormat=dateFormat;
 	}
-	
+
 	public void setCommitWebURLBase(String base) {
 		commitWebURLBase=base;
 	}
-	
+
 	public void setListProjectMembersBaseURL(String base) {
 		listProjectMembersURLBase=base;
 	}
@@ -91,7 +89,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 		getCommits(genericProfile, userID);
 		getIssues(genericProfile, userID);
 	}
-	
+
 	protected void getIssues(ProfileBean profile, String userID) {
 		log.info("Retrieving isues for user :"+userID);
 		int page=1;
@@ -104,7 +102,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			log.trace("Retrieved JSON from Gitlab issues service: "+issues);
 			for (int i=0; i < issues.length(); i++) {
 				JSONObject issue = issues.getJSONObject(0);
-				
+
 				//Work out if we're recording an event, and if so is it an authorship or an assignation?
 				boolean record=false;
 				boolean author=false;
@@ -118,10 +116,10 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					record=true;
 					event=issue.getJSONObject("assignee");
 				}
-				
+
 				//If we have something to record...
 				if (record) {
-					
+
 					String createdAtStr = event.getString("created_at");
 					Date createdAt = new Date(0l);
 					try {
@@ -146,13 +144,13 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					log.debug("Issue URL: "+webURL);
 					profile.addProjectActivity(new ProjectActivityBean(issueText, webURL, createdAt, projectID, projectName));
 				}
-				
+
 			}
 		}
 	}
-	
+
 	protected void getCommits(ProfileBean profile, String userID) {
-		
+
 		Iterator<String> projects=profile.getIDsOfActiveProjects();
 		while (projects.hasNext()) {
 			String projectID = projects.next();
@@ -166,7 +164,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					break;
 				}
 				log.trace("Retrieved JSON from Gitlab commit service: "+commits);
-				
+
 				for (int i=0; i < commits.length(); i++) {
 					JSONObject commit = commits.getJSONObject(i);
 					String text="Commited to '"+projectName+"' : "+getSafeJsonString(commit,  "title");
@@ -187,9 +185,9 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			}
 
 		}
-		
+
 	}
-	
+
 	protected void getBioDetails(ProfileBean profile, String userID) {
 
 		log.info("Parsing gitlab profile service");
@@ -201,7 +199,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					break;
 				}
 				log.trace("Retrieved JSON from Gitlab profile service: "+profileJson);
-				
+
 				//Iterate through user profiles until we find the user we are looking for
 				for (int i=0; i<profileJson.length(); i++) {
 					JSONObject user = profileJson.getJSONObject(i);
@@ -217,7 +215,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				}
 		}
 	}
-	
+
 	protected void getProjectMembershipDetails(ProfileBean profile, String userID) {
 		log.info("Parsing gitlab project service");
 		int page=1;
@@ -228,12 +226,12 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				break;
 			}
 			log.trace("Retrieved JSON from Gitlab project service: "+projects);
-			
+
 			for (int i=0; i < projects.length(); i++) {
 				JSONObject project = projects.getJSONObject(i);
 				String projectID=Integer.toString(project.getInt("id"));
 				log.debug("Project ID: "+projectID);
-				
+
 				//Project ownership
 				if (project.getJSONObject("owner").getString("username").equalsIgnoreCase(userID)) {
 					String createdAtStr = project.getJSONObject("owner").getString("created_at");
@@ -248,7 +246,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 					log.debug("Owner of project with URL: "+webURL);
 					String text = "Owner of the '"+getSafeJsonString(project,  "name")+"' project";
 					log.debug("Owner of project text: "+text);
-					
+
 					ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, getSafeJsonString(project,  "name"));
 					profile.addProjectActivity(pab);
 					captureConnections(userID, "Owner of a projet that {destination} is a member of", projectID, profile);
@@ -256,7 +254,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				else {
 					//Project membership
 					String memberURL = getURLWithAuthToken(projectMembershipURLBase).replaceAll("\\{projectId\\}", projectID);
-					JSONArray isMember = new JSONArray(getRawWebData(userID, getURLWithAuthToken(memberURL)));
+					JSONArray isMember = new JSONArray(getRawWebData(userID, memberURL));
 					if (isMember.length()>0) {
 						String createdAtStr = isMember.getJSONObject(0).getString("created_at");
 						Date createdAt = new Date(0l);
@@ -275,11 +273,11 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						captureConnections(userID, "Member of the same project as {destination}", projectID, profile);
 					}
 				}
-				
+
 			}
 		}
 	}
-	
+
 	protected void captureConnections(String userID, String annotation, String projectID, ProfileBean profile) {
 		log.info("Capturing connections");
 		int page=1;
@@ -291,7 +289,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				break;
 			}
 			log.trace("Retrieved JSON from Gitlab projec members service: "+members);
-			
+
 			for (int i=0; i < members.length(); i++) {
 				JSONObject member = members.getJSONObject(i);
 				String userName = getSafeJsonString(member,  "username");
@@ -308,7 +306,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	protected String getURLWithAuthToken(String base) {
 		return gitlabURLBase.concat(base.replaceAll("\\{auth_token\\}", authentication_token));
 	}
-	
+
 	public static void main(String arg[]) {
 		GitlabProfileImporter importer = new GitlabProfileImporter();
 		importer.setProfileDAO(new ProfileDAOImpl());

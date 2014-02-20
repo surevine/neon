@@ -87,45 +87,50 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 	protected void populateFromPersonTemplate(MediaWikiProfile profile, String rawPersonTemplate) {
 		log.info("Populating the user profile of "+profile.getSid()+" from the wiki person template");
 		
-		Matcher imgsrcMatcher=Pattern.compile("\\|imgsrc=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher imgsrcMatcher=Pattern.compile("\\|imgsrc=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (imgsrcMatcher.find()) {
 			log.debug("Setting the image URL to: "+imgsrcMatcher.group(1));
 			profile.setProfileImageLocation(imgsrcMatcher.group(1));
 		}
-		Matcher nameMatcher=Pattern.compile("\\|name=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher nameMatcher=Pattern.compile("\\|name=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (nameMatcher.find()) {
 			log.debug("Setting the name to: "+nameMatcher.group(1));
 			profile.setName(nameMatcher.group(1));
 		}
-		Matcher jobMatcher=Pattern.compile("\\|job=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher jobMatcher=Pattern.compile("\\|job=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (jobMatcher.find()) {
 			log.debug("Setting the job description to: "+jobMatcher.group(1));
 			profile.setJob(jobMatcher.group(1));
 		}
-		Matcher nsecMatcher=Pattern.compile("\\|nsec=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher nsecMatcher=Pattern.compile("\\|nsec=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (nsecMatcher.find()) {
 			log.debug("Setting nsec to: "+nsecMatcher.group(1));
 			profile.setNsec(nsecMatcher.group(1));
 		}
-		Matcher russettMatcher=Pattern.compile("\\|russett=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher russettMatcher=Pattern.compile("\\|russett=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (russettMatcher.find()) {
 			log.debug("Setting russett to: "+russettMatcher.group(1));
 			profile.setRussett(russettMatcher.group(1));
 		}
-		Matcher roomMatcher=Pattern.compile("\\|room=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher roomMatcher=Pattern.compile("\\|room=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (roomMatcher.find()) {
 			log.debug("Setting room to: "+roomMatcher.group(1));
 			profile.setRoom(roomMatcher.group(1));
 		}
-		Matcher PFMatcher=Pattern.compile("\\|PF=(.*?)\\|", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher PFMatcher=Pattern.compile("\\|PF=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (PFMatcher.find()) {
 			log.debug("Setting PF to: "+PFMatcher.group(1));
 			profile.setPF(PFMatcher.group(1));
 		}
-		Matcher sectionMatcher=Pattern.compile("\\|section=(.*?)\\}", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		Matcher sectionMatcher=Pattern.compile("\\|section=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (sectionMatcher.find()) {
 			log.debug("Setting section to: "+sectionMatcher.group(1));
 			profile.setSection(sectionMatcher.group(1));
+		}
+		Matcher personalityMatcher=Pattern.compile("\\|mysers-briggs=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
+		if (personalityMatcher.find()) {
+			log.debug("Setting personality type to: "+personalityMatcher.group(1));
+			profile.setPersonalityType(personalityMatcher.group(1));
 		}
 	}
 	
