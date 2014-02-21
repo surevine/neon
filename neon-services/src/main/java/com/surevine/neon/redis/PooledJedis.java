@@ -281,7 +281,7 @@ public class PooledJedis implements IPooledJedis {
 			_jedis=null;
 	}
 
-	public static IPooledJedis get() {
+	static IPooledJedis get() {
 		if (!DEBUG_MODE) {
 			return new PooledJedis();
 		} else {

@@ -32,9 +32,11 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
      * @param valueObject the value (usually a string but if it's not provide a serialisation via toString())
      */
     protected void setSingleField(final String hsetKey, final String field, final String importer, final Object valueObject) {
-        String value = valueObject.toString();
-        if (value != null && value.length() > 0) {
-            jedis.hset(hsetKey, field + ":" + importer, value);
+        if (valueObject != null) {
+            String value = valueObject.toString();
+            if (value != null && value.length() > 0) {
+                jedis.hset(hsetKey, field + ":" + importer, value);
+            }
         }
     }
 

@@ -26,7 +26,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
     
     <!-- DAO and data handlers -->
-    <bean name="jedis" class="com.surevine.neon.redis.PooledJedis" factory-method="get" />
+    <bean name="jedis" class="com.surevine.neon.redis.PooledJedisProxy" />
     
     <bean name="abstractPersistenceHandler" class="com.surevine.neon.dao.impl.AbstractNamespaceHandler" abstract="true">
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO" />
