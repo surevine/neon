@@ -64,12 +64,17 @@ public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
             
             Iterable<String> telephoneNumbers = getMultipleField(profileData, FIELD_TEL, profile);
             for (String telString:telephoneNumbers) {
-                VCardTelBean telBean = new VCardTelBean();
-                String type = telString.substring(0, telString.indexOf(";"));
-                String number = telString.substring(telString.indexOf(";") + 1);
-                telBean.setType(type);
-                telBean.setNumber(number);
-                profile.getVcard().getTelephoneNumbers().add(telBean);
+                String[] telStringArray = telString.split(";");
+                if (telStringArray.length == 2) {
+                    VCardTelBean telBean = new VCardTelBean();
+                    String type = telStringArray[0];
+                    String number = telStringArray[1];
+                    telBean.setType(type);
+                    telBean.setNumber(number);
+                    profile.getVcard().getTelephoneNumbers().add(telBean);
+                } else {
+                    logger.warn("Could not load telephone number for " + profile.getUserID() + " as the format was incorrect. The telephone number string was stored as " + telString);
+                }
             }
             
         } else {
