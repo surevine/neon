@@ -8,6 +8,7 @@ public class Properties {
     private boolean _profileRedis = false;
     private String systemNamespace = "NEON";
     private boolean useMockProfile = false;
+    private long importPollIntervalSeconds = 1000*60;
     
     private static Properties _instance = null;
     
@@ -40,6 +41,11 @@ public class Properties {
         String useMockString = getBundleString(bundle, "dev.use_mock_profile");
         if (useMockString!=null) {
             this.useMockProfile= Boolean.parseBoolean(useMockString);
+        }
+
+        String importPollTimeoutString = getBundleString(bundle, "neon.import.interval");
+        if (importPollTimeoutString != null) {
+            importPollIntervalSeconds = Long.parseLong(importPollTimeoutString) * 1000l;
         }
     }
     
@@ -80,5 +86,9 @@ public class Properties {
 
     public boolean isUseMockProfile() {
         return useMockProfile;
+    }
+
+    public long getImportPollIntervalSeconds() {
+        return importPollIntervalSeconds;
     }
 }
