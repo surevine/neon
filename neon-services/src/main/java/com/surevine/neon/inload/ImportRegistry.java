@@ -1,5 +1,10 @@
 package com.surevine.neon.inload;
 
+import com.surevine.neon.dao.ImporterConfigurationDAO;
+import com.surevine.neon.redis.IPooledJedis;
+import com.surevine.neon.redis.PooledJedis;
+import com.surevine.neon.redis.PooledJedisProxy;
+import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
@@ -28,7 +33,14 @@ public class ImportRegistry {
      * Private constructor to support singleton pattern
      */
     private ImportRegistry() {
-        // no-op for singleton pattern
+        // clear down any old importer config before we add in the new set of configured importers
+        IPooledJedis jedis = new PooledJedisProxy(); // this isn't great but I don't want to use spring here (circular dependencies on importers). TODO: static factory for IPooledJedis instantiation
+        Set<String> existingConfigurations = jedis.keys(Properties.getProperties().getSystemNamespace() + ":" + ImporterConfigurationDAO.NS_IMPORTER_PREFIX + ":*");
+        if (existingConfigurations != null) {
+            for (String importerConfigurationHashKey:existingConfigurations) {
+                jedis.del(importerConfigurationHashKey);
+            }
+        }
     }
 
     /**
