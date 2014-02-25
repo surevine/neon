@@ -20,7 +20,7 @@ public interface ProfileDAO {
     public static final String NS_BASIC_DETAILS = "BASIC";
     
     /**
-     * Namespace key for basic details
+     * Namespace key for project details
      */
     public static final String NS_PROJECT_DETAILS = "PROJECT";
 
