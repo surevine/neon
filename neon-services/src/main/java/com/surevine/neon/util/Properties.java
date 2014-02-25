@@ -9,6 +9,8 @@ public class Properties {
     private String systemNamespace = "NEON";
     private boolean useMockProfile = false;
     private long importPollIntervalSeconds = 1000*60;
+    private int importExecutors = 10;
+    private boolean multiThreadImport;
     
     private static Properties _instance = null;
     
@@ -46,6 +48,16 @@ public class Properties {
         String importPollTimeoutString = getBundleString(bundle, "neon.import.interval");
         if (importPollTimeoutString != null) {
             importPollIntervalSeconds = Long.parseLong(importPollTimeoutString) * 1000l;
+        }
+
+        String importExecutorsString = getBundleString(bundle, "neon.import.executors");
+        if (importExecutorsString != null) {
+            importExecutors = Integer.parseInt(importExecutorsString);
+        }
+
+        String multiThreadImportString = getBundleString(bundle, "neon.import.multithread_import");
+        if (multiThreadImportString!=null) {
+            this.multiThreadImport= Boolean.parseBoolean(multiThreadImportString);
         }
     }
     
@@ -90,5 +102,13 @@ public class Properties {
 
     public long getImportPollIntervalSeconds() {
         return importPollIntervalSeconds;
+    }
+
+    public int getImportExecutors() {
+        return importExecutors;
+    }
+
+    public boolean isMultiThreadImport() {
+        return multiThreadImport;
     }
 }
