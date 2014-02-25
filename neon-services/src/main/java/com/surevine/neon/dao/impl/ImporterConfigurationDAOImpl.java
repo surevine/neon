@@ -40,11 +40,6 @@ public class ImporterConfigurationDAOImpl implements ImporterConfigurationDAO {
         return Boolean.valueOf(jedis.hget(Properties.getProperties().getSystemNamespace() + ":" + NS_IMPORTER_PREFIX + ":" + importerName, configurationKey));
     }
 
-    @Override
-    public void setConfigurationOption(String importerName, String configurationKey, String value) {
-        jedis.hset(Properties.getProperties().getSystemNamespace() + ":" + NS_IMPORTER_PREFIX + ":" + importerName, configurationKey, value);
-    }
-
     public void setJedis(IPooledJedis jedis) {
         this.jedis = jedis;
     }

@@ -47,12 +47,4 @@ public interface ImporterConfigurationDAO {
      * @return true if the string value is "true" false otherwise
      */
     public boolean getBooleanConfigurationOption(String importerName, String configurationKey);
-    
-    /**
-     * Sets or updates a config option for an importer
-     * @param importerName the name of the importer
-     * @param configurationKey the key we want to set or change
-     * @param value the value for that configuration option
-     */
-    public void setConfigurationOption(String importerName, String configurationKey, String value);
 }

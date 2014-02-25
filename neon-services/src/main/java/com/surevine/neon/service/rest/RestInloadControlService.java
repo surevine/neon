@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Provided interface exposed as a REST service serving JSON.
  */
-@Path("/inload/")
+@Path("/importer/")
 @Produces("application/json")
 public class RestInloadControlService implements InloadControlService {
     private Logger log = Logger.getLogger(RestInloadControlService.class);

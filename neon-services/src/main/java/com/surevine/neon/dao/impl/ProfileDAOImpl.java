@@ -18,7 +18,7 @@ public class ProfileDAOImpl implements ProfileDAO {
         
     @Override
     public ProfileBean getProfileForUser(String userID) {
-        // TODO: MOCKED FOR NOW UNTIL IMPORT IS WORKING. Toggle the mock with dev.use_mock_profile application property
+        // MOCKED FOR NOW UNTIL IMPORT IS RICHER. Toggle the mock with dev.use_mock_profile application property
         if (Properties.getProperties().isUseMockProfile()) {
             return getMockBean(userID);
         } else {
@@ -52,7 +52,15 @@ public class ProfileDAOImpl implements ProfileDAO {
         if (jedis.sismember(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID)) {
             jedis.srem(Properties.getProperties().getSystemNamespace() + ":" + NS_USER_LIST_KEY, userID);
         }
-        // TODO: Once profile persistence is implemented we need to clean up all the profile data for removed users too
+
+        logger.debug("Removing user profile data for user " + userID);
+        String baseNamespace = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + userID + ":*";
+        Set<String> userKeys = jedis.keys(baseNamespace);
+        if (userKeys != null) {
+            for (String userKey:userKeys) {
+                jedis.del(userKey);
+            }
+        }
     }
 
     /**
