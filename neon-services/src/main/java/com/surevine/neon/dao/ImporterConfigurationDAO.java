@@ -26,7 +26,7 @@ public interface ImporterConfigurationDAO {
     public void addImporterConfigurationOption(String importerName, String key, String value);
 
     /**
-     * Gets the conifguration for a specific importer
+     * Gets the configuration for a specific importer
      * @param importerName the importer name
      * @return the importer config
      */

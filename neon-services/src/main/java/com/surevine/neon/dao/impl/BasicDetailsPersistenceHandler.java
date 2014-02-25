@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Map;
 
 /**
- * Handles persistence of basic profile details
+ * Handles persistence of NS_BASIC_DETAILS fields
  */
 public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
     public static final String FIELD_FN = "FN";

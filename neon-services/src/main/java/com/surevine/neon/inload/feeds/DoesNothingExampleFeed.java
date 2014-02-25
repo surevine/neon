@@ -1,16 +1,16 @@
 package com.surevine.neon.inload.feeds;
 
-import com.surevine.neon.inload.DataFeed;
 import com.surevine.neon.model.ProfileBean;
-
-import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * Example data feed
  */
-public class DoesNothingExampleFeed implements DataFeed {
-    private boolean enabled;
-    private int sourcePriority;
+public class DoesNothingExampleFeed extends AbstractDataFeed {
+    /**
+     * Logger
+     */
+    Logger logger = Logger.getLogger(DoesNothingExampleFeed.class);
     
     @Override
     public String getFeedName() {
@@ -18,37 +18,8 @@ public class DoesNothingExampleFeed implements DataFeed {
     }
 
     @Override
-    public String getNamespace() {
-        return null;
-    }
-
-    @Override
-    public void setAdditionalConfiguration(Map<String, String> configuration) {
+    public void contributeToProfile(final ProfileBean profileBean) {
         // no-op
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public void setSourcePriority(int priority) {
-        this.sourcePriority = priority;
-    }
-
-    @Override
-    public void contributeToProfile(ProfileBean profileBean) {
-        // no-op
-    }
-
-    @Override
-    public int getSourcePriority() {
-        return sourcePriority;
+        logger.debug(getFeedName() + " contributeToProfile() has been executed.");
     }
 }

@@ -4,6 +4,16 @@ import java.util.*;
 
 /**
  * Bean holding the details of a profile.
+ * 
+ * Field namespaces:
+ *     vcard:                   ProfileDAO.NS_BASIC_DETAILS
+ *     bio:                     ProfileDAO.NS_BASIC_DETAILS
+ *     skills:                  ProfileDAO.NS_SKILLS
+ *     activityStream:          ProfileDAO.NS_ACTIVITY
+ *     status:                  ProfileDAO.NS_STATUS
+ *     projectActivity:         ProfileDAO.NS_PROJECT_DETAILS
+ *     connections:             ProfileDAO.NS_CONNECTIONS
+ *     additionalProperties:    ProfileDAO.NS_ADDITIONAL_PROPERTIES
  */
 public class ProfileBean {
     private String userID;

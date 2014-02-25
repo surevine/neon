@@ -37,12 +37,22 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="jedis" ref="jedis" />
         <property name="handlers">
             <list>
+                <bean class="com.surevine.neon.dao.impl.ActivityPersistenceHandler" parent="abstractPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.AdditionalPropertiesPersistenceHandler" parent="abstractPersistenceHandler" />
                 <bean class="com.surevine.neon.dao.impl.BasicDetailsPersistenceHandler" parent="abstractPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.ConnectionsPersistenceHandler" parent="abstractPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.ProjectPersistenceHandler" parent="abstractPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.SkillsPersistenceHandler" parent="abstractPersistenceHandler" />
+                <bean class="com.surevine.neon.dao.impl.StatusPersistenceHandler" parent="abstractPersistenceHandler" />
             </list>
         </property>
     </bean>
 
     <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" init-method="clearImporterConfiguration">
+        <property name="jedis" ref="jedis" />
+    </bean>
+
+    <bean name="feedConfigurationDAO" class="com.surevine.neon.dao.impl.FeedConfigurationDAOImpl" init-method="clearFeedConfiguration">
         <property name="jedis" ref="jedis" />
     </bean>
     
@@ -87,7 +97,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
     
     <!-- data feeds - add to feedRegistry above -->
-    <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed">
+    <bean name="baseFeed" class="com.surevine.neon.inload.feeds.AbstractDataFeed" abstract="true">
+        <property name="configurationDAO" ref="feedConfigurationDAO"/>
+    </bean>
+    
+    <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed" parent="baseFeed">
         <property name="enabled" value="true" />
         <property name="sourcePriority" value="1" />
     </bean>

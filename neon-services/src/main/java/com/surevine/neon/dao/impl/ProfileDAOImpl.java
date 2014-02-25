@@ -3,6 +3,7 @@ package com.surevine.neon.dao.impl;
 import com.surevine.neon.dao.NamespaceHandler;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
+import com.surevine.neon.inload.FeedRegistry;
 import com.surevine.neon.model.*;
 import com.surevine.neon.redis.IPooledJedis;
 import com.surevine.neon.util.Properties;
@@ -24,9 +25,13 @@ public class ProfileDAOImpl implements ProfileDAO {
         } else {
             ProfileBean bean = new ProfileBean();
             bean.setUserID(userID);
+            // run handlers to load persistent information held about the user
             for (NamespaceHandler handler:handlerMapping.values()) {
                 handler.load(bean);
             }
+            
+            // augment profile data with any live feeds
+            FeedRegistry.getInstance().augmentProfileWithFeeds(bean);
             return bean;
         }
     }
