@@ -42,7 +42,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </property>
     </bean>
 
-    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl">
+    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" init-method="clearImporterConfiguration">
         <property name="jedis" ref="jedis" />
     </bean>
     
