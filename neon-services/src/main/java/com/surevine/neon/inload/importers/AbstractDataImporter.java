@@ -131,7 +131,13 @@ public abstract class AbstractDataImporter implements DataImporter {
             return true;
         }
         
-        int cacheTimeout = Integer.parseInt(configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT));
+        String timeoutString = configurationDAO.getStringConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT);
+        int cacheTimeout = 0; // if there's no cache timeout configured we assume it's zero and the import should run every time the scheduled system job runs
+        
+        if (timeoutString != null && !timeoutString.isEmpty()) {
+            cacheTimeout = Integer.parseInt(timeoutString);
+        }
+        
         Long diffInMillis = new Date().getTime() - lastRun.getTime();
         
         return diffInMillis > (cacheTimeout * 1000);

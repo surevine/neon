@@ -6,6 +6,7 @@ import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
+import java.util.Set;
 
 public class ImporterConfigurationDAOImpl implements ImporterConfigurationDAO {
     private IPooledJedis jedis;
@@ -39,6 +40,20 @@ public class ImporterConfigurationDAOImpl implements ImporterConfigurationDAO {
     public boolean getBooleanConfigurationOption(String importerName, String configurationKey) {
         return Boolean.valueOf(jedis.hget(Properties.getProperties().getSystemNamespace() + ":" + NS_IMPORTER_PREFIX + ":" + importerName, configurationKey));
     }
+
+    /**
+     * Clears importer configuration - run when spring initialises this DAO.
+     */
+    public void clearImporterConfiguration() {
+        logger.debug("Clearing importer configuration");
+        Set<String> existingConfigurations = jedis.keys(Properties.getProperties().getSystemNamespace() + ":" + ImporterConfigurationDAO.NS_IMPORTER_PREFIX + ":*");
+        if (existingConfigurations != null) {
+            for (String importerConfigurationHashKey:existingConfigurations) {
+                jedis.del(importerConfigurationHashKey);
+            }
+        }
+    }
+
 
     public void setJedis(IPooledJedis jedis) {
         this.jedis = jedis;

@@ -1,13 +1,11 @@
 package com.surevine.neon.model;
 
-import java.util.Date;
-
 /**
  * Stores metadata about the various sources that contributed to a profile.
  */
 public class ImporterMetaData {
     private String sourceName;
-    private Date lastImport;
+    private String lastImport;
     private int sourcePriority;
 
     public String getSourceName() {
@@ -18,11 +16,11 @@ public class ImporterMetaData {
         this.sourceName = sourceName;
     }
 
-    public Date getLastImport() {
+    public String getLastImport() {
         return lastImport;
     }
 
-    public void setLastImport(Date lastImport) {
+    public void setLastImport(String lastImport) {
         this.lastImport = lastImport;
     }
 

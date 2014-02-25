@@ -40,18 +40,10 @@ public class ImportRegistry {
      * Private constructor to support singleton pattern
      */
     private ImportRegistry() {
-        // clear down any old importer config before we add in the new set of configured importers
-        IPooledJedis jedis = new PooledJedisProxy(); // this isn't ideal but I don't want to use spring here (circular dependencies on importers)
-        Set<String> existingConfigurations = jedis.keys(Properties.getProperties().getSystemNamespace() + ":" + ImporterConfigurationDAO.NS_IMPORTER_PREFIX + ":*");
-        if (existingConfigurations != null) {
-            for (String importerConfigurationHashKey:existingConfigurations) {
-                jedis.del(importerConfigurationHashKey);
-            }
-        }
-
         runImportMultithreaded = Properties.getProperties().isMultiThreadImport();
     }
 
+    
     /**
      * Spring injected registry of importers
      * @param registry the registry
@@ -64,7 +56,7 @@ public class ImportRegistry {
      * Run data importers
      */              
     public void runImport() {
-        logger.debug("Running scheduled data import for all users using " + registry.size() + " importer(s)");
+        logger.info("Running scheduled data import for all users using " + registry.size() + " importer(s)");
         if (runImportMultithreaded) {
             logger.debug("Importing using multi-threaded mode.");
             Executor executor = Executors.newFixedThreadPool(Properties.getProperties().getImportExecutors());

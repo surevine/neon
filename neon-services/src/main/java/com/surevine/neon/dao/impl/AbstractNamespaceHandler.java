@@ -73,7 +73,10 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
         }
 
         if (fieldValue != null) {
-            profile.getMetaDataMap().put(field, metaDataCache.get(fieldImporter));
+            if (profile.getMetaDataMap().get(field) == null) {
+                profile.getMetaDataMap().put(field, new HashSet<ImporterMetaData>());
+            }
+            profile.getMetaDataMap().get(field).add(metaDataCache.get(fieldImporter));
         }
         
         return fieldValue;
@@ -87,13 +90,25 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
      * @return the collection of values
      */
     protected Collection<String> getMultipleField(final Map<String,String> profileData, String field, ProfileBean profile) {
-        // TODO: Need metadata to handle multiple fields - ignored here for now but needs looking at
         List<String> values = new ArrayList<>();
         
         for (Map.Entry<String,String> entry:profileData.entrySet()) {
             if (entry.getKey().startsWith(field + ":") && entry.getValue() != null) {
-                // TODO extract the importer for metadata - structure of entry.getKey() should be FIELD:IMPORTER:INDEX - worth checking this structure before making assumptions about the substring to use for the importer value.
-                // TODO: There's one to many, many to many, and many to one importer => value to be dealt with. Up to the subclasses to aggregate as required. Metadata structure onlu supports one to many at the moment - needs improvement.
+                String importerName = entry.getKey().split(":")[1];
+
+                /*
+                 * There's one to many, many to many, and many to one importer => value to be dealt with. Up to the subclasses to aggregate as required.
+                 * TODO: Metadata structure doesn't provide for linking each individual value back to its importer - only contain a collection of importers that contributed data to the field
+                 */
+                if (!metaDataCache.containsKey(importerName)) {
+                    metaDataCache.put(importerName, createMetaDataForImporter(importerName));
+                }
+
+                if (profile.getMetaDataMap().get(field) == null) {
+                    profile.getMetaDataMap().put(field, new HashSet<ImporterMetaData>());
+                }
+                profile.getMetaDataMap().get(field).add(metaDataCache.get(importerName));
+                
                 values.add(entry.getValue());
             }
         }
@@ -113,7 +128,7 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
         String lastImportString = importerConfigurationDAO.getStringConfigurationOption(importer, ImporterConfigurationDAO.NS_LAST_IMPORT);
         String priorityString = importerConfigurationDAO.getStringConfigurationOption(importer, ImporterConfigurationDAO.NS_PRIORITY);
         if (lastImportString != null && lastImportString.length() > 0) {
-            imd.setLastImport(DateUtil.stringToDate(lastImportString));
+            imd.setLastImport(lastImportString);
         }
 
         if (priorityString != null && priorityString.length() > 0) {

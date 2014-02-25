@@ -85,6 +85,14 @@ public class AbstractNamespaceHandlerTest {
         Map<String,String> data = new HashMap<>();
         ProfileBean profileBean = new ProfileBean();
 
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer1", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-02-01 10:00:00");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer1", ImporterConfigurationDAO.NS_PRIORITY)).andReturn("1");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer2", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-02-01 10:00:00");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer2", ImporterConfigurationDAO.NS_PRIORITY)).andReturn("2");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer3", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-02-01 10:00:00");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer3", ImporterConfigurationDAO.NS_PRIORITY)).andReturn("3");
+        replay(mockImporterConfigurationDAO);
+
         data.put("a:importer1", "apple");
         data.put("b:importer1", "pear");
         data.put("b:importer2", "banana");
@@ -104,6 +112,8 @@ public class AbstractNamespaceHandlerTest {
         assertTrue(results.contains("orange"));
         assertTrue(results.contains("grape"));
         assertTrue(results.contains("garlic"));
+        
+        verify(mockImporterConfigurationDAO);
     }
     
     @Test
@@ -115,7 +125,7 @@ public class AbstractNamespaceHandlerTest {
         ImporterMetaData imd = underTest.createMetaDataForImporter("importer1");
         verify(mockImporterConfigurationDAO);
         assertEquals(imd.getSourceName(), "importer1");
-        assertEquals(imd.getLastImport(), DateUtil.stringToDate("2014-02-01 10:00:00"));
+        assertEquals(imd.getLastImport(), "2014-02-01 10:00:00");
         assertEquals(imd.getSourcePriority(), 1);
     }
     
