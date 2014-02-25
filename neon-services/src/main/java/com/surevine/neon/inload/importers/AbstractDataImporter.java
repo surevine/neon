@@ -42,7 +42,20 @@ public abstract class AbstractDataImporter implements DataImporter {
     private Logger log = Logger.getLogger(AbstractDataImporter.class);
     protected ProfileDAO profileDAO;
     protected String username=null;
-    protected transient String password=null;
+    
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	protected transient String password=null;
     protected boolean useCertificate=false;
     protected String keyStoreType="pkcs12";
     private String keyStoreLocation="/home/simonw/cacerts";
