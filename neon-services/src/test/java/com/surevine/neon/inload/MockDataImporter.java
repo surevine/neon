@@ -98,4 +98,9 @@ public class MockDataImporter implements DataImporter {
     public int getSourcePriority() {
         return sourcePriority;
     }
+
+	@Override
+	public void updateConfiguration() {
+		// Intentionally do nothing
+	}
 }

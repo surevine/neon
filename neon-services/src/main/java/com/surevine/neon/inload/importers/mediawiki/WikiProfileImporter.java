@@ -21,7 +21,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 	
     private Logger log = Logger.getLogger(WikiProfileImporter.class);
 
-    protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@client?action=raw";
+    protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@¤?action=raw";
     protected String personTemplatePattern="\\{\\{person\\|.*?\\}\\}";
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";
@@ -146,7 +146,8 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 
         MediaWikiProfile mediaWikiProfile=getMediaWikiProfile(userID);
         log.debug("MediaWiki Profile retrieved, converting to generic profile");
-        ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
+        ProfileBean genericProfile= new ProfileBean();
+        genericProfile.setUserID(userID);
         try {
             genericProfile.getVcard().getPhoto().setPhotoURL(new URL(wikiImageURLBase.replaceAll("\\{fileName\\}", mediaWikiProfile.getProfileImageLocation())));
         }
@@ -159,7 +160,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
             genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("PSTN", mediaWikiProfile.getNsec()));
         }
         if (mediaWikiProfile.getRussett()!=null && !mediaWikiProfile.getRussett().trim().equals("")) {
-            genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("R", mediaWikiProfile.getRussett()));
+            genericProfile.getVcard().getTelephoneNumbers().add(new VCardTelBean("Russett", mediaWikiProfile.getRussett()));
         }
         genericProfile.setAdditionalProperty("Typical Location", mediaWikiProfile.getRoom());
         genericProfile.setAdditionalProperty("PF Number", mediaWikiProfile.getPF());

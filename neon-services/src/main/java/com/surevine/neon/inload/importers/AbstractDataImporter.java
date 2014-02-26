@@ -105,6 +105,7 @@ public abstract class AbstractDataImporter implements DataImporter {
     @Override
     public void runImport(String userID) {
         try {
+        	updateConfiguration();
             runImportImplementation(userID);
             configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
         } catch (DataImportException die) {
@@ -241,13 +242,24 @@ public abstract class AbstractDataImporter implements DataImporter {
 		return rV;
 	}
 	
-	protected String getSafeJsonString(JSONObject o, String key) {
-		try {
-			return o.getString(key);
+	@Override
+	public final void updateConfiguration() {
+		log.trace("Updating basic importer configuration for "+getImporterName());
+		Map<String, String> config = configurationDAO.getConfigurationForImporter(getImporterName());
+		if (config!=null) {
+			username=config.get("username");
+			if (username!=null) {
+				log.debug("Username for "+getImporterName()+": "+username);
+			}
+			password = config.get("password");
+			if (password!=null) {
+				log.debug("Password for "+getImporterName()+": "+username);
+			}
 		}
-		catch (JSONException e) {
-			log.warn("Could not retrieve the key "+key+" from "+o, e);
-			return null;
-		}
+		updateSpecificConfiguration(config);
+	}
+	
+	protected void updateSpecificConfiguration(Map<String, String> config) {
+		log.trace("No specific importer configuration to udpate for "+getImporterName());
 	}
 }
