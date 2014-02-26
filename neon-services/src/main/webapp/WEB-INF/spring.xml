@@ -13,6 +13,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="registry">
             <set>
                 <ref bean="basicDetailsImporter" />
+                <ref bean="findImporter" />
+                <ref bean="mediaWikiImporter" />
+                <ref bean="gitlabImporter" />
             </set>
         </property>
     </bean>
@@ -91,6 +94,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
 
     <bean name="gitlabImporter" class="com.surevine.neon.inload.importers.gitlab.GitlabProfileImporter" parent="baseImporter">
+        <property name="enabled" value="true" />
+        <property name="cacheTimeout" value="120" />
+        <property name="sourcePriority" value="1" />
+    </bean>
+
+    <bean name="jiveImporter" class="com.surevine.neon.inload.importers.jive.JiveImporter" parent="baseImporter">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
