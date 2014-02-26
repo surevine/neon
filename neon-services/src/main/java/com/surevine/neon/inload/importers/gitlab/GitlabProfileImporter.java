@@ -4,9 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.surevine.neon.dao.ProfileDAO;
@@ -24,7 +26,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 
 	private Logger log = Logger.getLogger(GitlabProfileImporter.class);
 
-	private transient String authentication_token="Pf4JKf6GEdeNmYEWxwBs";
+	private transient String authenticationToken="Pf4JKf6GEdeNmYEWxwBs";
 	private String gitlabURLBase="http://10.66.2.254/";
 	private String dateFormat="YYYY-MM-dd'T'HH:mm:ss'Z'";
 	private String commitDateFormat="yyyy-MM-dd'T'HH:mm:ssXXX";
@@ -37,53 +39,54 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	private String issueURLBase="api/v3/issues?private_token={auth_token}&per_page=100&page={page_id}";
 	private String issueWebURLBase="{project_name}/issues/{issue_id}";
 
-	public void setGitlabBaseURL(String base) {
-		gitlabURLBase=base;
-	}
-
-	public void setGitlabAuthToken(String token) {
-		authentication_token=token;
+	@Override
+	public void updateSpecificConfiguration(Map<String, String> config) {
+		if (config.containsKey("authenticationToken")) {
+			authenticationToken=config.get("authenticationToken");
+		}
+		if (config.containsKey("urlBase")) {
+			gitlabURLBase=config.get("urlBase");
+		}
+		if (config.containsKey("dateFormat")) {
+			dateFormat=config.get("dateFormat");
+		}
+		if (config.containsKey("commitDateFormat")) {
+			commitDateFormat=config.get("commitDateFormat");
+		}
+		if (config.containsKey("profileBaseURL")) {
+			profileBaseURL=config.get("profileBaseURL");
+		}
+		if (config.containsKey("projectBaseURL")) {
+			projectBaseURL=config.get("projectBaseURL");
+		}
+		if (config.containsKey("commitsBaseURL")) {
+			commitsBaseURL=config.get("commitsBaseURL");
+		}
+		if (config.containsKey("projectMembershipURLBase")) {
+			projectMembershipURLBase=config.get("projectMembershipURLBase");
+		}
+		if (config.containsKey("listProjectMembersURLBase")) {
+			listProjectMembersURLBase=config.get("listProjectMembersURLBase");
+		}
+		if (config.containsKey("commitWebURLBase")) {
+			commitWebURLBase=config.get("commitWebURLBase");
+		}
+		if (config.containsKey("issueURLBase")) {
+			issueURLBase=config.get("issueURLBase");
+		}
+		if (config.containsKey("issueWebURLBase")) {
+			issueWebURLBase=config.get("issueWebURLBase");
+		}
 	}
 
 	public boolean providesForNamespace(String namespace) {
 		return namespace.equals(ProfileDAO.NS_PROFILE_PREFIX) || namespace.equals(ProfileDAO.NS_PROJECT_DETAILS);
 	}
 
-	public void setCommitDateFormat(String format) {
-		commitDateFormat=format;
-	}
-
-	public void setProfileServiceBaseURL(String base) {
-		profileBaseURL=base;
-	}
-
-	public void setIssueURLBase(String base) {
-		issueURLBase=base;
-	}
-
-	public void setProjectBaseURL(String base) {
-		projectBaseURL=base;
-	}
-
-	public void setCommitsBaseURL(String base) {
-		commitsBaseURL=base;
-	}
-
-	public void setDateFormat(String dateFormat) {
-		this.dateFormat=dateFormat;
-	}
-
-	public void setCommitWebURLBase(String base) {
-		commitWebURLBase=base;
-	}
-
-	public void setListProjectMembersBaseURL(String base) {
-		listProjectMembersURLBase=base;
-	}
-
 	protected void runImportImplementation(String userID) {
 		log.info("Loading gitlab profile data for "+userID);
-		ProfileBean genericProfile=profileDAO.getProfileForUser(userID);
+		ProfileBean genericProfile=new ProfileBean();
+		genericProfile.setUserID(userID);
 		getBioDetails(genericProfile, userID);
 		getProjectMembershipDetails(genericProfile, userID);
 		getCommits(genericProfile, userID);
@@ -91,7 +94,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	}
 
 	protected void getIssues(ProfileBean profile, String userID) {
-		log.info("Retrieving isues for user :"+userID);
+		log.info("Retrieving issues for user :"+userID);
 		int page=1;
 		while (true) {
 			String url = getURLWithAuthToken(issueURLBase).replaceAll("\\{page_id\\}", Integer.toString(page++));
@@ -101,50 +104,54 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			}
 			log.trace("Retrieved JSON from Gitlab issues service: "+issues);
 			for (int i=0; i < issues.length(); i++) {
-				JSONObject issue = issues.getJSONObject(0);
-
-				//Work out if we're recording an event, and if so is it an authorship or an assignation?
-				boolean record=false;
-				boolean author=false;
-				JSONObject event=null;
-				if (issue.getJSONObject("author").optString("username").equalsIgnoreCase(userID)) {
-					record=true;
-					author=true;
-					event=issue.getJSONObject("author");
-				}
-				else if (issue.getJSONObject("assignee").optString("username").equals(userID)) {
-					record=true;
-					event=issue.getJSONObject("assignee");
-				}
-
-				//If we have something to record...
-				if (record) {
-
-					String createdAtStr = event.getString("created_at");
-					Date createdAt = new Date(0l);
-					try {
-						createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
-					} catch (ParseException e) {
-						log.warn("Could not parse project creation date", e);
+				try {
+					JSONObject issue = issues.getJSONObject(0);
+	
+					//Work out if we're recording an event, and if so is it an authorship or an assignation?
+					boolean record=false;
+					boolean author=false;
+					JSONObject event=null;
+					if (issue.getJSONObject("author").optString("username").equalsIgnoreCase(userID)) {
+						record=true;
+						author=true;
+						event=issue.getJSONObject("author");
 					}
-					StringBuilder text = new StringBuilder();
-					if (author) {
-						text.append("Created the issue '");
+					else if (issue.getJSONObject("assignee")!=null && issue.getJSONObject("assignee").optString("username").equals(userID)) {
+						record=true;
+						event=issue.getJSONObject("assignee");
 					}
-					else {
-						text.append("Assigned to the issue '");
+	
+					//If we have something to record...
+					if (record) {
+	
+						String createdAtStr = event.getString("created_at");
+						Date createdAt = new Date(0l);
+						try {
+							createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
+						} catch (ParseException e) {
+							log.warn("Could not parse project creation date", e);
+						}
+						StringBuilder text = new StringBuilder();
+						if (author) {
+							text.append("Created the issue '");
+						}
+						else {
+							text.append("Assigned to the issue '");
+						}
+						text.append(issue.optString("title")).append("'");
+						String projectID=Integer.toString(issue.getInt("project_id"));
+						String projectName=profile.getKnownProjectName(projectID);
+						String webURL = gitlabURLBase.concat(issueWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
+						String issueText=text.toString();
+						log.debug("Issue text: "+text);
+						log.debug("Issue date: "+createdAt);
+						log.debug("Issue URL: "+webURL);
+						profile.addProjectActivity(new ProjectActivityBean(issueText, webURL, createdAt, projectID, projectName));
 					}
-					text.append(issue.optString("title")).append("'");
-					String projectID=Integer.toString(issue.getInt("project_id"));
-					String projectName=profile.getKnownProjectName(projectID);
-					String webURL = gitlabURLBase.concat(issueWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
-					String issueText=text.toString();
-					log.debug("Issue text: "+text);
-					log.debug("Issue date: "+createdAt);
-					log.debug("Issue URL: "+webURL);
-					profile.addProjectActivity(new ProjectActivityBean(issueText, webURL, createdAt, projectID, projectName));
 				}
-
+				catch (JSONException e) {
+					log.warn("Could not parse an issue", e);
+				}
 			}
 		}
 	}
@@ -166,21 +173,26 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				log.trace("Retrieved JSON from Gitlab commit service: "+commits);
 
 				for (int i=0; i < commits.length(); i++) {
-					JSONObject commit = commits.getJSONObject(i);
-					String text="Commited to '"+projectName+"' : "+getSafeJsonString(commit,  "title");
-					log.debug("Text for commit: "+text);
-					String createdAtStr = commit.getString("created_at");
-					Date createdAt = new Date(0l);
 					try {
-						createdAt = new SimpleDateFormat(commitDateFormat).parse(createdAtStr);
-					} catch (ParseException e) {
-						log.warn("Could not parse project creation date", e);
+						JSONObject commit = commits.getJSONObject(i);
+						String text="Commited to '"+projectName+"' : "+commit.getString("title");
+						log.debug("Text for commit: "+text);
+						String createdAtStr = commit.getString("created_at");
+						Date createdAt = new Date(0l);
+						try {
+							createdAt = new SimpleDateFormat(commitDateFormat).parse(createdAtStr);
+						} catch (ParseException e) {
+							log.warn("Could not parse project creation date", e);
+						}
+						log.debug("Date for commit: "+createdAt);
+						String webURL=gitlabURLBase.concat(commitWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{commit_id\\}", commit.getString("id"));
+						log.debug("URL for commit: "+webURL);
+						ProjectActivityBean pab = new ProjectActivityBean(text,  webURL, createdAt, projectID, projectName);
+						profile.addProjectActivity(pab);
 					}
-					log.debug("Date for commit: "+createdAt);
-					String webURL=gitlabURLBase.concat(commitWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{commit_id\\}", commit.getString("id"));
-					log.debug("URL for commit: "+webURL);
-					ProjectActivityBean pab = new ProjectActivityBean(text,  webURL, createdAt, projectID, projectName);
-					profile.addProjectActivity(pab);
+					catch (JSONException e) {
+						log.warn("Could not record a commit", e);
+					}
 				}
 			}
 
@@ -204,12 +216,27 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				for (int i=0; i<profileJson.length(); i++) {
 					JSONObject user = profileJson.getJSONObject(i);
 					if (user.getString("username").equalsIgnoreCase(userID)) {
-						log.debug("Setting bio to: "+getSafeJsonString(user,  "bio"));
-						profile.setBio(getSafeJsonString(user,  "bio"));
-						log.debug("Setting name to: "+getSafeJsonString(user, "name"));
-						profile.getVcard().setFn(getSafeJsonString(user,  "name"));
-						log.debug("Setting gitlab ID to: "+Integer.toString(user.getInt("id")));
-						profile.setAdditionalProperty("Gitlab User ID", Integer.toString(user.getInt("id")));
+						try {
+							log.debug("Setting bio to: "+user.optString("bio"));
+							profile.setBio(user.optString("bio"));
+						}
+						catch (JSONException e) {
+							log.info("No bio information available: "+e.getMessage());
+						}
+						try {
+							log.debug("Setting name to: "+user.optString("name"));
+							profile.getVcard().setFn(user.optString("name"));
+						}
+						catch (JSONException e) {
+							log.info("No name information available: "+e.getMessage());
+						}
+						try {
+							log.debug("Setting gitlab ID to: "+Integer.toString(user.getInt("id")));
+							profile.setAdditionalProperty("Gitlab User ID", Integer.toString(user.getInt("id")));
+						}
+						catch (JSONException e) {
+							log.info("No gitlab ID available: "+e.getMessage());
+						}
 						break;
 					}
 				}
@@ -225,55 +252,58 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			if (projects.length()==0) {
 				break;
 			}
-			log.trace("Retrieved JSON from Gitlab project service: "+projects);
 
 			for (int i=0; i < projects.length(); i++) {
-				JSONObject project = projects.getJSONObject(i);
-				String projectID=Integer.toString(project.getInt("id"));
-				log.debug("Project ID: "+projectID);
-
-				//Project ownership
-				if (project.getJSONObject("owner").getString("username").equalsIgnoreCase(userID)) {
-					String createdAtStr = project.getJSONObject("owner").getString("created_at");
-					Date createdAt = new Date(0l);
-					try {
-						createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
-					} catch (ParseException e) {
-						log.warn("Could not parse project creation date", e);
-					}
-					log.debug("Owner of project created on: "+createdAt);
-					String webURL = getSafeJsonString(project,  "web_url");
-					log.debug("Owner of project with URL: "+webURL);
-					String text = "Owner of the '"+getSafeJsonString(project,  "name")+"' project";
-					log.debug("Owner of project text: "+text);
-
-					ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, getSafeJsonString(project,  "name"));
-					profile.addProjectActivity(pab);
-					captureConnections(userID, "Owner of a projet that {destination} is a member of", projectID, profile);
-				}
-				else {
-					//Project membership
-					String memberURL = getURLWithAuthToken(projectMembershipURLBase).replaceAll("\\{projectId\\}", projectID);
-					JSONArray isMember = new JSONArray(getRawWebData(userID, memberURL));
-					if (isMember.length()>0) {
-						String createdAtStr = isMember.getJSONObject(0).getString("created_at");
+				try {
+					JSONObject project = projects.getJSONObject(i);
+					String projectID=Integer.toString(project.getInt("id"));
+					log.debug("Project ID: "+projectID);
+	
+					//Project ownership
+					if (project.getJSONObject("owner").getString("username").equalsIgnoreCase(userID)) {
+						String createdAtStr = project.getJSONObject("owner").getString("created_at");
 						Date createdAt = new Date(0l);
 						try {
 							createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
 						} catch (ParseException e) {
 							log.warn("Could not parse project creation date", e);
 						}
-						log.debug("Member of project on: "+createdAt);
-						String webURL = getSafeJsonString(project,  "web_url");
-						log.debug("Memeber of a project with URL: "+webURL);
-						String text="Member of the '"+getSafeJsonString(project,  "name")+"' project";
-						log.debug("Memeber of a project text: "+text);
-						ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, getSafeJsonString(project,  "path_with_namespace"));
+						log.debug("Owner of project created on: "+createdAt);
+						String webURL = project.getString("web_url");
+						log.debug("Owner of project with URL: "+webURL);
+						String text = "Owner of the '"+project.getString("name")+"' project";
+						log.debug("Owner of project text: "+text);
+	
+						ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, project.getString("name"));
 						profile.addProjectActivity(pab);
-						captureConnections(userID, "Member of the same project as {destination}", projectID, profile);
+						captureConnections(userID, "Owner of a projet that {destination} is a member of", projectID, profile);
+					}
+					else {
+						//Project membership
+						String memberURL = getURLWithAuthToken(projectMembershipURLBase).replaceAll("\\{projectId\\}", projectID);
+						JSONArray isMember = new JSONArray(getRawWebData(userID, memberURL));
+						if (isMember.length()>0) {
+							String createdAtStr = isMember.getJSONObject(0).getString("created_at");
+							Date createdAt = new Date(0l);
+							try {
+								createdAt = new SimpleDateFormat(dateFormat).parse(createdAtStr);
+							} catch (ParseException e) {
+								log.warn("Could not parse project creation date", e);
+							}
+							log.debug("Member of project on: "+createdAt);
+							String webURL = project.getString("web_url");
+							log.debug("Memeber of a project with URL: "+webURL);
+							String text="Member of the '"+project.getString("name")+"' project";
+							log.debug("Memeber of a project text: "+text);
+							ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, project.getString("path_with_namespace"));
+							profile.addProjectActivity(pab);
+							captureConnections(userID, "Member of the same project as {destination}", projectID, profile);
+						}
 					}
 				}
-
+				catch (JSONException e) {
+					log.warn("Could not parse a project", e);
+				}
 			}
 		}
 	}
@@ -288,23 +318,28 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			if (members.length()==0) {
 				break;
 			}
-			log.trace("Retrieved JSON from Gitlab projec members service: "+members);
+			log.trace("Retrieved JSON from Gitlab project members service: "+members);
 
 			for (int i=0; i < members.length(); i++) {
-				JSONObject member = members.getJSONObject(i);
-				String userName = getSafeJsonString(member,  "username");
-				String longName = getSafeJsonString(member,  "name");
-				if (!userName.equalsIgnoreCase(userID)) {
-					ConnectionBean connection = new ConnectionBean(userName, annotation.replaceAll("\\{destination\\}", longName));
-					log.debug("Adding a connection for "+userID+": "+connection);
-					profile.addConnection(connection);
+				try {
+					JSONObject member = members.getJSONObject(i);
+					String userName = member.getString("username");
+					String longName = member.getString("name");
+					if (!userName.equalsIgnoreCase(userID)) {
+						ConnectionBean connection = new ConnectionBean(userName, annotation.replaceAll("\\{destination\\}", longName));
+						log.debug("Adding a connection for "+userID+": "+connection);
+						profile.addConnection(connection);
+					}
+				}
+				catch (JSONException e) {
+					log.warn("Could not capture a connection", e);
 				}
 			}
 		}
 	}
 
 	protected String getURLWithAuthToken(String base) {
-		return gitlabURLBase.concat(base.replaceAll("\\{auth_token\\}", authentication_token));
+		return gitlabURLBase.concat(base.replaceAll("\\{auth_token\\}", authenticationToken));
 	}
 
 	public static void main(String arg[]) {

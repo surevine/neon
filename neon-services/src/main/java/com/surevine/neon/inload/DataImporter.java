@@ -79,4 +79,9 @@ public interface DataImporter {
      * @return the priority of this source
      */
     public int getSourcePriority();
+    
+    /**
+     * Refresh the configuration of this data importer
+     */
+    public void updateConfiguration();
 }
