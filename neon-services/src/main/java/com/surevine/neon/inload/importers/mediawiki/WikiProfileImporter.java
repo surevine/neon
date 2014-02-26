@@ -21,7 +21,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 	
     private Logger log = Logger.getLogger(WikiProfileImporter.class);
 
-    protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@¤?action=raw";
+    protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@client?action=raw";
     protected String personTemplatePattern="\\{\\{person\\|.*?\\}\\}";
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";

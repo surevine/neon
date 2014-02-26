@@ -36,7 +36,9 @@ public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
         setSingleField(hsetKey, FIELD_ORG, importer.getImporterName(), profile.getVcard().getOrg());
         setSingleField(hsetKey, FIELD_TITLE, importer.getImporterName(), profile.getVcard().getTitle());
         setSingleField(hsetKey, FIELD_PHOTO_MIME, importer.getImporterName(), profile.getVcard().getPhoto().getMimeType());
-        setSingleField(hsetKey, FIELD_PHOTO_URL, importer.getImporterName(), profile.getVcard().getPhoto().getPhotoURL().toString());
+        if (profile.getVcard().getPhoto().getPhotoURL() != null) {
+            setSingleField(hsetKey, FIELD_PHOTO_URL, importer.getImporterName(), profile.getVcard().getPhoto().getPhotoURL().toString());
+        }
         setSingleField(hsetKey, FIELD_BIO, importer.getImporterName(), profile.getBio());
         
         if (profile.getVcard().getTelephoneNumbers() != null && profile.getVcard().getTelephoneNumbers().size() > 0) {

@@ -39,17 +39,25 @@ public class AbstractDataImporterTest {
         Set<String> users = new HashSet<>();
         users.add("user1");
         users.add("user2");
+
+        expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
+        mockImporterConfigurationDAO.addImporterConfigurationOption(eq("MOCK_IMPORTER"), eq(ImporterConfigurationDAO.NS_LAST_IMPORT), anyString());
+        expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
+        mockImporterConfigurationDAO.addImporterConfigurationOption(eq("MOCK_IMPORTER"), eq(ImporterConfigurationDAO.NS_LAST_IMPORT), anyString());
         
         expect(mockProfileDAO.getUserIDList()).andReturn(users);
         replay(mockProfileDAO);
+        replay(mockImporterConfigurationDAO);
         
         underTest.runImport();
         verify(mockProfileDAO);
+        verify(mockImporterConfigurationDAO);
     }
     
     @Test
     public void testRunImportSetsLastRunDate() {
         String userID = "user1";
+        expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
         mockImporterConfigurationDAO.addImporterConfigurationOption(eq("MOCK_IMPORTER"), eq(ImporterConfigurationDAO.NS_LAST_IMPORT), anyString());
         replay(mockImporterConfigurationDAO);
         
