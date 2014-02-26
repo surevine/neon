@@ -1,7 +1,11 @@
 package com.surevine.neon.model;
 
-public class ConnectionBean {
-	
+import org.json.JSONObject;
+
+public class ConnectionBean implements NeonSerializableObject {
+    private static final String JSONKEY_USERID = "userID";
+    private static final String JSONKEY_ANNOTATION = "annotation";
+    
 	private String userID;
 	private String annotation;
 	
@@ -9,6 +13,10 @@ public class ConnectionBean {
 		this.userID=userID;
 		this.annotation=annotation;
 	}
+    
+    public ConnectionBean() {
+        // no-op
+    }
 	
 	public String getUserID() {
 		return userID;
@@ -36,8 +44,27 @@ public class ConnectionBean {
 		return false;
 	}
 	
+    @Override
 	public String toString() {
-		return "Connection[user="+userID+"&annotation="+annotation+"]";
+        JSONObject jsonObject = new JSONObject();
+        if (getUserID() != null && !getUserID().isEmpty()) {
+            jsonObject.put(JSONKEY_USERID, getUserID());
+        }
+        if (getAnnotation() != null && !getAnnotation().isEmpty()) {
+            jsonObject.put(JSONKEY_ANNOTATION, getAnnotation());
+        }
+        return jsonObject.toString();
 	}
+
+    @Override
+    public void populateFromString(String serialisedData) {
+        JSONObject jsonObject = new JSONObject(serialisedData);
+        if (!jsonObject.isNull(JSONKEY_USERID)) {
+            setUserID(jsonObject.getString(JSONKEY_USERID));
+        }
+        if (!jsonObject.isNull(JSONKEY_ANNOTATION)) {
+            setAnnotation(jsonObject.getString(JSONKEY_ANNOTATION));
+        }
+    }
 
 }

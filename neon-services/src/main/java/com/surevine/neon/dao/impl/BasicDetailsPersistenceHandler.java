@@ -30,7 +30,7 @@ public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
 
     @Override
     public void persist(ProfileBean profile, DataImporter importer) {
-        String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + ProfileDAO.NS_BASIC_DETAILS;
+        String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         setSingleField(hsetKey, FIELD_FN, importer.getImporterName(), profile.getVcard().getFn());
         setSingleField(hsetKey, FIELD_EMAIL, importer.getImporterName(), profile.getVcard().getEmail());
         setSingleField(hsetKey, FIELD_ORG, importer.getImporterName(), profile.getVcard().getOrg());

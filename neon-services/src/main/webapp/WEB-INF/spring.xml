@@ -16,6 +16,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
                 <ref bean="findImporter" />
                 <ref bean="mediaWikiImporter" />
                 <ref bean="gitlabImporter" />
+                <ref bean="jiveImporter" />
             </set>
         </property>
     </bean>
@@ -103,6 +104,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
+        <property name="username" value="admin" />
+        <property name="password" value="admin" />
     </bean>
     
     <!-- data feeds - add to feedRegistry above -->
