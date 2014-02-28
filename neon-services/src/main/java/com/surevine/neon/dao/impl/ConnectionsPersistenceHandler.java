@@ -26,7 +26,7 @@ public class ConnectionsPersistenceHandler extends AbstractNamespaceHandler impl
     public void persist(ProfileBean profile, DataImporter importer) {
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         Set<ConnectionBean> conns = profile.getConnections();
-        if (conns.size() == 0) {
+        if (conns.size() > 0) {
             setMultipleField(hsetKey, FIELD_CONNECTION, importer.getImporterName(), conns);
         }
     }
