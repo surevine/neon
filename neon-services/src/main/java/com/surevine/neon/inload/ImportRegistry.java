@@ -75,7 +75,12 @@ public class ImportRegistry {
             logger.debug("Importing using single thread mode.");
             for (DataImporter imp: this.registry) {
                 if (imp.cacheLapsed()) {
-                    imp.runImport();
+                	try {
+                		imp.runImport();
+                	}
+                	catch (Exception e) {
+                		logger.error("Exception occured when running "+imp.getClass(), e);
+                	}
                 }
             }
         }

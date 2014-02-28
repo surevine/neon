@@ -20,8 +20,9 @@ public class MockDataImporter implements DataImporter {
     }
 
     @Override
-    public String getNamespace() {
-        return namespace;
+    public String[] getSupportedNamespaces() {
+    	String[] rV = {namespace};
+        return rV;
     }
 
     @Override
