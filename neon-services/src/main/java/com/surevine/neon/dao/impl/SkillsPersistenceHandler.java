@@ -26,7 +26,7 @@ public class SkillsPersistenceHandler extends AbstractNamespaceHandler implement
     public void persist(ProfileBean profile, DataImporter importer) {
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         Set<SkillBean> skills = profile.getSkills();
-        if (skills.size() == 0) {
+        if (skills.size() != 0) {
             setMultipleField(hsetKey, FIELD_SKILLS, importer.getImporterName(), skills);
         }
     }
