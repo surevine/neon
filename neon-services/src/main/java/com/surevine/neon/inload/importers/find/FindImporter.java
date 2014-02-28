@@ -18,6 +18,14 @@ import java.util.Map;
 
 public class FindImporter extends AbstractDataImporter implements DataImporter {
 	private static final String IMPORTER_NAME = "FIND_REALLY_FAST_PROFILE_IMPORTER";
+	
+	protected String[] supportedNamespaces = { 
+			ProfileDAO.NS_BASIC_DETAILS, 
+			ProfileDAO.NS_ADDITIONAL_PROPERTIES, 
+			ProfileDAO.NS_SKILLS, 
+			ProfileDAO.NS_STATUS 
+	};
+	
 	private Logger log = Logger.getLogger(FindImporter.class);
 	private String URLBase="http://10.66.2.127:8080/neon-services/example_fsrf.json?user={username}";
 	private String dateFormat="YYYY-MM-dd";
@@ -166,7 +174,7 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
     }
 
     @Override
-    public String getNamespace() {
-        return ProfileDAO.NS_BASIC_DETAILS;
+    public String[] getSupportedNamespaces() {
+        return supportedNamespaces;
     }
 }

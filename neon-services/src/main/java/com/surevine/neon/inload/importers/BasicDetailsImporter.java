@@ -1,15 +1,11 @@
 package com.surevine.neon.inload.importers;
 
-import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.VCardTelBean;
 import org.apache.log4j.Logger;
-
 import java.net.URL;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Mock importer that acts as an example and proof of concept for the importer framework
@@ -18,6 +14,7 @@ public class BasicDetailsImporter extends AbstractDataImporter implements DataIm
     Logger logger = Logger.getLogger(BasicDetailsImporter.class);
     
     private static final String IMPORTER_NAME = "VCARD_BASIC_DETAILS";
+    protected String[] supportedNamespaces= { ProfileDAO.NS_BASIC_DETAILS };
     
     @Override
     public String getImporterName() {
@@ -25,8 +22,8 @@ public class BasicDetailsImporter extends AbstractDataImporter implements DataIm
     }
 
     @Override
-    public String getNamespace() {
-        return ProfileDAO.NS_BASIC_DETAILS;
+    public String[] getSupportedNamespaces() {
+        return supportedNamespaces;
     }
 
     @Override

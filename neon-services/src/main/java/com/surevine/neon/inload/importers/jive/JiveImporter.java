@@ -22,6 +22,13 @@ import com.surevine.neon.model.ProfileBean;
 
 public class JiveImporter extends AbstractDataImporter implements DataImporter {
 	protected static final String IMPORTER_NAME="JIVE_PROFILE_IMPORTER";
+	
+	protected String[] supportedNamespaces= {
+			ProfileDAO.NS_ADDITIONAL_PROPERTIES,
+			ProfileDAO.NS_BASIC_DETAILS,
+			ProfileDAO.NS_CONNECTIONS
+	};
+	
 	private Logger logger = Logger.getLogger(JiveImporter.class);
 	
 	private String hostname="10.66.2.89";
@@ -55,8 +62,8 @@ public class JiveImporter extends AbstractDataImporter implements DataImporter {
 	}
 
     @Override
-    public String getNamespace() {
-        return ProfileDAO.NS_BASIC_DETAILS;
+    public String[] getSupportedNamespaces() {
+        return supportedNamespaces;
     }
 
 	@Override

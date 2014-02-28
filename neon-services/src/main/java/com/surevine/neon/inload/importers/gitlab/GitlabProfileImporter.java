@@ -23,6 +23,13 @@ import com.surevine.neon.model.ProjectActivityBean;
 public class GitlabProfileImporter extends AbstractDataImporter implements DataImporter {
 
 	private static final String IMPORTER_NAME ="GITLAB_PROFILE_IMPORTER";
+	
+	protected String[] supportedNamespaces= {
+			ProfileDAO.NS_ADDITIONAL_PROPERTIES,
+			ProfileDAO.NS_BASIC_DETAILS,
+			ProfileDAO.NS_PROJECT_DETAILS,
+			ProfileDAO.NS_CONNECTIONS
+	};
 
 	private Logger log = Logger.getLogger(GitlabProfileImporter.class);
 
@@ -355,8 +362,8 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 	}
 
 	@Override
-	public String getNamespace() {
-		return ProfileDAO.NS_PROJECT_DETAILS;
+	public String[] getSupportedNamespaces() {
+		return supportedNamespaces;
 	}
 
 	@Override

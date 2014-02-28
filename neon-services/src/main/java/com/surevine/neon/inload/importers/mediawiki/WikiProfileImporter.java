@@ -18,7 +18,13 @@ import java.util.regex.Pattern;
 
 public class WikiProfileImporter extends AbstractDataImporter implements DataImporter {
     private static final String IMPORTER_NAME = "MEDIAWIKI_PROFILE_IMPORTER";
-	
+
+    protected String[] supportedNamespaces = {
+    	ProfileDAO.NS_ADDITIONAL_PROPERTIES,
+    	ProfileDAO.NS_BASIC_DETAILS,
+    	ProfileDAO.NS_SKILLS
+    };
+    
     private Logger log = Logger.getLogger(WikiProfileImporter.class);
 
     protected String mediaWikiProfilePage="http://wiki.surevine.net/index.php/User:{username}@client?action=raw";
@@ -183,7 +189,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
     }
 
     @Override
-    public String getNamespace() {
-        return ProfileDAO.NS_BASIC_DETAILS;
+    public String[] getSupportedNamespaces() {
+        return supportedNamespaces;
     }
 }

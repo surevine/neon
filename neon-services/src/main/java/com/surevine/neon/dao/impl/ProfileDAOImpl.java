@@ -84,17 +84,20 @@ public class ProfileDAOImpl implements ProfileDAO {
         String userID = profile.getUserID();
         if (importer.getImporterName() == null) {
             logger.error("Could not persist profile information as the importer name was not provided.");
-        } else if (importer.getNamespace() == null) {
+        } else if (importer.getSupportedNamespaces() == null || importer.getSupportedNamespaces().length==0) {
             logger.error("Could not persist profile information as the target namespace was not provided.");
         } else if (userID == null) {
             logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as the userID was not provided.");
         } else {
-            NamespaceHandler handler = handlerMapping.get(importer.getNamespace());
-            if (handler != null) {
-                handler.persist(profile, importer);
-            } else {
-                logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as there is no handler configured for namespace " + importer.getNamespace());
-            }
+        	String[] namespaces = importer.getSupportedNamespaces();
+        	for (int i=0; i < namespaces.length; i++) {
+	            NamespaceHandler handler = handlerMapping.get(namespaces[i]);
+	            if (handler != null) {
+	                handler.persist(profile, importer);
+	            } else {
+	                logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as there is no handler configured for namespace " + namespaces[i]);
+	            }
+        	}
         }        
     }
 

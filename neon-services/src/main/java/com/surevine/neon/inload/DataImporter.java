@@ -1,5 +1,6 @@
 package com.surevine.neon.inload;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public interface DataImporter {
      * The namespace this contributes to
      * @return the namespace
      */
-    public String getNamespace();
+    public String[] getSupportedNamespaces();
     
     /**
      * Sets the configuration for this importer. It's held in the DB so can be edited at runtime but a restart will 

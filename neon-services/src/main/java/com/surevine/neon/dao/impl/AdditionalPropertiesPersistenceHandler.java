@@ -21,7 +21,7 @@ public class AdditionalPropertiesPersistenceHandler extends AbstractNamespaceHan
     public void persist(ProfileBean profile, DataImporter importer) {
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         for (Map.Entry<String,String> entry:profile.getAdditionalProperties().entrySet()) {
-            setSingleField(hsetKey,entry.getKey(),importer.getNamespace(), entry.getValue());
+            setSingleField(hsetKey,entry.getKey(),importer.getImporterName(), entry.getValue());
         }
     }
 
