@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class ConnectionsPersistenceHandler extends AbstractNamespaceHandler implements NamespaceHandler {
     public static final String FIELD_CONNECTION = "CONNECTION";
     
-    private Logger logger = Logger.getLogger(SkillsPersistenceHandler.class);
+    private Logger logger = Logger.getLogger(ConnectionsPersistenceHandler.class);
     
     @Override
     public String getNamespace() {

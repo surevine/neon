@@ -73,6 +73,9 @@ public class JiveImporter extends AbstractDataImporter implements DataImporter {
         genericProfile.setUserID(userID);
         populateFromPeopleService(genericProfile, userID);
         populateFromFollowersService(genericProfile, userID);
+		profileDAO.persistProfile(genericProfile, this);
+		logger.trace("Importing Jive profile for "+userID+" finished");
+
 	}
 	
 	protected void populateFromFollowersService(ProfileBean profile, String userID) {
@@ -113,6 +116,7 @@ public class JiveImporter extends AbstractDataImporter implements DataImporter {
 		else {
 			logger.warn("Could not find a Jive ID for "+userID+" so no connections could be imported");
 		}
+		logger.trace("Finished importing connections");
 	}
 	
 	protected Set<String> getFollowingUsers(String jiveID) {
