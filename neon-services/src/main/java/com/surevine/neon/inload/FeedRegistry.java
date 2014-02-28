@@ -1,6 +1,7 @@
 package com.surevine.neon.inload;
 
 import com.surevine.neon.model.ProfileBean;
+import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,11 @@ public class FeedRegistry {
      * Singleton instance
      */
     private static FeedRegistry instance;
+
+    /**
+     * logger
+     */
+    private Logger logger = Logger.getLogger(FeedRegistry.class);
 
     /**
      * Registry of data feeds
@@ -39,6 +45,7 @@ public class FeedRegistry {
      * @param profileBean the profile bean
      */
     public void augmentProfileWithFeeds(final ProfileBean profileBean) {
+        logger.info("Augmenting profile data for " + profileBean.getUserID() + " using " + registry.size() + " live data feed(s)");
         for (DataFeed feed:registry) {
             if (feed.isEnabled()) {
                 feed.contributeToProfile(profileBean);

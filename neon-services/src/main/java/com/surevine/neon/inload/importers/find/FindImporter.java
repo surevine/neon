@@ -8,11 +8,13 @@ import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.VCardTelBean;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class FindImporter extends AbstractDataImporter implements DataImporter {
 	private static final String IMPORTER_NAME = "FIND_REALLY_FAST_PROFILE_IMPORTER";
@@ -20,12 +22,16 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
 	private String URLBase="http://10.66.2.127:8080/neon-services/example_fsrf.json?user={username}";
 	private String dateFormat="YYYY-MM-dd";
 	
-	public void setURLBase(String newBase) {
-		URLBase=newBase;
-	}
-	
-	public void setTimestampFormat(String format) {
-		dateFormat=format;
+	@Override
+	public void updateSpecificConfiguration(Map<String, String> config) {
+		if (config.containsKey("urlBase")) {
+			URLBase=config.get("urlBase");
+		}
+		if (config.containsKey("dateFormat")) {
+			dateFormat=config.get("dateFormat");
+		}
+		log.debug("URLBase for "+IMPORTER_NAME+": "+URLBase);
+		log.debug("Date Format for "+IMPORTER_NAME+": "+dateFormat);
 	}
 
 	public static void main(String arg[]) {
@@ -41,27 +47,53 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
         log.debug("Parsing raw data as JSON");
         JSONObject findProfile = new JSONObject(raw);
         log.debug("Parsed FSRF into "+findProfile);
-        ProfileBean genericProfile = profileDAO.getProfileForUser(userID);
+        ProfileBean genericProfile = new ProfileBean();
+        genericProfile.setUserID(userID);
+        
+        try {
+	        String managerSid = findProfile.getJSONObject("manager").getString("userid");
+	        log.debug("Setting manager SID to: "+managerSid);
+	        genericProfile.setAdditionalProperty("Manager SID", managerSid);
+        }
+        catch (JSONException e) {
+        	log.info("Manager information not provided: "+e.getMessage());
+        }
 
-        String managerSid = findProfile.getJSONObject("manager").getString("userid");
-        log.debug("Setting manager SID to: "+managerSid);
-        genericProfile.setAdditionalProperty("Manager SID", managerSid);
+        try {
+	        String PF = findProfile.getString("pfNumber");
+	        log.debug("Setting PF to: "+PF);
+	        genericProfile.setAdditionalProperty("PF Number", PF);
+        }
+        catch (JSONException e) {
+        	log.info("PF Information not available: "+e.getMessage());
+        }
+        
+        try {
+	        String employeeType = findProfile.getString("typeOfEmployment");
+	        log.debug("Setting employee type to: "+employeeType);
+	        genericProfile.setAdditionalProperty("Employee Type", employeeType);
+        }
+        catch (JSONException e) {
+        	log.info("Employee type information not available: "+e.getMessage());
+        }
+        
+        try {
+        	String userName = findProfile.getString("displayName");
+        	log.debug("Setting name to: "+userName);
+        	genericProfile.getVcard().setFn(userName);
+        }
+        catch (JSONException e) {
+        	log.info("Username information not available: "+e.getMessage());
+        }
 
-        String PF = findProfile.getString("pfNumber");
-        log.debug("Setting PF to: "+PF);
-        genericProfile.setAdditionalProperty("PF Number", PF);
-
-        String employeeType = findProfile.getString("typeOfEmployment");
-        log.debug("Setting employee type to: "+employeeType);
-        genericProfile.setAdditionalProperty("Employee Type", employeeType);
-
-        String userName = findProfile.getString("displayName");
-        log.debug("Setting name to: "+userName);
-        genericProfile.getVcard().setFn(userName);
-
-        String businessShortTitle = findProfile.getString("bst");
-        log.debug("Setting business short title to: "+businessShortTitle);
-        genericProfile.setAdditionalProperty("Business Short Title", businessShortTitle);
+        try {
+        	String businessShortTitle = findProfile.getString("bst");
+        	log.debug("Setting business short title to: "+businessShortTitle);
+        	genericProfile.setAdditionalProperty("Business Short Title", businessShortTitle);
+        }
+        catch (JSONException e) {
+        	log.info("BST information not available: "+e.getMessage());
+        }
 
         try {
             String datePresenceLastUpdatedStr=findProfile.getJSONArray("sightings").getJSONObject(0).getJSONObject("presence").getString("date");
@@ -73,32 +105,55 @@ public class FindImporter extends AbstractDataImporter implements DataImporter {
         catch (ParseException e) {
             log.warn("Could not parse the last presence updated value", e);
         }
-
-        String currentLocation = findProfile.getJSONArray("sightings").getJSONObject(0).getJSONObject("desk").getString("name");
-        log.debug("Setting current location to: "+currentLocation);
-        genericProfile.getStatus().setLocation(currentLocation);
-
-        String currentLocationDetails =findProfile.getJSONArray("sightings").getJSONObject(0).getJSONObject("desk").toString();
-        log.debug("Setting current location fine details to "+currentLocationDetails);
-        genericProfile.setAdditionalProperty("Current Location Fine Details", currentLocationDetails);
-
-        JSONArray phones = findProfile.getJSONArray("phones");
-        for (int i=0; i < phones.length(); i++) {
-            VCardTelBean telephone = new VCardTelBean();
-            telephone.setNumber(phones.getJSONObject(i).getString("number"));
-            telephone.setType(phones.getJSONObject(i).getString("type"));
-            log.debug("Addint a telephone number: "+telephone);
-            genericProfile.getVcard().getTelephoneNumbers().add(telephone);
+        catch (JSONException e) {
+        	log.info("Presence date information not available: "+e.getMessage());
         }
 
-        String usualLocation = findProfile.getString("roomNumber");
-        log.debug("Setting usual location to: "+usualLocation);
-        genericProfile.setAdditionalProperty("Typical Location", usualLocation);
+        try {
+        	String currentLocation = findProfile.getJSONArray("sightings").getJSONObject(0).getJSONObject("desk").getString("name");
+        	log.debug("Setting current location to: "+currentLocation);
+        	genericProfile.getStatus().setLocation(currentLocation);
 
-        String bio=findProfile.getString("description");
-        log.debug("Setting bio to: "+bio);
-        genericProfile.setBio(bio);
 
+        	String currentLocationDetails =findProfile.getJSONArray("sightings").getJSONObject(0).getJSONObject("desk").toString();
+        	log.debug("Setting current location fine details to "+currentLocationDetails);
+        	genericProfile.setAdditionalProperty("Current Location Fine Details", currentLocationDetails);
+        }
+        catch (JSONException e) {
+        	log.info("Current Location not available: "+e.getMessage());
+        }
+
+        try {
+        JSONArray phones = findProfile.getJSONArray("phones");
+	        for (int i=0; i < phones.length(); i++) {
+	            VCardTelBean telephone = new VCardTelBean();
+	            telephone.setNumber(phones.getJSONObject(i).getString("number"));
+	            telephone.setType(phones.getJSONObject(i).getString("type"));
+	            log.debug("Adding a telephone number: "+telephone);
+	            genericProfile.getVcard().getTelephoneNumbers().add(telephone);
+	        }
+        }
+        catch (JSONException e) {
+        	log.info("Could not import all telephone information: "+e.getMessage());
+        }
+
+        try {
+	        String usualLocation = findProfile.getString("roomNumber");
+	        log.debug("Setting usual location to: "+usualLocation);
+	        genericProfile.setAdditionalProperty("Typical Location", usualLocation);
+        }
+        catch (JSONException e) {
+        	log.info("Room Number not available: "+e.getMessage());
+        }
+        
+        try {
+        	String bio=findProfile.getString("description");
+        	log.debug("Setting bio to: "+bio);
+        	genericProfile.setBio(bio);
+        }
+        catch (JSONException e) {
+        	log.info("Bio not available: "+e.getMessage());
+        }
         log.trace("Finished importing of FSRF record.  Persisting");
 
         profileDAO.persistProfile(genericProfile, this);

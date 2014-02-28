@@ -39,12 +39,4 @@ public class PropertyImporterConfigurationDAOImpl implements ImporterConfigurati
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public void setConfigurationOption(String importerName, String configurationKey, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }

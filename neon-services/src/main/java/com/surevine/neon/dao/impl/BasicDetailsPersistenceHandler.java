@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Map;
 
 /**
- * Handles persistence of basic profile details
+ * Handles persistence of NS_BASIC_DETAILS fields
  */
 public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
     public static final String FIELD_FN = "FN";
@@ -30,13 +30,15 @@ public class BasicDetailsPersistenceHandler extends AbstractNamespaceHandler {
 
     @Override
     public void persist(ProfileBean profile, DataImporter importer) {
-        String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + ProfileDAO.NS_BASIC_DETAILS;
+        String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         setSingleField(hsetKey, FIELD_FN, importer.getImporterName(), profile.getVcard().getFn());
         setSingleField(hsetKey, FIELD_EMAIL, importer.getImporterName(), profile.getVcard().getEmail());
         setSingleField(hsetKey, FIELD_ORG, importer.getImporterName(), profile.getVcard().getOrg());
         setSingleField(hsetKey, FIELD_TITLE, importer.getImporterName(), profile.getVcard().getTitle());
         setSingleField(hsetKey, FIELD_PHOTO_MIME, importer.getImporterName(), profile.getVcard().getPhoto().getMimeType());
-        setSingleField(hsetKey, FIELD_PHOTO_URL, importer.getImporterName(), profile.getVcard().getPhoto().getPhotoURL().toString());
+        if (profile.getVcard().getPhoto().getPhotoURL() != null) {
+            setSingleField(hsetKey, FIELD_PHOTO_URL, importer.getImporterName(), profile.getVcard().getPhoto().getPhotoURL().toString());
+        }
         setSingleField(hsetKey, FIELD_BIO, importer.getImporterName(), profile.getBio());
         
         if (profile.getVcard().getTelephoneNumbers() != null && profile.getVcard().getTelephoneNumbers().size() > 0) {

@@ -4,6 +4,16 @@ import java.util.*;
 
 /**
  * Bean holding the details of a profile.
+ * 
+ * Field namespaces:
+ *     vcard:                   ProfileDAO.NS_BASIC_DETAILS
+ *     bio:                     ProfileDAO.NS_BASIC_DETAILS
+ *     skills:                  ProfileDAO.NS_SKILLS
+ *     activityStream:          ProfileDAO.NS_ACTIVITY
+ *     status:                  ProfileDAO.NS_STATUS
+ *     projectActivity:         ProfileDAO.NS_PROJECT_DETAILS
+ *     connections:             ProfileDAO.NS_CONNECTIONS
+ *     additionalProperties:    ProfileDAO.NS_ADDITIONAL_PROPERTIES
  */
 public class ProfileBean {
     private String userID;
@@ -15,7 +25,7 @@ public class ProfileBean {
     private String bio; // needs a priority for multiple importers
     private Set<ProjectActivityBean> projectActivity = new HashSet<ProjectActivityBean>();
     private Set<ConnectionBean> connections = new HashSet<ConnectionBean>();
-    private Map<String,ImporterMetaData> metaDataMap = new HashMap<>();
+    private Map<String,Collection<ImporterMetaData>> metaDataMap = new HashMap<>();
 
     public String getUserID() {
         return userID;
@@ -127,11 +137,11 @@ public class ProfileBean {
     	return null;
     }
 
-    public Map<String, ImporterMetaData> getMetaDataMap() {
+    public Map<String, Collection<ImporterMetaData>> getMetaDataMap() {
         return metaDataMap;
     }
 
-    public void setMetaDataMap(Map<String, ImporterMetaData> metaDataMap) {
+    public void setMetaDataMap(Map<String, Collection<ImporterMetaData>> metaDataMap) {
         this.metaDataMap = metaDataMap;
     }
 }

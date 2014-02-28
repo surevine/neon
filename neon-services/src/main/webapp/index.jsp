@@ -33,21 +33,21 @@
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td>rest/inload</td>
+        <td>rest/importer</td>
         <td>GET</td>
         <td>Forces a data import for the given userID</td>
         <td>{userID}</td>
         <td>&nbsp;</td>
     </tr>
     <tr>
-        <td>rest/inload/importerconfig/{importerName}</td>
+        <td>rest/importer/importerconfig/{importerName}</td>
         <td>GET</td>
         <td>Displays an importer's configuration as JSON</td>
         <td>{importerConfig}</td>
         <td>JSON representation of com.surevine.neon.service.bean.ImporterConfigurationServiceBean</td>
     </tr>
     <tr>
-        <td>rest/inload</td>
+        <td>rest/importer</td>
         <td>POST</td>
         <td>Adds / alters a configuration for an importer</td>
         <td>JSON representation of com.surevine.neon.service.bean.ImporterConfigurationServiceBean</td>

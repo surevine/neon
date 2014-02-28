@@ -8,6 +8,12 @@ public class Properties {
     private boolean _profileRedis = false;
     private String systemNamespace = "NEON";
     private boolean useMockProfile = false;
+    private long importPollIntervalSeconds = 1000*60;
+    private int importExecutors = 10;
+    private boolean multiThreadImport;
+
+    private int feedExecutors = 10;
+    private boolean multiThreadFeed;
     
     private static Properties _instance = null;
     
@@ -40,6 +46,31 @@ public class Properties {
         String useMockString = getBundleString(bundle, "dev.use_mock_profile");
         if (useMockString!=null) {
             this.useMockProfile= Boolean.parseBoolean(useMockString);
+        }
+
+        String importPollTimeoutString = getBundleString(bundle, "neon.import.interval");
+        if (importPollTimeoutString != null) {
+            importPollIntervalSeconds = Long.parseLong(importPollTimeoutString) * 1000l;
+        }
+
+        String importExecutorsString = getBundleString(bundle, "neon.import.executors");
+        if (importExecutorsString != null) {
+            importExecutors = Integer.parseInt(importExecutorsString);
+        }
+
+        String multiThreadImportString = getBundleString(bundle, "neon.import.multithread_import");
+        if (multiThreadImportString!=null) {
+            this.multiThreadImport= Boolean.parseBoolean(multiThreadImportString);
+        }
+
+        String feedExecutorsString = getBundleString(bundle, "neon.feed.executors");
+        if (feedExecutorsString != null) {
+            feedExecutors = Integer.parseInt(feedExecutorsString);
+        }
+
+        String multiThreadFeedString = getBundleString(bundle, "neon.feed.multithread_import");
+        if (multiThreadFeedString!=null) {
+            this.multiThreadFeed= Boolean.parseBoolean(multiThreadFeedString);
         }
     }
     
@@ -80,5 +111,25 @@ public class Properties {
 
     public boolean isUseMockProfile() {
         return useMockProfile;
+    }
+
+    public long getImportPollIntervalSeconds() {
+        return importPollIntervalSeconds;
+    }
+
+    public int getImportExecutors() {
+        return importExecutors;
+    }
+
+    public boolean isMultiThreadImport() {
+        return multiThreadImport;
+    }
+
+    public int getFeedExecutors() {
+        return feedExecutors;
+    }
+
+    public boolean isMultiThreadFeed() {
+        return multiThreadFeed;
     }
 }

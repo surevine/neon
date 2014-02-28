@@ -29,7 +29,7 @@ public class RestProfileService implements ProfileService {
     }
 
     @POST
-    public void addUser(String userID) {
+    public void addUser(@QueryParam("userID") String userID) {
         if (serviceImplementation == null) {
             loadServiceFromSpringContext();
         }
@@ -39,7 +39,7 @@ public class RestProfileService implements ProfileService {
     }
 
     @DELETE
-    public void removeUser(String userID) {
+    public void removeUser(@QueryParam("userID") String userID) {
         if (serviceImplementation == null) {
             loadServiceFromSpringContext();
         }

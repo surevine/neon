@@ -107,7 +107,7 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>1.0.0.Beta1</version>
 				<configuration>
-					<hostname>10.66.2.127</hostname>
+					<hostname>10.66.2.166</hostname>
 					<username>admin</username>
 					<password>password</password>
 				</configuration>

@@ -18,11 +18,36 @@ public interface ProfileDAO {
      * Namespace key for basic details
      */
     public static final String NS_BASIC_DETAILS = "BASIC";
+
+    /**
+     * Skills namespace
+     */
+    public static final String NS_SKILLS = "SKILLS";
+
+    /**
+     * Activity namespace
+     */
+    public static final String NS_ACTIVITY = "ACTIVITY";
     
     /**
-     * Namespace key for basic details
+     * Namespace key for project details
      */
     public static final String NS_PROJECT_DETAILS = "PROJECT";
+
+    /**
+     * Namespace key for status
+     */
+    public static final String NS_STATUS = "STATUS";
+
+    /**
+     * Namespace key for connections
+     */
+    public static final String NS_CONNECTIONS = "CONNECTIONS";
+
+    /**
+     * Namespace key for additional properties
+     */
+    public static final String NS_ADDITIONAL_PROPERTIES = "ADDITIONAL";
 
     /**
      * A list of userIDs for users whose profiles are in the system are stored under this key

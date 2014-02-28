@@ -1,5 +1,6 @@
 package com.surevine.neon.inload;
 
+import com.surevine.neon.util.Properties;
 import com.surevine.neon.util.SpringApplicationContext;
 import org.apache.log4j.Logger;
 
@@ -14,7 +15,6 @@ import java.util.TimerTask;
  * Schedules an import job to run every hour.
  */
 public class ImportScheduleContextListener implements ServletContextListener {
-    private static final long SCHEDULE_SECONDS = 1000*30;
     private static final String CONTEXT_KEY = "profileImportTimer";
     
     private Logger logger = Logger.getLogger(ImportScheduleContextListener.class);
@@ -38,7 +38,7 @@ public class ImportScheduleContextListener implements ServletContextListener {
             }
         };
         
-        timer.scheduleAtFixedRate(importTask, start, SCHEDULE_SECONDS);
+        timer.scheduleAtFixedRate(importTask, start, Properties.getProperties().getImportPollIntervalSeconds());
         servletContextEvent.getServletContext().setAttribute (CONTEXT_KEY, timer);
         logger.info("Data import timer initialised");
     }

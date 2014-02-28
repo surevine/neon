@@ -15,12 +15,6 @@ public interface DataFeed {
     public String getFeedName();
 
     /**
-     * The namespace this contributes to
-     * @return the namespace
-     */
-    public String getNamespace();
-
-    /**
      * Sets the configuration for this importer. It's held in the DB so can be edited at runtime but a restart will 
      * replace the configuration with the one configured in the spring configuration
      * @param configuration the configuration - usually loaded by Spring at application start

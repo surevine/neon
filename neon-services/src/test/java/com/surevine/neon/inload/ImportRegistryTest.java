@@ -1,6 +1,7 @@
 package com.surevine.neon.inload;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -62,6 +63,12 @@ public class ImportRegistryTest {
     @After
     public void clearRegistry() {
         ImportRegistry.getInstance().setRegistry(new HashSet<DataImporter>());
+    }
+    
+    @Before
+    public void disableMultithreading() {
+        // switch off multi-threaded mode
+        ImportRegistry.getInstance().runImportMultithreaded = false;
     }
 }
 

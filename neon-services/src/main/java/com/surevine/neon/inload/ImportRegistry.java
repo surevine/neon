@@ -1,9 +1,16 @@
 package com.surevine.neon.inload;
 
+import com.surevine.neon.dao.ImporterConfigurationDAO;
+import com.surevine.neon.redis.IPooledJedis;
+import com.surevine.neon.redis.PooledJedis;
+import com.surevine.neon.redis.PooledJedisProxy;
+import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Spring configured singleton registry containing a list of data provides that contribute to a profile
@@ -20,6 +27,11 @@ public class ImportRegistry {
     private Logger logger = Logger.getLogger(ImportRegistry.class);
 
     /**
+     * Whether or not to multi-thread the import jobs
+     */
+    boolean runImportMultithreaded;
+
+    /**
      * Registry of importers
      */
     private Set<DataImporter> registry = new HashSet<>();
@@ -28,9 +40,10 @@ public class ImportRegistry {
      * Private constructor to support singleton pattern
      */
     private ImportRegistry() {
-        // no-op for singleton pattern
+        runImportMultithreaded = Properties.getProperties().isMultiThreadImport();
     }
 
+    
     /**
      * Spring injected registry of importers
      * @param registry the registry
@@ -43,10 +56,27 @@ public class ImportRegistry {
      * Run data importers
      */              
     public void runImport() {
-        logger.debug("Running scheduled data import for all users using " + registry.size() + " importer(s)");
-        for (DataImporter prov: this.registry) {
-            if (prov.cacheLapsed()) {
-                prov.runImport();
+        logger.info("Running scheduled data import for all users using " + registry.size() + " importer(s)");
+        if (runImportMultithreaded) {
+            logger.debug("Importing using multi-threaded mode.");
+            Executor executor = Executors.newFixedThreadPool(Properties.getProperties().getImportExecutors());
+            for (DataImporter imp: this.registry) {
+                if (imp.cacheLapsed()) {
+                    final DataImporter importer = imp;
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            importer.runImport();
+                        }
+                    });
+                }
+            }
+        } else {
+            logger.debug("Importing using single thread mode.");
+            for (DataImporter imp: this.registry) {
+                if (imp.cacheLapsed()) {
+                    imp.runImport();
+                }
             }
         }
     }
