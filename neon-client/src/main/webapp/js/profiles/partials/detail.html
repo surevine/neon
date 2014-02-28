@@ -1,21 +1,29 @@
 <div class="profile-detail">
-	<div class="page-header">
-		<h1>{{profile.vcard.fn}}</h1>
-	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<div class="row">
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>{{profile.vcard.fn}}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
 				<img ng-src="{{profile.vcard.photo.photoURL}}" class="profile-image" />
 			</div>
-			<dl>
-				<dt>Name</dt>
-				<dd>{{profile.vcard.fn}}</dd>
+			<div class="col-md-8">
+				<dl>
+					<dt>Name</dt>
+					<dd>{{profile.vcard.fn}}</dd>
 
-				<dt>Title</dt>
-				<dd>{{profile.vcard.title}}</dd>
-			</dl>
+					<dt>Title</dt>
+					<dd>{{profile.vcard.title}}</dd>
+				</dl>
+				<div class="profile-summary" ng-repeat="extra in extras"
+					ng-include="extra.summaryInclude"></div>
+			</div>
 		</div>
-		<div class="col-md-8">
+	</div>
+	<div class="row">
+		<div class="col-md-12">
 			<div class="profile-section">
 				<dl>
 					<dt>Organisation</dt>
@@ -29,6 +37,8 @@
 					</dd>
 				</dl>
 			</div>
+			<div class="profile-section" ng-repeat="extra in extras"
+				ng-include="extra.sectionInclude"></div>
 		</div>
 	</div>
 </div>
