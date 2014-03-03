@@ -80,6 +80,7 @@ public class ProfileDAOImpl implements ProfileDAO {
      */
     @Override
     public void persistProfile(ProfileBean profile, DataImporter importer) {
+    	logger.trace("Persisting for "+importer.getImporterName());
         // very complicated persistence to account for metadata, priorities and namespaces
         String userID = profile.getUserID();
         if (importer.getImporterName() == null) {
@@ -91,6 +92,7 @@ public class ProfileDAOImpl implements ProfileDAO {
         } else {
         	String[] namespaces = importer.getSupportedNamespaces();
         	for (int i=0; i < namespaces.length; i++) {
+        		logger.debug("Persisting "+namespaces[i]+" for "+importer.getImporterName());
 	            NamespaceHandler handler = handlerMapping.get(namespaces[i]);
 	            if (handler != null) {
 	                handler.persist(profile, importer);

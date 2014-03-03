@@ -27,7 +27,7 @@ public class ProjectPersistenceHandler extends AbstractNamespaceHandler implemen
     public void persist(ProfileBean profile, DataImporter importer) {
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         Set<ProjectActivityBean> activities = profile.getProjectActivity();
-        if (activities.size() == 0) {
+        if (activities.size() > 0) {
             setMultipleField(hsetKey, FIELD_PROJECT_ACTIVITY, importer.getImporterName(), activities);
         }
     }

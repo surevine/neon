@@ -11,11 +11,15 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 /**
  * Handles persistence of NS_CONNECTIONS fields
  */
 public class ConnectionsPersistenceHandler extends AbstractNamespaceHandler implements NamespaceHandler {
     public static final String FIELD_CONNECTION = "CONNECTION";
+    
+    private Logger logger = Logger.getLogger(ConnectionsPersistenceHandler.class);
     
     @Override
     public String getNamespace() {
@@ -24,9 +28,12 @@ public class ConnectionsPersistenceHandler extends AbstractNamespaceHandler impl
 
     @Override
     public void persist(ProfileBean profile, DataImporter importer) {
+    	logger.debug("Persisting connections of "+profile.getUserID()+" from "+importer.getImporterName());
+
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         Set<ConnectionBean> conns = profile.getConnections();
-        if (conns.size() == 0) {
+        logger.debug("Found "+conns.size()+" connections to persist");
+        if (conns.size() > 0) {
             setMultipleField(hsetKey, FIELD_CONNECTION, importer.getImporterName(), conns);
         }
     }

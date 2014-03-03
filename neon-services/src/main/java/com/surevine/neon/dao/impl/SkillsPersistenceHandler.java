@@ -11,11 +11,16 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 /**
  * Handles persistence of NS_SKILLS fields
  */
 public class SkillsPersistenceHandler extends AbstractNamespaceHandler implements NamespaceHandler {
     public static final String FIELD_SKILLS = "SKILL";
+    
+    private Logger logger = Logger.getLogger(SkillsPersistenceHandler.class);
+
     
     @Override
     public String getNamespace() {
@@ -24,9 +29,11 @@ public class SkillsPersistenceHandler extends AbstractNamespaceHandler implement
 
     @Override
     public void persist(ProfileBean profile, DataImporter importer) {
+    	logger.debug("Persisting skills of "+profile.getUserID()+" from "+importer.getImporterName());
         String hsetKey = Properties.getProperties().getSystemNamespace() + ":" + ProfileDAO.NS_PROFILE_PREFIX + ":" + profile.getUserID() + ":" + getNamespace();
         Set<SkillBean> skills = profile.getSkills();
-        if (skills.size() == 0) {
+        logger.debug("Found "+skills.size()+" skills to import");
+        if (skills.size() != 0) {
             setMultipleField(hsetKey, FIELD_SKILLS, importer.getImporterName(), skills);
         }
     }

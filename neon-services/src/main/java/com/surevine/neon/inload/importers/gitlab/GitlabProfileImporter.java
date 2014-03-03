@@ -98,10 +98,13 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 		getProjectMembershipDetails(genericProfile, userID);
 		getCommits(genericProfile, userID);
 		getIssues(genericProfile, userID);
+		log.trace("Persisting gitlab import");
+		profileDAO.persistProfile(genericProfile, this);
+		log.trace("Gitlab import complete");
 	}
 
 	protected void getIssues(ProfileBean profile, String userID) {
-		log.info("Retrieving issues for user :"+userID);
+		log.info("Retrieving issues for user: "+userID);
 		int page=1;
 		while (true) {
 			String url = getURLWithAuthToken(issueURLBase).replaceAll("\\{page_id\\}", Integer.toString(page++));
@@ -111,8 +114,9 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 			}
 			log.trace("Retrieved JSON from Gitlab issues service: "+issues);
 			for (int i=0; i < issues.length(); i++) {
+				log.trace("Examining issue "+i);
 				try {
-					JSONObject issue = issues.getJSONObject(0);
+					JSONObject issue = issues.getJSONObject(i);
 	
 					//Work out if we're recording an event, and if so is it an authorship or an assignation?
 					boolean record=false;
@@ -127,9 +131,11 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						record=true;
 						event=issue.getJSONObject("assignee");
 					}
+					log.trace("Examined issue "+i);
 	
 					//If we have something to record...
 					if (record) {
+						log.trace("Recording issue "+i);
 	
 						String createdAtStr = event.getString("created_at");
 						Date createdAt = new Date(0l);
@@ -148,6 +154,9 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						text.append(issue.optString("title")).append("'");
 						String projectID=Integer.toString(issue.getInt("project_id"));
 						String projectName=profile.getKnownProjectName(projectID);
+						if (projectName==null) {
+							continue;
+						}
 						String webURL = gitlabURLBase.concat(issueWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{issue_id\\}", Integer.toString(issue.getInt("id")));
 						String issueText=text.toString();
 						log.debug("Issue text: "+text);
@@ -159,6 +168,10 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 				catch (JSONException e) {
 					log.warn("Could not parse an issue", e);
 				}
+				catch (Exception e) {
+					log.warn("Encountered an exception parsing an issue", e);
+				}
+				
 			}
 		}
 	}
