@@ -19,7 +19,7 @@ import com.surevine.neon.badges.service.BadgeBakeryService;
 
 public class BadgeBakeryServiceImpl implements BadgeBakeryService {
 
-	private int initialChunkSize=1024*1024; // Allocate 1 meg chunk
+	private int initialChunkSize=1024*1024; // Allocate 1 meg chunk by default
 	private BadgeAssertionDAO dao = new RedisJSONBadgeAssertionDAOImpl();
 	
 	public void setDao(BadgeAssertionDAO dao) {
@@ -48,7 +48,7 @@ public class BadgeBakeryServiceImpl implements BadgeBakeryService {
 		URLConnection connection = source.openConnection();
 		String encoding = connection.getContentEncoding();
 		
-		if (encoding==null || encoding.indexOf("png")!=-1) {
+		if (encoding==null || encoding.indexOf("png")!=-1) { //if no encoding supplied, assume PNG
 			return processPNGBakery(connection, badge);
 		}
 		throw new UnsupportedOperationException("Only PNG bakery is currently supported.  A "+encoding+" was supplied");

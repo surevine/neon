@@ -24,8 +24,8 @@ public class PNGITXTFactory {
 		PngChunkITXT newChunk = new PngChunkITXT(reader.imgInfo);		
 		newChunk.setKeyVal(key, value);
 		
-		writer.copyChunksFrom(chunks, ChunkCopyBehaviour.COPY_ALL_SAFE);
 		writer.getChunksList().queue(newChunk.cloneForWrite(reader.imgInfo));
+		writer.copyChunksFrom(chunks, ChunkCopyBehaviour.COPY_ALL_SAFE);
 		
 		for (int row = 0; row < reader.imgInfo.rows; row++) {
 			ImageLineInt line = (ImageLineInt) reader.readRow(row);

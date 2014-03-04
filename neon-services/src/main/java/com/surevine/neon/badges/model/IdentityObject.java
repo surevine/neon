@@ -5,6 +5,38 @@ import org.json.JSONObject;
 public class IdentityObject {
 
 	private String identity, type, salt;
+	public String getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(String identity) {
+		this.identity = identity;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public boolean isHashed() {
+		return hashed;
+	}
+
+	public void setHashed(boolean hashed) {
+		this.hashed = hashed;
+	}
+
 	private boolean hashed;
 	
 	public IdentityObject(JSONObject json) {
