@@ -1,44 +1,20 @@
 <div class="profile-detail">
-	<div class="jumbotron">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>{{profile.vcard.fn}}</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4">
-				<img ng-src="{{profile.vcard.photo.photoURL}}" class="profile-image" />
-			</div>
-			<div class="col-md-8">
-				<dl>
-					<dt>Name</dt>
-					<dd>{{profile.vcard.fn}}</dd>
-
-					<dt>Title</dt>
-					<dd>{{profile.vcard.title}}</dd>
-				</dl>
-				<div class="profile-summary" ng-repeat="extra in extras"
-					ng-include="extra.summaryInclude"></div>
-			</div>
+	<div class="row profile-header">
+		<div class="col-md-12">
+			<img ng-src="{{profile.vcard.photo.photoURL}}"
+				class="profile-image img-thumbnail" />
+			<h1>{{profile.vcard.fn}} <small>({{profile.userID}})</small></h1>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="profile-section">
-				<dl>
-					<dt>Organisation</dt>
-					<dd>{{profile.vcard.org}}</dd>
-					<dt>Email</dt>
-					<dd>
-						<a href="mailto:{{profile.vcard.email}}">{{profile.vcard.email}}</a>
-					<dt>Telephone Numbers</dt>
-					<dd ng-repeat="tel in profile.vcard.telephoneNumbers">
-						<span class="telephone-number telephone-type-{{tel.type}}">{{tel.number}}</span>
-					</dd>
-				</dl>
-			</div>
+		<div class="col-md-4">
+			<div class="profile-summary" ng-repeat="extra in extras"
+				ng-include="extra.summaryInclude"></div>
+		</div>
+		<div class="col-md-8">
 			<div class="profile-section" ng-repeat="extra in extras"
 				ng-include="extra.sectionInclude"></div>
 		</div>
 	</div>
+
 </div>

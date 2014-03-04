@@ -1,0 +1,17 @@
+<div class="profile-section">
+	<h3>About {{profile.vcard.fn}}</h3>
+	<table class="table table-condensed">
+		<tr ng-show="profile.vcard.org">
+			<th>Organisation</th>
+			<td>{{profile.vcard.org}}</td>
+		</tr>
+		<tr ng-show="profile.vcard.email">
+			<th>Email</th>
+			<td><a href="mailto:{{profile.vcard.email}}">{{profile.vcard.email}}</a></td>
+		</tr>
+		<tr ng-repeat="tel in profile.vcard.telephoneNumbers">
+			<th>Telephone ({{tel.type}})</th>
+			<td>{{tel.number}}</td>
+		</tr>
+	</table>
+</div>

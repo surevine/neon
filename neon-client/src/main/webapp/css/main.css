@@ -2,6 +2,21 @@ body {
 	padding-top: 50px;
 }
 
-.profile-detail img.profile-image {
-	width: 100%;
+.profile-header {
+	padding: 15px 0;
+}
+
+.profile-header img.profile-image {
+	width: 90px;
+	vertical-align: middle;
+}
+
+.profile-header h1 {
+	display: inline;
+	margin-left: 10px;
+	vertical-align: middle;
+}
+
+ul.badges img {
+	width: 90px;
 }

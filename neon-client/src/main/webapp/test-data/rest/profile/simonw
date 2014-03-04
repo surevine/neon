@@ -1,0 +1,172 @@
+{
+	"userID" : "simonw",
+	"vcard" : {
+		"fn" : "Simon White",
+		"org" : "SUREVINE",
+		"title" : "Java Developer",
+		"photo" : {
+			"mimeType" : "image/gif",
+			"photoURL" : "test-data/avatars/2.jpg"
+		},
+		"telephoneNumbers" : [ {
+			"type" : "n",
+			"number" : "11111"
+		}, {
+			"type" : "Russett",
+			"number" : "12345"
+		}, {
+			"type" : "PSTN",
+			"number" : "08454681066"
+		}, {
+			"type" : "Wibble",
+			"number" : "12345"
+		}, {
+			"type" : "s",
+			"number" : "22222"
+		} ],
+		"email" : "dsmith@localhost",
+		"vcardVersion" : "4.0"
+	},
+	"skills" : [ {
+		"skillName" : "git",
+		"rating" : 5,
+		"inferred" : true,
+		"disavowed" : false
+	}, {
+		"skillName" : "java",
+		"rating" : 5,
+		"inferred" : false,
+		"disavowed" : false
+	}, {
+		"skillName" : "javascript",
+		"rating" : 3,
+		"inferred" : true,
+		"disavowed" : false
+	} ],
+	"activityStream" : [],
+	"additionalProperties" : {
+		"Jive Level" : "Newbie (2 points)",
+		"Current Location Fine Details" : "{\"location\":{\"floor\":\"Z1\",\"type\":\"location\",\"y\":1000,\"x\":1000},\"name\":\"Z1A.A1.1\",\"type\":\"desk\"}",
+		"Job Title" : "Senior Software Engineer",
+		"Gitlab User ID" : "6",
+		"Business Short Title" : "SUREVINE007",
+		"Manager SID" : "johna",
+		"Employee Type" : "employee",
+		"Internal Jive ID" : "2004",
+		"Typical Location" : "Z1A",
+		"PF Number" : "012345"
+	},
+	"status" : {
+		"location" : "Z1A.A1.1",
+		"presence" : null,
+		"presenceLastUpdated" : 1388275200000
+	},
+	"bio" : "In 1972 sent to prison by a military court for a crime they didn't commit. This man promptly escaped from a maximum-security stockade to the Los Angeles underground. Today, still wanted by the government, he survives as a soldier of fortune.",
+	"projectActivity" : [ {
+		"url" : "http://10.66.2.254/rich/neon/issues/3",
+		"activityDescription" : "Assigned to the issue 'hello'",
+		"when" : 1388319780000,
+		"projectID" : "82",
+		"projectName" : "rich/neon"
+	}, {
+		"url" : "http://10.66.2.254/rich/neon/issues/4",
+		"activityDescription" : "Assigned to the issue 'helloworld'",
+		"when" : 1388319780000,
+		"projectID" : "82",
+		"projectName" : "rich/neon"
+	}, {
+		"url" : "http://10.66.2.254/rich/neon",
+		"activityDescription" : "Member of the 'neon' project",
+		"when" : 1388319780000,
+		"projectID" : "82",
+		"projectName" : "rich/neon"
+	} ],
+	"connections" : [ {
+		"userID" : "testone",
+		"annotation" : "Simon White is followed by testone in Jive"
+	}, {
+		"userID" : "root",
+		"annotation" : "Member of the same project as Administrator"
+	}, {
+		"userID" : "rich",
+		"annotation" : "Member of the same project as rich"
+	}, {
+		"userID" : "nickl",
+		"annotation" : "Simon White is followed by nickl in Jive"
+	} ],
+	"metaDataMap" : {
+		"PROJECT_ACTIVITY" : [ {
+			"sourceName" : "GITLAB_PROFILE_IMPORTER",
+			"lastImport" : null,
+			"sourcePriority" : 1
+		} ],
+		"LOCATION" : [ {
+			"sourceName" : "FIND_REALLY_FAST_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:19:22",
+			"sourcePriority" : 1
+		} ],
+		"CONNECTION" : [ {
+			"sourceName" : "GITLAB_PROFILE_IMPORTER",
+			"lastImport" : null,
+			"sourcePriority" : 1
+		}, {
+			"sourceName" : "JIVE_PROFILE_IMPORTER",
+			"lastImport" : null,
+			"sourcePriority" : 1
+		} ],
+		"FN" : [ {
+			"sourceName" : "GITLAB_PROFILE_IMPORTER",
+			"lastImport" : null,
+			"sourcePriority" : 1
+		} ],
+		"SKILL" : [ {
+			"sourceName" : "MEDIAWIKI_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:18:22",
+			"sourcePriority" : 1
+		} ],
+		"TEL" : [ {
+			"sourceName" : "VCARD_BASIC_DETAILS",
+			"lastImport" : "2014-03-03 10:18:21",
+			"sourcePriority" : 1
+		}, {
+			"sourceName" : "FIND_REALLY_FAST_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:19:22",
+			"sourcePriority" : 1
+		}, {
+			"sourceName" : "MEDIAWIKI_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:18:22",
+			"sourcePriority" : 1
+		} ],
+		"PHOTO_URL" : [ {
+			"sourceName" : "MEDIAWIKI_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:18:22",
+			"sourcePriority" : 1
+		} ],
+		"PHOTO_MIME" : [ {
+			"sourceName" : "VCARD_BASIC_DETAILS",
+			"lastImport" : "2014-03-03 10:18:21",
+			"sourcePriority" : 1
+		} ],
+		"EMAIL" : [ {
+			"sourceName" : "VCARD_BASIC_DETAILS",
+			"lastImport" : "2014-03-03 10:18:21",
+			"sourcePriority" : 1
+		} ],
+		"LAST_UPDATED" : [ {
+			"sourceName" : "FIND_REALLY_FAST_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:19:22",
+			"sourcePriority" : 1
+		} ],
+		"TITLE" : [ {
+			"sourceName" : "VCARD_BASIC_DETAILS",
+			"lastImport" : "2014-03-03 10:18:21",
+			"sourcePriority" : 1
+		} ],
+		"ORG" : [ {
+			"sourceName" : "MEDIAWIKI_PROFILE_IMPORTER",
+			"lastImport" : "2014-03-03 10:18:22",
+			"sourcePriority" : 1
+		} ]
+	},
+	"idsOfActiveProjects" : [ "82" ]
+}

@@ -1,0 +1,7 @@
+<section class="profile-section" ng-show="profile.connections.length">
+	<h3>Connections</h3>
+	<ul class="list-group">
+		<li ng-repeat="connection in profile.connections"
+			profile-link="connection.userID" class="list-group-item">{{connection.annotation}}</li>
+	</ul>
+</section>

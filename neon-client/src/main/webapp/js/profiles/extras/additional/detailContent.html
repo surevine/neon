@@ -1,0 +1,13 @@
+<section class="profile-section" ng-controller="profilesExtrasAdditionalCtrl" ng-show="showSection">
+	<h3>Additional Stuff</h3>
+	<table class="table table-condensed">
+		<tr ng-repeat="field in showFields" ng-show="profile.additionalProperties[field]">
+			<th>{{field}}</th>
+			<td>{{profile.additionalProperties[field]}}</td>
+		</tr>
+		<tr ng-show="profile.additionalProperties['Manager SID']">
+			<th>Manager</th>
+			<td profile-link="profile.additionalProperties['Manager SID']">{{profile.additionalProperties['Manager SID']}}</td>
+		</tr>
+	</table>
+</section>

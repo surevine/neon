@@ -1,18 +1,28 @@
-define([ 'angular' ], function(ng) {
+define([ 'angular', 'config' ], function(ng, config) {
 	return ng.module('profiles.extras.skills', []).controller(
-			'profilesSkillsExtrasCtrl', [ '$scope', function($scope) {
-				$scope.skills = {
-					hasSkills : $scope.profile && $scope.profile.skills && $scope.profile.skills.length > 0 ? true : false
-				}
+			'profilesSkillsExtrasCtrl',
+			[
+					'$scope',
+					function($scope) {
 
-				if (!$scope.skills.hasSkills) {
-					return;
-				}
+						$scope.skills = {
+							hasSkills : false,
+							topSkill : null,
+							ratingMap : config.skillRatings
+						}
 
-				var skills = $scope.profile.skills;
+						$scope.$watchCollection('profile.skills', function(
+								newVal, oldVal) {
+							if (newVal && newVal.length > 0) {
 
-				$scope.skills.count = skills.length;
-				
-				$scope.topSkill = skills[0];
-			} ]);
+								$scope.skills.hasSkills = true;
+								$scope.skills.topSkill = newVal[0];
+								$scope.skills.count = newVal.length;
+							} else {
+								$scope.skills.hasSkills = false;
+								$scope.skills.topSkill = null;
+								$scope.skills.count = 0;
+							}
+						});
+					} ]);
 });

@@ -1,0 +1,10 @@
+<section class="profile-section"
+	ng-show="profile.projectActivity.length">
+	<h3>Project Activity</h3>
+	<ul class="list-group">
+		<li ng-repeat="activity in profile.projectActivity"
+			class="list-group-item"><a ng-href="activity.url"
+			target="_blank">{{activity.activityDescription}}</a> in project <b>{{activity.projectName}}</b>
+			<span class="badge">{{activity.when | fromNow}}</span></li>
+	</ul>
+</section>

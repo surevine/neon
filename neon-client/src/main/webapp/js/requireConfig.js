@@ -6,12 +6,17 @@ requirejs.config({
 		'angular' : 'lib/angularjs/angular',
 		'angularRoute' : 'lib/angularjs/angular-route',
 		'angularMocks' : 'lib/angularjs/angular-mocks',
-		'domReady' : 'lib/requirejs/domReady'
+		'domReady' : 'lib/requirejs/domReady',
+		'angularLocale' : 'lib/angularjs/i18n/angular-locale_en-gb',
+		'moment' : 'lib/moment/moment'
 	},
 
 	shim : {
 		'angular' : {
 			'exports' : 'angular'
+		},
+		'angularLocale' : {
+			deps : [ 'angular' ],
 		},
 		'angularRoute' : {
 			deps : [ 'angular' ],
