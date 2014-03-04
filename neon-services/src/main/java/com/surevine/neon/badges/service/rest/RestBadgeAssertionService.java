@@ -25,7 +25,8 @@ public class RestBadgeAssertionService implements BadgeAssertionService {
 
 	@GET
     @Path("{namespace}")
-	@Override	public String getJSONString(@PathParam("namespace") String namespace) {
+	@Override	
+	public String getJSONString(@PathParam("namespace") String namespace) {
 		return implementation.getJSONString(namespace);
 	}
 
