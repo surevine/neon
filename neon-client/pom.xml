@@ -47,4 +47,7 @@
 		<version>0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
 </project>

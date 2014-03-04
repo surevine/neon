@@ -10,7 +10,7 @@ define(['angular', 'config'], function(ng, config) {
 		for(var i = 0; i < config.profileExtras.length; ++i) {
 			var extra = config.profileExtras[i];
 			$scope.extras.push({
-				sectionInclude: 'js/profiles/extras/' + extra.id + '/sectionContent.html',
+				sectionInclude: 'js/profiles/extras/' + extra.id + '/detailContent.html',
 				summaryInclude: 'js/profiles/extras/' + extra.id + '/summaryContent.html'
 			});
 		}

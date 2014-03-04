@@ -1,0 +1,11 @@
+<section class="profile-section"
+	ng-controller='profilesSkillsExtrasCtrl' ng-show='skills.hasSkills'>
+	<h3>{{profile.vcard.fn}} has {{skills.count}} Skills</h3>
+	<ul class="list-group">
+		<li ng-repeat="skill in profile.skills" class="list-group-item"><a
+			ng-href="#/skill/{{skill.skillName}}"><strong>{{skill.skillName}}</strong></a>
+			{{skills.ratingMap[skill.rating]}} <span class="badge"></span> <span
+			class="badge" ng-show="skill.inferred">inferred</span> <span
+			class="badge" ng-show="skill.disavowed">disavowed</span></li>
+	</ul>
+</section>

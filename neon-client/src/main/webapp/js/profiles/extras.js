@@ -1,4 +1,4 @@
-define(['angular', './extras/skills/init'], function(ng) {
+define(['angular', './extras/skills/init', './extras/additional/init', './extras/location/init'], function(ng) {
 	var moduleNames = [];
 	
 	// arguments[0] is angular so skip that

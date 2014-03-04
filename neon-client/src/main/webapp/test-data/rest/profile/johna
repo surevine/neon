@@ -1,0 +1,75 @@
+{
+	"userID" : "steve",
+	"vcard" : {
+		"fn" : "Steve Smith",
+		"org" : "HR",
+		"title" : "Project Manager",
+		"photo" : {
+			"mimeType" : "image/gif",
+			"photoURL" : "http://4.bp.blogspot.com/-S86aw3MWDvQ/Tcv71TIrapI/AAAAAAAABVM/GAcapVK8qxY/s400/IMG_smith.JPG_2_1_GI2M60I5.JPG"
+		},
+		"telephoneNumbers" : [ {
+			"type" : "n",
+			"number" : "11111"
+		}, {
+			"type" : "s",
+			"number" : "22222"
+		} ],
+		"email" : "dsmith@localhost",
+		"vcardVersion" : "4.0"
+	},
+	"skills" : [ {
+		"skillName" : "javascript",
+		"rating" : 1,
+		"inferred" : false,
+		"disavowed" : false
+	}, {
+		"skillName" : "java",
+		"rating" : 3,
+		"inferred" : false,
+		"disavowed" : false
+	} ],
+	"activityStream" : [ {
+		"sourceSystem" : "Gitlab",
+		"activityType" : "GIT Commit",
+		"activityDescription" : "Committed branch: BUG-1234",
+		"activityTime" : 1393243483458
+	}, {
+		"sourceSystem" : "Gitlab",
+		"activityType" : "GIT Commit",
+		"activityDescription" : "Committed branch: BUG-2345",
+		"activityTime" : 1393243483458
+	}, {
+		"sourceSystem" : "Jira",
+		"activityType" : "Issue resolved",
+		"activityDescription" : "Marked issue 12345 as resolved, fixed.",
+		"activityTime" : 1393243483458
+	}, {
+		"sourceSystem" : "Pidgin",
+		"activityType" : "Login",
+		"activityDescription" : "Logged in to Pidgin",
+		"activityTime" : 1393243483458
+	} ],
+	"additionalProperties" : {
+		"Jive Level" : "Newbie (2 points)",
+		"Current Location Fine Details" : "{\"location\":{\"floor\":\"Z1\",\"type\":\"location\",\"y\":1000,\"x\":1000},\"name\":\"Z1A.A1.1\",\"type\":\"desk\"}",
+		"Job Title" : "Senior Software Engineer",
+		"Gitlab User ID" : "6",
+		"Business Short Title" : "SUREVINE007",
+		"Manager SID" : "johna",
+		"Employee Type" : "employee",
+		"Internal Jive ID" : "2004",
+		"Typical Location" : "Z1A",
+		"PF Number" : "012345"
+	},
+	"status" : {
+		"location" : "Building B",
+		"presence" : "Away",
+		"presenceLastUpdated" : 1393243483458
+	},
+	"bio" : "In 1972 sent to prison by a military court for a crime they didn't commit. This man promptly escaped from a maximum-security stockade to the Los Angeles underground. Today, still wanted by the government, he survives as a soldier of fortune.",
+	"projectActivity" : [],
+	"connections" : [],
+	"metaDataMap" : {},
+	"idsOfActiveProjects" : []
+}

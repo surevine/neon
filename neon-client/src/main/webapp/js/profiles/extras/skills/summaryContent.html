@@ -1,6 +1,9 @@
-<section class="profile-summary-section" ng-controller='profilesSkillsExtrasCtrl'>
-	<dl>
-		<dt>Skills:</dt>
-		<dd>{{skills.count}} skills, including {{skills.topSkill.skillName}}</dd>
-	</dl>
+<section class="profile-summary-section"
+	ng-controller='profilesSkillsExtrasCtrl' ng-show='skills.hasSkills'>
+		<h4>Skills</h4>
+		<p ng-pluralize count="skills.count" offset="2" when="{
+				'1': '{{profile.skills[0].skillName}}',
+				'2': '{{profile.skills[0].skillName}} and {{profile.skills[1].skillName}}',
+				'one': '{{profile.skills[0].skillName}}, {{profile.skills[1].skillName}} and one other',
+				'other': '{{profile.skills[0].skillName}}, {{profile.skills[1].skillName}} and {} others'}"></p>
 </section>
