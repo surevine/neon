@@ -10,8 +10,11 @@ import com.surevine.neon.model.SkillBean;
 import com.surevine.neon.model.VCardTelBean;
 import org.apache.log4j.Logger;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,7 +35,12 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
     protected String myersBriggsPattern   ="\\{\\{Myers-Briggs\\|.*?\\}\\}";
     protected String amaPattern = "\\{\\{ask me about\\|.*?\\}\\}";
     protected String wikiImageURLBase="http://wiki.surevine.net/index.php/File:{fileName}";
+    protected String wikiImageRawURLBase="http://wiki.surevine.net/images/{rawFile}";
 	
+	public void setWikiImageRawURLBase(String wikiImageRawURLBase) {
+		this.wikiImageRawURLBase = wikiImageRawURLBase;
+	}
+
 	public void setAMAPattern(String pattern) {
 		amaPattern=pattern;
 	}
@@ -96,7 +104,7 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 		Matcher imgsrcMatcher=Pattern.compile("\\|imgsrc=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (imgsrcMatcher.find()) {
 			log.debug("Setting the image URL to: "+imgsrcMatcher.group(1));
-			profile.setProfileImageLocation(imgsrcMatcher.group(1));
+			profile.setProfileImageLocation(getRealImageLocationFromFileName(imgsrcMatcher.group(1)));
 		}
 		Matcher nameMatcher=Pattern.compile("\\|name=(.*?)[|}]", Pattern.CASE_INSENSITIVE).matcher(rawPersonTemplate);
 		if (nameMatcher.find()) {
@@ -140,10 +148,33 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 		}
 	}
 	
+	protected String getRealImageLocationFromFileName(String fileName) {
+		String digest=fileName;
+		try { 
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+			byte[] hash = md.digest(fileName.getBytes("UTF-8")); //converting byte array to Hexadecimal String 
+			StringBuilder sb = new StringBuilder(2*hash.length); 
+			for(byte b : hash) { 
+				sb.append(String.format("%02x", b&0xff));
+			} 
+			digest = sb.toString();
+		} 
+		catch (UnsupportedEncodingException e) {
+			log.warn("Could not generate image URL for "+fileName, e);
+		} 
+		catch (NoSuchAlgorithmException e) { 
+			log.warn("Could not generate image URL for "+fileName, e);
+		}
+		StringBuilder sb = new StringBuilder(4);
+		sb.append(digest.substring(0,1)).append("/").append(digest.substring(0,2)).append("/").append(fileName);
+		return wikiImageRawURLBase.replaceAll("\\{rawFile\\}", sb.toString());
+	}
+	
     public static void main(String arg[]) {
     	WikiProfileImporter importer = new WikiProfileImporter();
-    	importer.setProfileDAO(new ProfileDAOImpl());
-    	importer.runImportImplementation("simonw");
+    	//importer.setProfileDAO(new ProfileDAOImpl());
+    	//importer.runImportImplementation("simonw");
+    	System.out.println(importer.getRealImageLocationFromFileName("Foobar.jpg"));
     }
 
     @Override
