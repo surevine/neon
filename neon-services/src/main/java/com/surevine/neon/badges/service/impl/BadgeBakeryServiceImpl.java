@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.spi.UnsupportedMediaTypeException;
 
 import com.surevine.neon.badges.bakery.BadgeBakery;
@@ -13,6 +14,7 @@ import com.surevine.neon.badges.bakery.PNGBakery;
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl;
 import com.surevine.neon.badges.model.BadgeAssertion;
+import com.surevine.neon.badges.model.BadgeClass;
 import com.surevine.neon.badges.service.BadgeBakeryService;
 
 public class BadgeBakeryServiceImpl implements BadgeBakeryService {
@@ -38,6 +40,9 @@ public class BadgeBakeryServiceImpl implements BadgeBakeryService {
 		BadgeAssertion badge = dao.retrieve(namespace);
 		if (source==null) {
 			source=badge.getImage();
+			if (source==null) {
+				source=getImageFromBadgeClass(badge.getBadge());
+			}
 		}
 		
 		URLConnection connection = source.openConnection();
@@ -47,6 +52,19 @@ public class BadgeBakeryServiceImpl implements BadgeBakeryService {
 			return processPNGBakery(connection, badge);
 		}
 		throw new UnsupportedOperationException("Only PNG bakery is currently supported.  A "+encoding+" was supplied");
+	}
+	
+	protected URL getImageFromBadgeClass(URL badgeClass) throws IOException {
+		URLConnection connection = badgeClass.openConnection();
+		InputStream is=connection.getInputStream();
+		try {
+			String badgeString = IOUtils.toString(is);
+			BadgeClass bc = new BadgeClass(badgeString, "temp");
+			return bc.getImage();
+		}
+		finally {
+			is.close();
+		}
 	}
 	
 	protected byte[] processPNGBakery(URLConnection connection, BadgeAssertion badge) throws IOException {
