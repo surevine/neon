@@ -1,6 +1,7 @@
 package com.surevine.neon.badges.service.rest;
 
 import java.net.MalformedURLException;
+import java.util.Collection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -9,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.badges.service.BadgeAssertionService;
 import com.surevine.neon.badges.service.impl.BadgeAssertionServiceImpl;
 
@@ -41,5 +43,13 @@ public class RestBadgeAssertionService implements BadgeAssertionService {
 			throw new RuntimeException("Found an invalid url in the JSON: "+jsonString, e);
 		}
 	}
+
+	@GET
+	@Path("/list/{username}")
+	@Override
+	public Collection<BadgeAssertion> getBadgeAssertions(@PathParam("username") String username) {
+		return implementation.getBadgeAssertions(username);
+	}
+	
 
 }

@@ -1,6 +1,7 @@
 package com.surevine.neon.badges.service.impl;
 
 import java.net.MalformedURLException;
+import java.util.Collection;
 
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl;
@@ -24,6 +25,14 @@ public class BadgeAssertionServiceImpl implements BadgeAssertionService {
 	public void createBadgeAssertionFromJSON(String jsonString, String namespace) throws MalformedURLException {
 		dao.persist(new BadgeAssertion(jsonString, namespace));
 
+	}
+
+	@Override
+	public Collection<BadgeAssertion> getBadgeAssertions(String username) {
+		if (username==null) {
+			username="*";
+		}
+		return dao.getAllBadgesForUser(username);
 	}
 
 }

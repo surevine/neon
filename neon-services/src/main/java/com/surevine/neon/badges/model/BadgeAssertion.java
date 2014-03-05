@@ -38,7 +38,7 @@ public class BadgeAssertion {
 		if (json.has("evidence")) {
 			evidence=new URL(json.getString("evidence"));
 		}
-		if (json.has("expires")) {
+		if (json.has("expires") && !json.isNull("expires")) {
 			expires = new Date(json.getLong("expires")*1000l);
 		}
 	}
