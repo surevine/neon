@@ -10,11 +10,13 @@ import org.apache.log4j.Logger;
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.badges.model.BadgeClass;
+import com.surevine.neon.badges.service.BadgeValidationService;
+import com.surevine.neon.badges.service.impl.BadgeValidationServiceImpl;
 
 public class RedisJSONBadgeAssertionDAOImpl extends AbstractRedisJSONDAO implements BadgeAssertionDAO {
 
 	private Logger log = Logger.getLogger(RedisJSONBadgeAssertionDAOImpl.class);
-	
+
 	{ redisNamespace="c:s:a:"; }
 	
 	@Override
