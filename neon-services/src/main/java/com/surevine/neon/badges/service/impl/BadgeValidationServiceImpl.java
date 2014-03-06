@@ -92,23 +92,28 @@ public class BadgeValidationServiceImpl implements BadgeValidationService {
 		//Has the badge metadata been tampred with?
 		BadgeAssertion fromURL = getAssertionFromURL(validationURL);
 		compareAssertions(assertion, fromURL);
-		
-		//Do we trust the issuer?
+
 		IssuerOrganisation issuer = getIssuer(fromURL);
-		Iterator<URL> trustedIssuersIt=trustedIssuers.iterator();
-		boolean trusted=false;
-		while (trustedIssuersIt.hasNext()) {
-			URL org = trustedIssuersIt.next();
-			logger.trace("Comparing provided URL of "+org+" with supplied URL of "+issuer.getUrl());
-			if (org.equals(issuer.getUrl())) {
-				trusted=true;
-				break;
+		
+		if (trustedIssuers!=null) {
+			//Do we trust the issuer?
+			Iterator<URL> trustedIssuersIt=trustedIssuers.iterator();
+			boolean trusted=false;
+			while (trustedIssuersIt.hasNext()) {
+				URL org = trustedIssuersIt.next();
+				logger.trace("Comparing provided URL of "+org+" with supplied URL of "+issuer.getUrl());
+				if (org.equals(issuer.getUrl())) {
+					trusted=true;
+					break;
+				}
+			}
+			if (!trusted) {
+				throw new BadgeValidationException("This badge was issued by "+issuer.getName()+" / "+issuer.getUrl()+", which is not trusted");
 			}
 		}
-		if (!trusted) {
-			throw new BadgeValidationException("This badge was issued by "+issuer.getName()+" / "+issuer.getUrl()+", which is not trusted");
+		else {
+			logger.info("No trusted issuers were supplied, so skipping the trusted issuer check");
 		}
-		
 		//Has the badge been revoked?
 		if (issuer.getRevocationList()!=null) {
 			try {
