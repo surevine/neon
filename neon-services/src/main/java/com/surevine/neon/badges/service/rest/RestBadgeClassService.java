@@ -1,6 +1,8 @@
 package com.surevine.neon.badges.service.rest;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -12,6 +14,7 @@ import javax.ws.rs.Produces;
 
 import com.surevine.neon.badges.service.BadgeClassService;
 import com.surevine.neon.badges.service.impl.BadgeClassServiceImpl;
+import com.surevine.neon.model.ProfileBean;
 
 @Path("/badges/class/")
 @Produces("application/json")
@@ -41,5 +44,12 @@ public class RestBadgeClassService implements BadgeClassService {
 		catch (MalformedURLException e) {
 			throw new RuntimeException("Found an invalid url in the JSON: "+json, e);
 		}
+	}
+
+	@GET
+	@Path("{namespace}/people")
+	@Override
+	public Collection<ProfileBean> getUsersForBadge(@PathParam("namespace") String namespace) {
+		return implementation.getUsersForBadge(namespace);
 	}
 }

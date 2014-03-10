@@ -11,6 +11,6 @@ public interface BadgeAssertionService {
 
 	public String getJSONString(String namespace);
 	public void createBadgeAssertionFromJSON(String jsonString, String namespace) throws MalformedURLException;
-	public Collection<BadgeAssertion> getBadgeAssertions(String username);
+	public Collection<BadgeAssertion> getBadgeAssertions(String username, boolean validate, List<URL> trustedIssuers);
 	public String getBadgeMarkup(String username, List<URL> trustedIssuers);
 }

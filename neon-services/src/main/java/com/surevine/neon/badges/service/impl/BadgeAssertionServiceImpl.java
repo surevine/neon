@@ -1,6 +1,7 @@
 package com.surevine.neon.badges.service.impl;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -50,30 +51,40 @@ public class BadgeAssertionServiceImpl implements BadgeAssertionService {
 	}
 
 	@Override
-	public Collection<BadgeAssertion> getBadgeAssertions(String username) {
+	public Collection<BadgeAssertion> getBadgeAssertions(String username, boolean validate, List<URL> trustedIssuers) {
 		if (username==null) {
 			username="*";
 		}
-		return dao.getAllBadgesForUser(username);
+		if (!validate) {
+			return dao.getAllBadgesForUser(username);
+		}
+		else {
+			Collection<BadgeAssertion> rV = new ArrayList<BadgeAssertion>();
+			Iterator<BadgeAssertion> badges = dao.getAllBadgesForUser(username).iterator();
+			while (badges.hasNext()) {
+				try {
+					BadgeAssertion badge = badges.next();
+					validator.validate(badge.getVerify().getUrl(), trustedIssuers);
+					rV.add(badge);
+				}
+				catch (BadgeValidationException e) {
+					logger.debug("Found an invalid badge", e);
+				}
+			}
+			return rV;
+		}
 	}
 	
 	@Override
 	public String getBadgeMarkup(String username, List<URL> trustedIssuers) {
 		StringBuilder sb = new StringBuilder(); 
 		sb.append("<div class='openbadges'>");
-		Iterator<BadgeAssertion> badges = getBadgeAssertions(username).iterator();
+		Iterator<BadgeAssertion> badges = getBadgeAssertions(username, true, trustedIssuers).iterator();
 		while (badges.hasNext()) {
 			BadgeAssertion badge = badges.next();
-			try {
-				validator.validate(badge.getVerify().getUrl(), trustedIssuers);
-			
-				sb.append("<img class='openbadge-badge' alt='");
-				sb.append(badge.getNamespace());
-				sb.append(" badge' src='").append(baseURL).append("rest/badges/bake/").append(badge.getNamespace()).append("'/> ");
-			}
-			catch (BadgeValidationException e) {
-				logger.debug("Found an invalid badge", e);
-			}
+			sb.append("<img class='openbadge-badge' alt='");
+			sb.append(badge.getNamespace());
+			sb.append(" badge' src='").append(baseURL).append("rest/badges/bake/").append(badge.getNamespace()).append("'/> ");
 		}
 		sb.append("</div>");
 		return sb.toString();
