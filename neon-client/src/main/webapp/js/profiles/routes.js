@@ -3,8 +3,6 @@ define([ 'angular', 'config' ], function(ng, config) {
 		$routeProvider.when('/profile/:userId', {
 			templateUrl : 'js/profiles/partials/detail.html',
 			controller : 'ProfileCtrl'
-		}).otherwise({
-			redirectTo : '/profile'
 		});
 	} ];
 });
