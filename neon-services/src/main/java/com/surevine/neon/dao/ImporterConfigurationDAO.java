@@ -9,7 +9,7 @@ public interface ImporterConfigurationDAO {
     public static final String NS_ENABLED = "ENABLED";
     public static final String NS_PRIORITY = "PRIORITY";
     public static final String NS_LAST_IMPORT = "LAST_IMPORT";
-
+    
     /**
      * Stores importer configuration
      * @param importerName the name of the importer
@@ -47,4 +47,10 @@ public interface ImporterConfigurationDAO {
      * @return true if the string value is "true" false otherwise
      */
     public boolean getBooleanConfigurationOption(String importerName, String configurationKey);
+
+    /**
+     * Clears an importer configuration from the system
+     * @param importerName the name of the importer
+     */
+    public void clearImporterConfiguration(String importerName);
 }

@@ -52,11 +52,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </property>
     </bean>
 
-    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl" init-method="clearImporterConfiguration">
+    <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl">
         <property name="jedis" ref="jedis" />
     </bean>
 
-    <bean name="feedConfigurationDAO" class="com.surevine.neon.dao.impl.FeedConfigurationDAOImpl" init-method="clearFeedConfiguration">
+    <bean name="feedConfigurationDAO" class="com.surevine.neon.dao.impl.FeedConfigurationDAOImpl">
         <property name="jedis" ref="jedis" />
     </bean>
     
@@ -72,6 +72,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
     <!-- data importers - add to importRegistry above -->
     <bean name="baseImporter" class="com.surevine.neon.inload.importers.AbstractDataImporter" abstract="true">
+        <!-- 
+             If clearConfig is set to true (globally here or in a specific concrete importer below) then ALL old config
+             for an importer will be deleted the first time any configuration updates or additions are made to an 
+             importer (this will usually be an initialisation when the properties are set from this spring.xml file).
+             
+             If false then old configuration is left in the database and only overwrites will affect any old config options.
+        -->
+        <property name="clearConfig" value="false"/>
         <property name="configurationDAO" ref="importerConfigurationDAO"/>
         <property name="profileDAO" ref="profileDAO"/>
     </bean>

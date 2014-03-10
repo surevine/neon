@@ -40,6 +40,8 @@ import javax.net.ssl.SSLSocketFactory;
 public abstract class AbstractDataImporter implements DataImporter {
 	private ImporterConfigurationDAO configurationDAO;
     private Logger log = Logger.getLogger(AbstractDataImporter.class);
+    private boolean clearConfig;
+    private boolean configCleared;
     protected ProfileDAO profileDAO;
     protected String username=null;
     
@@ -84,6 +86,7 @@ public abstract class AbstractDataImporter implements DataImporter {
 
     @Override
     public void setAdditionalConfiguration(Map<String, String> configuration) {
+        firstRunClearConfig();
         configurationDAO.addImporterConfiguration(getImporterName(), configuration);
     }
 
@@ -151,16 +154,19 @@ public abstract class AbstractDataImporter implements DataImporter {
 
     @Override
     public void setCacheTimeout(int timeout) {
+        firstRunClearConfig();
         configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_IMPORTER_TIMEOUT, timeout + "");
     }
 
     @Override
     public void setSourcePriority(int priority) {
+        firstRunClearConfig();
         configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_PRIORITY, priority + "");
     }
 
     @Override
     public void setEnabled(boolean enabled) {
+        firstRunClearConfig();
         configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_ENABLED, Boolean.toString(enabled));
     }
     
@@ -244,7 +250,7 @@ public abstract class AbstractDataImporter implements DataImporter {
 	
 	@Override
 	public final void updateConfiguration() {
-		log.trace("Updating basic importer configuration for "+getImporterName());
+		log.trace("Updating basic importer configuration for " + getImporterName());
 		Map<String, String> config = configurationDAO.getConfigurationForImporter(getImporterName());
 		if (config!=null) {
 			username=config.get("username");
@@ -262,4 +268,25 @@ public abstract class AbstractDataImporter implements DataImporter {
 	protected void updateSpecificConfiguration(Map<String, String> config) {
 		log.trace("No specific importer configuration to udpate for "+getImporterName());
 	}
+
+    /**
+     * Clears this data importer's configuration if it hasn't already been done since instantiation
+     */
+    private void firstRunClearConfig() {
+        if (clearConfig && !configCleared) {
+            log.trace("Clearing old importer configuration for " + this.getImporterName());
+            configurationDAO.clearImporterConfiguration(this.getImporterName());
+            configCleared = true;
+        } else {
+            log.trace(this.getImporterName() + " is configured to retain old configuration.");
+        }
+    }
+
+    /**
+     * Whether this importer will clear its old configuration on instantiation
+     * @param clearConfig whether or not this importer will clear its old configuration at initialisation
+     */
+    public void setClearConfig(boolean clearConfig) {
+        this.clearConfig = clearConfig;
+    }
 }
