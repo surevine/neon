@@ -1,0 +1,26 @@
+<h1>People with '{{skillName}}' skill</h1>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
+    <a href="" ng-click="predicate = 'currentSkill.rating'; reverse=!reverse" class="pull-right">Rating</a>
+  </div>
+
+    <ul class="list-group">
+        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item">
+          <a href="#/profile/{{person.userID}}">
+            <img ng-src="{{person.vcard.photo.photoURL}}"
+                 ng-show="{{person.vcard.photo.photoURL.length}}"
+                    class="profile-image img-thumbnail" />
+            <div ng-hide="{{person.vcard.photo.photoURL.length}}"
+                 class="profile-image img-thumbnail">
+              <span class="glyphicon glyphicon-user"></span>
+            </div>
+          </a>
+          <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
+          <span class="badge">{{person.currentSkill.label}}</span>
+      </li>
+    </ul>
+
+</div>
+
