@@ -1,39 +1,31 @@
 package com.surevine.neon.badges.service.impl;
 
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl;
 import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.badges.service.BadgeAssertionService;
 import com.surevine.neon.badges.service.BadgeValidationException;
 import com.surevine.neon.badges.service.BadgeValidationService;
+import com.surevine.neon.util.Properties;
+import org.apache.log4j.Logger;
+
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class BadgeAssertionServiceImpl implements BadgeAssertionService {
 
 	private Logger logger = Logger.getLogger(BadgeAssertionServiceImpl.class);
 	
-	private BadgeAssertionDAO dao = new RedisJSONBadgeAssertionDAOImpl();
-	private String baseURL="http://10.66.2.126:8080/neon-services/"; //TODO:  fix this
-	
-	
+	private BadgeAssertionDAO dao;
 	
 	private BadgeValidationService validator = new BadgeValidationServiceImpl();
 	
 	public void setValidtor(BadgeValidationService validtor) {
 		this.validator = validtor;
 	}
-	
-	public void setBaseURL(String baseURL) {
-		this.baseURL = baseURL;
-	}
-
+    
 	public void setDao(BadgeAssertionDAO dao) {
 		this.dao = dao;
 	}
@@ -69,7 +61,7 @@ public class BadgeAssertionServiceImpl implements BadgeAssertionService {
 			
 				sb.append("<img class='openbadge-badge' alt='");
 				sb.append(badge.getNamespace());
-				sb.append(" badge' src='").append(baseURL).append("rest/badges/bake/").append(badge.getNamespace()).append("'/> ");
+				sb.append(" badge' src='").append(Properties.getProperties().getBaseURL()).append("/rest/badges/bake/").append(badge.getNamespace()).append("'/> ");
 			}
 			catch (BadgeValidationException e) {
 				logger.debug("Found an invalid badge", e);

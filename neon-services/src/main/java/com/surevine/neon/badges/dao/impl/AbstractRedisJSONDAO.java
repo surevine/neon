@@ -5,7 +5,7 @@ import com.surevine.neon.redis.PooledJedisProxy;
 
 public class AbstractRedisJSONDAO {
 
-    protected IPooledJedis jedis = new PooledJedisProxy();
+    protected IPooledJedis jedis;
 	protected String redisNamespace;
     
 	public String getRedisNamespace() {

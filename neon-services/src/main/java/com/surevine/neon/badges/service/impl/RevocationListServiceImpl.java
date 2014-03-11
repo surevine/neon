@@ -1,13 +1,12 @@
 package com.surevine.neon.badges.service.impl;
 
 import com.surevine.neon.badges.dao.RevocationListDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONRevocationListDAOImpl;
 import com.surevine.neon.badges.model.RevocationList;
 import com.surevine.neon.badges.service.RevocationListService;
 
 public class RevocationListServiceImpl implements RevocationListService {
 
-	private RevocationListDAO dao = new RedisJSONRevocationListDAOImpl();
+	private RevocationListDAO dao;
 	
 	public void setDao(RevocationListDAO dao) {
 		this.dao = dao;

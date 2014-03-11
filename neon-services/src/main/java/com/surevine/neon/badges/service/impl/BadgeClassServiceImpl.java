@@ -1,15 +1,14 @@
 package com.surevine.neon.badges.service.impl;
 
-import java.net.MalformedURLException;
-
 import com.surevine.neon.badges.dao.BadgeClassDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONBadgeClassDAOImpl;
 import com.surevine.neon.badges.model.BadgeClass;
 import com.surevine.neon.badges.service.BadgeClassService;
 
+import java.net.MalformedURLException;
+
 public class BadgeClassServiceImpl implements BadgeClassService {
 
-	private BadgeClassDAO dao = new RedisJSONBadgeClassDAOImpl();
+	private BadgeClassDAO dao;
 	
 	public void setDao(BadgeClassDAO dao) {
 		this.dao = dao;

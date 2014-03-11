@@ -96,6 +96,15 @@
 	</dependencies>
 	<build>
 		<finalName>neon-services</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <filters>
+            <filter>neon-maven.properties</filter>
+        </filters>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

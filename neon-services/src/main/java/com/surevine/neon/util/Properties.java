@@ -11,6 +11,7 @@ public class Properties {
     private long importPollIntervalSeconds = 1000*60;
     private int importExecutors = 10;
     private boolean multiThreadImport;
+    private String baseURL;
 
     private int feedExecutors = 10;
     private boolean multiThreadFeed;
@@ -72,6 +73,11 @@ public class Properties {
         if (multiThreadFeedString!=null) {
             this.multiThreadFeed= Boolean.parseBoolean(multiThreadFeedString);
         }
+
+        String baseURLString = getBundleString(bundle, "neon.baseurl");
+        if (baseURLString!=null) {
+            this.baseURL=baseURLString;
+        }
     }
     
     private String getBundleString(final ResourceBundle bundle, final String key) {
@@ -87,6 +93,10 @@ public class Properties {
             _instance = new Properties();
         }
         return _instance;
+    }
+    
+    public String getBaseURL() {
+        return baseURL;
     }
 
     public String getRedisHostname() {
