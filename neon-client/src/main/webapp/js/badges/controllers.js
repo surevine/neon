@@ -1,6 +1,6 @@
-define([ "angular", './services', './controllers/badgeClass', './controllers/badgeAssertion' ], function(
-		angular, services, badgeClassCtrl, badgeAssertionCtrl) {
+define([ "angular", './services', './controllers/badgeClassAdmin', './controllers/badgeAssertion' ], function(
+		angular, services, badgeClassAdminCtrl, badgeAssertionCtrl) {
 	return angular.module('badges.controllers', [ services['name'] ])
-			.controller('BadgeClassCtrl', badgeClassCtrl)
+			.controller('badgeClassAdminCtrl', badgeClassAdminCtrl)
 			.controller('BadgeAssertionCtrl', badgeAssertionCtrl);
 });
