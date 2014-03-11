@@ -1,22 +1,18 @@
 package com.surevine.neon.badges.service.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-
 import com.surevine.neon.badges.dao.BadgeClassDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONBadgeClassDAOImpl;
 import com.surevine.neon.badges.model.BadgeClass;
 import com.surevine.neon.badges.service.BadgeClassService;
 import com.surevine.neon.dao.SearchDAO;
-import com.surevine.neon.dao.impl.SimpleIteratingSearchDAOIml;
 import com.surevine.neon.model.ProfileBean;
-import com.surevine.neon.service.ProfileService;
 import com.surevine.neon.util.SpringApplicationContext;
+
+import java.net.MalformedURLException;
+import java.util.Collection;
 
 public class BadgeClassServiceImpl implements BadgeClassService {
 
-	private BadgeClassDAO dao = new RedisJSONBadgeClassDAOImpl();
+	private BadgeClassDAO dao;
 	private SearchDAO search;
 	
 	public void setSearch(SearchDAO search) {

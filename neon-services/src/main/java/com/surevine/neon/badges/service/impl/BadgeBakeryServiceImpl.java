@@ -1,26 +1,23 @@
 package com.surevine.neon.badges.service.impl;
 
+import com.surevine.neon.badges.bakery.BadgeBakery;
+import com.surevine.neon.badges.bakery.PNGBakery;
+import com.surevine.neon.badges.dao.BadgeAssertionDAO;
+import com.surevine.neon.badges.model.BadgeAssertion;
+import com.surevine.neon.badges.model.BadgeClass;
+import com.surevine.neon.badges.service.BadgeBakeryService;
+import org.apache.commons.io.IOUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.io.IOUtils;
-import org.jboss.resteasy.spi.UnsupportedMediaTypeException;
-
-import com.surevine.neon.badges.bakery.BadgeBakery;
-import com.surevine.neon.badges.bakery.PNGBakery;
-import com.surevine.neon.badges.dao.BadgeAssertionDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl;
-import com.surevine.neon.badges.model.BadgeAssertion;
-import com.surevine.neon.badges.model.BadgeClass;
-import com.surevine.neon.badges.service.BadgeBakeryService;
-
 public class BadgeBakeryServiceImpl implements BadgeBakeryService {
 
 	private int initialChunkSize=1024*1024; // Allocate 1 meg chunk by default
-	private BadgeAssertionDAO dao = new RedisJSONBadgeAssertionDAOImpl();
+	private BadgeAssertionDAO dao;
 	
 	public void setDao(BadgeAssertionDAO dao) {
 		this.dao = dao;

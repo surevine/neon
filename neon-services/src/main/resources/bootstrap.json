@@ -1,0 +1,38 @@
+{
+    "issuerOrganisations":[
+        {
+            "revocationList":"${neon.baseurl}/rest/badges/revocationlist/neon",
+            "email":"root@localhost","name":"NEON Badge Issuer",
+            "image":"${neon.baseurl}/badges/images/neon.png",
+            "url":"${neon.baseurl}/badges/neon",
+            "namespace":"neon"
+        }
+    ],
+    
+    "badgeClasses":[
+        {
+            "name":"Pushed a commit",
+            "description":"Pushed a commit",
+            "image":"${neon.baseurl}/badges/images/gitlab-commit.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-commit.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-commit"
+        },
+        {
+            "name":"Created a merge request",
+            "description":"Created a merge request",
+            "image":"${neon.baseurl}/badges/images/gitlab-mr.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-mr.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-mr"
+        },
+        {
+            "name":"Made 10 commits",
+            "description":"Pushed ten commits",
+            "image":"${neon.baseurl}/badges/images/gitlab-10-commit.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-10-commit.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-10-commit"
+        }
+    ]
+}

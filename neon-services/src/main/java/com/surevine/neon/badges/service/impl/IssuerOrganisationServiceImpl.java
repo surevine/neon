@@ -1,15 +1,14 @@
 package com.surevine.neon.badges.service.impl;
 
-import java.net.MalformedURLException;
-
 import com.surevine.neon.badges.dao.IssuerOrganisationDAO;
-import com.surevine.neon.badges.dao.impl.RedisJSONIssuerOrganisationDAOImpl;
 import com.surevine.neon.badges.model.IssuerOrganisation;
 import com.surevine.neon.badges.service.IssuerOrganisationService;
 
+import java.net.MalformedURLException;
+
 public class IssuerOrganisationServiceImpl implements IssuerOrganisationService {
 
-	private IssuerOrganisationDAO dao = new RedisJSONIssuerOrganisationDAOImpl();
+	private IssuerOrganisationDAO dao;
 	
 	@Override
 	public String getJSONString(String namespace) {

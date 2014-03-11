@@ -5,10 +5,17 @@
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <!-- application context -->
+    <!-- APPLICATION BEANS -->
     <bean class="com.surevine.neon.util.SpringApplicationContext"/>
     
-    <!-- registries -->
+    <bean class="com.surevine.neon.Bootstrap" init-method="bootstrap">
+        <property name="issuerOrganisationDAO" ref="issuerOrganisationDAO" />
+        <property name="badgeClassDAO" ref="badgeClassDAO" />
+    </bean>
+    
+    <!-- PROFILE BEANS -->
+    
+    <!-- Profile registries -->
     <bean name="importRegistry" class="com.surevine.neon.inload.ImportRegistry" factory-method="getInstance">
         <property name="registry">
             <set>
@@ -29,7 +36,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </property>
     </bean>
     
-    <!-- DAO and data handlers -->
+    <!-- Profile DAO and data handlers -->
     <bean name="jedis" class="com.surevine.neon.redis.PooledJedisProxy" />
     
     <bean name="abstractPersistenceHandler" class="com.surevine.neon.dao.impl.AbstractNamespaceHandler" abstract="true">
@@ -64,7 +71,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="jedis" ref="jedis" />
     </bean>
     
-    <!-- service definitions -->
+    <!-- Profile service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
     </bean>
@@ -78,7 +85,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO"/>
     </bean>
     
-    <!-- data importers - add to importRegistry above -->
+    <!-- Profile data importers - add to importRegistry above -->
     <bean name="baseImporter" class="com.surevine.neon.inload.importers.AbstractDataImporter" abstract="true">
         <!-- 
              If clearConfig is set to true (globally here or in a specific concrete importer below) then ALL old config
@@ -124,7 +131,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="password" value="admin" />
     </bean>
     
-    <!-- data feeds - add to feedRegistry above -->
+    <!-- Profile data feeds - add to feedRegistry above -->
     <bean name="baseFeed" class="com.surevine.neon.inload.feeds.AbstractDataFeed" abstract="true">
         <property name="configurationDAO" ref="feedConfigurationDAO"/>
     </bean>
@@ -132,5 +139,43 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed" parent="baseFeed">
         <property name="enabled" value="true" />
         <property name="sourcePriority" value="1" />
+    </bean>
+    
+    <!-- BADGE SERVICE BEANS -->
+    
+    <!-- Badge DAOs -->
+    <bean name="abstractBadgeDAO" class="com.surevine.neon.badges.dao.impl.AbstractRedisJSONDAO" abstract="true">
+        <property name="jedis" ref="jedis" />
+    </bean>
+    
+    <bean name="badgeAssertionDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl" parent="abstractBadgeDAO" />
+
+    <bean name="badgeClassDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONBadgeClassDAOImpl" parent="abstractBadgeDAO" />
+
+    <bean name="issuerOrganisationDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONIssuerOrganisationDAOImpl" parent="abstractBadgeDAO" />
+
+    <bean name="revocationListDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONRevocationListDAOImpl" parent="abstractBadgeDAO" />
+    
+    <!-- Badge service definitions -->
+    <bean name="badgeAssertionService" class="com.surevine.neon.badges.service.impl.BadgeAssertionServiceImpl">
+        <property name="dao" ref="badgeAssertionDAO" />
+    </bean>
+
+    <bean name="badgeBakeryService" class="com.surevine.neon.badges.service.impl.BadgeBakeryServiceImpl">
+        <property name="dao" ref="badgeAssertionDAO" />
+    </bean>
+
+    <bean name="badgeClassService" class="com.surevine.neon.badges.service.impl.BadgeClassServiceImpl">
+        <property name="dao" ref="badgeClassDAO" />
+    </bean>
+
+    <bean name="badgeValidationService" class="com.surevine.neon.badges.service.impl.BadgeValidationServiceImpl" />
+
+    <bean name="issuerOrganisationService" class="com.surevine.neon.badges.service.impl.IssuerOrganisationServiceImpl">
+        <property name="dao" ref="issuerOrganisationDAO" />
+    </bean>
+
+    <bean name="revocationListService" class="com.surevine.neon.badges.service.impl.RevocationListServiceImpl">
+        <property name="dao" ref="revocationListDAO" />
     </bean>
 </beans>
