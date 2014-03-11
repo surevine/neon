@@ -58,6 +58,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             </list>
         </property>
     </bean>
+    
+    <bean name="searchDAO" class="com.surevine.neon.dao.impl.SimpleIteratingSearchDAOIml">
+    	<property name="profileDAO" ref="profileDAO"/>
+    </bean>
 
     <bean name="importerConfigurationDAO" class="com.surevine.neon.dao.impl.ImporterConfigurationDAOImpl">
         <property name="jedis" ref="jedis" />
@@ -70,6 +74,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Profile service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
+    </bean>
+    
+    <bean name="skillService" class="com.surevine.neon.service.impl.SkillServiceImpl">
+        <property name="searchDAO" ref="searchDAO" />
     </bean>
 
     <bean name="inloadControlService" class="com.surevine.neon.service.impl.InloadControlServiceImpl">

@@ -3,5 +3,4 @@ jdk:
   - oraclejdk7
   - openjdk7 
 install:
-  - cd neon-services
   - mvn test

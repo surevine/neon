@@ -2,6 +2,7 @@ package com.surevine.neon.badges.service.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -48,24 +49,32 @@ public class BadgeValidationServiceImpl implements BadgeValidationService {
 		try {
 			URLConnection connection = url.openConnection();
 			InputStream is = connection.getInputStream();
+
 			try {
-				logger.debug("Reading the PNG at: "+url);
-				PngReader reader = new PngReader(is);
-				reader.readSkippingAllRows();
-				logger.trace(reader.getChunksList().toStringFull());
-				Iterator<PngChunk> chunks = reader.getChunksList().getChunks().iterator();
-				while (chunks.hasNext()) {
-					PngChunk chunk = chunks.next();
-					logger.trace("Found a chunk: "+chunk.toString());
-					if (ChunkHelper.isText(chunk)) {
-						PngChunkTextVar text = (PngChunkTextVar)chunk;
-						logger.debug("Chunk has text for key: "+text.getKey());
-						if (text.getKey().equals(badgekey)) {
-							return new BadgeAssertion(text.getVal(), "temp");
+				String contentType=((HttpURLConnection)connection).getContentType();
+				if (contentType!=null && contentType.equals("application/json")) {
+					logger.debug("Reading the JSON at: "+url);
+					return new BadgeAssertion(IOUtils.toString(is), "temp");
+				}
+				else {
+					logger.debug("Reading the PNG at: "+url);
+					PngReader reader = new PngReader(is);
+					reader.readSkippingAllRows();
+					logger.trace(reader.getChunksList().toStringFull());
+					Iterator<PngChunk> chunks = reader.getChunksList().getChunks().iterator();
+					while (chunks.hasNext()) {
+						PngChunk chunk = chunks.next();
+						logger.trace("Found a chunk: "+chunk.toString());
+						if (ChunkHelper.isText(chunk)) {
+							PngChunkTextVar text = (PngChunkTextVar)chunk;
+							logger.debug("Chunk has text for key: "+text.getKey());
+							if (text.getKey().equals(badgekey)) {
+								return new BadgeAssertion(text.getVal(), "temp");
+							}
 						}
 					}
+					throw new BadgeValidationException("Could not find any openbadges metadata within the badge");
 				}
-				throw new BadgeValidationException("Could not find any openbadges metadata within the badge");
 			}
 			finally {
 				IOUtils.closeQuietly(is);
@@ -95,7 +104,7 @@ public class BadgeValidationServiceImpl implements BadgeValidationService {
 
 		IssuerOrganisation issuer = getIssuer(fromURL);
 		
-		if (trustedIssuers!=null) {
+		if (trustedIssuers!=null || trustedIssuers.size()==0) {
 			//Do we trust the issuer?
 			Iterator<URL> trustedIssuersIt=trustedIssuers.iterator();
 			boolean trusted=false;

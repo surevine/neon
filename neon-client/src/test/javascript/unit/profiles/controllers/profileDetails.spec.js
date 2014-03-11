@@ -1,4 +1,4 @@
-define(['angularMocks', 'profiles/controllers/profileDetails'], function(ngMocks, profileDetails) {
+define(['angularMocks', 'config', 'profiles/controllers/profileDetails'], function(ngMocks, config, profileDetails) {
 	var $httpBackend, $http;
 	
 	beforeEach(inject(function($injector) {
@@ -18,7 +18,7 @@ define(['angularMocks', 'profiles/controllers/profileDetails'], function(ngMocks
 			var routeParams = {userId: 'dave'};
 			
 			$httpBackend
-				.expectGET('/rest/profile/dave')
+				.expectGET(config.restBaseUrl + 'profile/dave')
 				.respond({
 					   "userID":"dave",
 					   "vcard":{

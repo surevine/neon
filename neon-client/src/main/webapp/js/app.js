@@ -1,6 +1,6 @@
 // Start the main app logic.
-define([ 'angular', 'angularRoute', 'profiles/module' ], function(angular,
-		angularRoute, profilesModule) {
+define([ 'angular', 'angularRoute', 'profiles/module', 'badges/module' ], function(angular,
+		angularRoute, profilesModule, badgesModule) {
 	return angular.module('neon', [ 'ngRoute',
-			profilesModule['name'] ]);
+			profilesModule['name'], badgesModule['name'] ]);
 });

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -54,8 +55,8 @@ public class RestBadgeAssertionService implements BadgeAssertionService {
 	@GET
 	@Path("/list/{username}")
 	@Override
-	public Collection<BadgeAssertion> getBadgeAssertions(@PathParam("username") String username) {
-		return implementation.getBadgeAssertions(username);
+	public Collection<BadgeAssertion> getBadgeAssertions(@PathParam("username") String username, @QueryParam("validate") @DefaultValue("false") boolean validate, @QueryParam("trustedIssuer")List<URL> trustedIssuers) {
+		return implementation.getBadgeAssertions(username, validate, trustedIssuers);
 	}
 
 	@GET
