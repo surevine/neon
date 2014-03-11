@@ -1,0 +1,23 @@
+<h1>People with '{{badgeClassId}}' badge</h1>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
+  </div>
+
+    <ul class="list-group">
+        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item">
+          <a href="#/profile/{{person.userID}}">
+            <img ng-src="{{person.vcard.photo.photoURL}}"
+                 ng-show="{{person.vcard.photo.photoURL.length}}"
+                    class="profile-image img-thumbnail" />
+            <div ng-hide="{{person.vcard.photo.photoURL.length}}"
+                 class="profile-image img-thumbnail">
+              <span class="glyphicon glyphicon-user"></span>
+            </div>
+          </a>
+          <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
+      </li>
+    </ul>
+
+</div>

@@ -3,7 +3,9 @@
 	<h4>Badges</h4>
 	<ul class="badges list-inline">
 		<li ng-repeat="assertion in badges.list">
-			<img ng-src="{{assertion.image}}" />
+		  <a href="#/badges/class/{{assertion.namespace | split:'_':1 }}">
+            <img ng-src="{{assertion.image}}" />
+          </a>	
 		</li>
 	</ul>
 </section>

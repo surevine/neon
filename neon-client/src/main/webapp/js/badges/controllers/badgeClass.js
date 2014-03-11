@@ -3,10 +3,10 @@ define(['angular', 'config'], function(ng, config) {
 
 		$scope.badgeClassId = $routeParams.badgeClassId;
 
-		$http({method: 'GET', url: config.restBaseUrl + 'skill/' + escape($routeParams.skillName) + '/people/' })
+		$http({method: 'GET', url: config.restBaseUrl + 'badges/class/' + escape($routeParams.badgeClassId) + '/people/' })
 			.success(function(data) {
             
-              
+              $scope.people = data;
               
 			})
 			.error(function(error) {
