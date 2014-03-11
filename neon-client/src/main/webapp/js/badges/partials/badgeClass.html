@@ -1,6 +1,6 @@
 <h1>People with '{{badgeClassId}}' badge</h1>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="people.length">
   <div class="panel-heading">
     <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
   </div>
@@ -20,4 +20,8 @@
       </li>
     </ul>
 
+</div>
+
+<div class="alert alert-warning" ng-hide="people.length">
+  No people found with this badge.
 </div>

@@ -1,6 +1,6 @@
 <h1>People with '{{skillName}}' skill</h1>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="people.length">
   <div class="panel-heading">
     <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
     <a href="" ng-click="predicate = 'currentSkill.rating'; reverse=!reverse" class="pull-right">Rating</a>
@@ -24,3 +24,6 @@
 
 </div>
 
+<div class="alert alert-warning" ng-hide="people.length">
+  No people found with this skill.
+</div>
