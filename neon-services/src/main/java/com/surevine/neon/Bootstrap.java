@@ -3,11 +3,11 @@ package com.surevine.neon;
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.dao.BadgeClassDAO;
 import com.surevine.neon.badges.dao.IssuerOrganisationDAO;
-import com.surevine.neon.badges.model.BadgeClass;
-import com.surevine.neon.badges.model.IssuerOrganisation;
+import com.surevine.neon.badges.model.*;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.importers.MockImporter;
 import com.surevine.neon.model.*;
+import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.UUID;
 
 public class Bootstrap {
     private Logger logger = Logger.getLogger(Bootstrap.class);
@@ -264,5 +265,73 @@ public class Bootstrap {
         bean.getConnections().add(con4);
         
         profileDAO.persistProfile(bean, new MockImporter());
+
+        try {
+            BadgeAssertion ba1 = new BadgeAssertion();
+            ba1.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-join-project"));
+            ba1.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-join-project.png"));
+            ba1.setNamespace("mockuser_gjp");
+            VerificationObject voba1 = new VerificationObject();
+            voba1.setType("hosted");
+            voba1.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-join-project/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            ba1.setVerify(voba1);
+            IdentityObject ioba1 = new IdentityObject();
+            ioba1.setType("email");
+            ioba1.setHashed(false);
+            ioba1.setIdentity("mmock@localhost");
+            ba1.setRecipient(ioba1);
+            ba1.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba1);
+
+            BadgeAssertion ba2 = new BadgeAssertion();
+            ba2.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-commit"));
+            ba2.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-commit.png"));
+            ba2.setNamespace("mockuser_gc");
+            VerificationObject voba2 = new VerificationObject();
+            voba2.setType("hosted");
+            voba2.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-commit/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            ba2.setVerify(voba2);
+            IdentityObject ioba2 = new IdentityObject();
+            ioba2.setType("email");
+            ioba2.setHashed(false);
+            ioba2.setIdentity("mmock@localhost");
+            ba2.setRecipient(ioba2);
+            ba2.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba2);
+
+            BadgeAssertion ba3 = new BadgeAssertion();
+            ba3.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-mr"));
+            ba3.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-mr.png"));
+            ba3.setNamespace("mockuser_gmr");
+            VerificationObject voba3 = new VerificationObject();
+            voba3.setType("hosted");
+            voba3.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-mr/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            ba3.setVerify(voba3);
+            IdentityObject ioba3 = new IdentityObject();
+            ioba3.setType("email");
+            ioba3.setHashed(false);
+            ioba3.setIdentity("mmock@localhost");
+            ba3.setRecipient(ioba3);
+            ba3.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba3);
+
+            BadgeAssertion ba4 = new BadgeAssertion();
+            ba4.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-own-project"));
+            ba4.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-own-project.png"));
+            ba4.setNamespace("mockuser_gop");
+            VerificationObject voba4 = new VerificationObject();
+            voba4.setType("hosted");
+            voba4.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-own-project/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            ba4.setVerify(voba4);
+            IdentityObject ioba4 = new IdentityObject();
+            ioba4.setType("email");
+            ioba4.setHashed(false);
+            ioba4.setIdentity("mmock@localhost");
+            ba4.setRecipient(ioba4);
+            ba4.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba4);
+        } catch (Exception e) {
+            // noop
+        }
     }
 }

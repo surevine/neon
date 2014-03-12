@@ -3,3 +3,5 @@ target/
 *.orig
 *.iml
 .idea
+neon.log
+neon-services/neon.log

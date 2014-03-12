@@ -31,7 +31,9 @@ public class BadgeAssertion {
 		recipient=new IdentityObject(json.getJSONObject("recipient"));
 		badge = new URL(json.getString("badge"));
 		verify = new VerificationObject(json.getJSONObject("verify"));
-		issuedOn = new Date(json.getLong("issuedOn")*1000l);
+        if (json.has("issuedOn")) {
+		    issuedOn = new Date(json.getLong("issuedOn")*1000l);
+        }
 		if (json.has("image")) {
 			image = new URL(json.getString("image"));
 		}
@@ -49,7 +51,9 @@ public class BadgeAssertion {
 		rV.accumulate("recipient", recipient.toJSON());
 		rV.accumulate("badge", badge);
 		rV.accumulate("verify", verify.toJSON());
-		rV.accumulate("issuedOn", issuedOn.getTime()/1000l);
+        if (issuedOn != null) {
+		    rV.accumulate("issuedOn", issuedOn.getTime()/1000l);
+        }
 		if (image!=null) {
 			rV.accumulate("image", image);
 		}

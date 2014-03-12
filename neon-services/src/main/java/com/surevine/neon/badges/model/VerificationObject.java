@@ -10,8 +10,11 @@ public class VerificationObject {
 
 	private String type;
 	private URL url;
-	
-	public VerificationObject(JSONObject json) throws MalformedURLException, JSONException {
+
+    public VerificationObject() {
+    }
+
+    public VerificationObject(JSONObject json) throws MalformedURLException, JSONException {
 		type=json.getString("type");
 		url = new URL(json.getString("url"));
 	}

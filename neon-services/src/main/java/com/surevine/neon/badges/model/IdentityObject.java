@@ -38,8 +38,11 @@ public class IdentityObject {
 	}
 
 	private boolean hashed;
-	
-	public IdentityObject(JSONObject json) {
+
+    public IdentityObject() {
+    }
+
+    public IdentityObject(JSONObject json) {
 		identity = json.getString("identity");
 		type = json.getString("type");
 		hashed = json.getBoolean("hashed");

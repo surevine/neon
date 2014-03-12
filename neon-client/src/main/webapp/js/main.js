@@ -1,4 +1,4 @@
-require(['requireConfig.js', 'config'], function() {
+require(['js/requireConfig.js', 'config'], function() {
 	// Start the main app logic.
 	require([ 'angular', 'app', 'domReady!' ], function(angular, app, document) {
 		'use strict';
