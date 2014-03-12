@@ -10,6 +10,11 @@ import java.util.Set;
  */
 public interface ProfileDAO {
     /**
+     * Mock user ID - used for demo / dev purposes where no real users exist or a full profile is required
+     */
+    public static final String MOCK_USER_ID = "mockuser";
+    
+    /**
      * The prefix for all profile related keys
      */
     public static final String NS_PROFILE_PREFIX = "PROFILE";

@@ -11,6 +11,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean class="com.surevine.neon.Bootstrap" init-method="bootstrap">
         <property name="issuerOrganisationDAO" ref="issuerOrganisationDAO" />
         <property name="badgeClassDAO" ref="badgeClassDAO" />
+        <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
+        <property name="profileDAO" ref="profileDAO" />
     </bean>
     
     <!-- PROFILE BEANS -->
@@ -19,7 +21,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="importRegistry" class="com.surevine.neon.inload.ImportRegistry" factory-method="getInstance">
         <property name="registry">
             <set>
-                <ref bean="basicDetailsImporter" />
+                <ref bean="mockImporter" />
                 <ref bean="findImporter" />
                 <ref bean="mediaWikiImporter" />
                 <ref bean="gitlabImporter" />
@@ -99,9 +101,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="profileDAO" ref="profileDAO"/>
     </bean>
     
-    <bean name="basicDetailsImporter" class="com.surevine.neon.inload.importers.BasicDetailsImporter" parent="baseImporter">
-        <property name="enabled" value="true" />
-        <property name="cacheTimeout" value="120" />
+    <!-- this is here to provide mock importer metadata to use with mocked profiles - do not remove -->
+    <bean name="mockImporter" class="com.surevine.neon.inload.importers.MockImporter" parent="baseImporter">
+        <property name="enabled" value="false" />
         <property name="sourcePriority" value="1" />
     </bean>
 

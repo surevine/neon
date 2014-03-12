@@ -11,7 +11,7 @@
     
     "badgeClasses":[
         {
-            "name":"Pushed a commit",
+            "name":"Pushy",
             "description":"Pushed a commit",
             "image":"${neon.baseurl}/badges/images/gitlab-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-commit.txt",
@@ -19,7 +19,7 @@
             "namespace":"neon-gitlab-commit"
         },
         {
-            "name":"Created a merge request",
+            "name":"Merge master",
             "description":"Created a merge request",
             "image":"${neon.baseurl}/badges/images/gitlab-mr.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-mr.txt",
@@ -27,12 +27,60 @@
             "namespace":"neon-gitlab-mr"
         },
         {
-            "name":"Made 10 commits",
+            "name":"Fully committed",
             "description":"Pushed ten commits",
             "image":"${neon.baseurl}/badges/images/gitlab-10-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-10-commit.txt",
             "issuer":"${neon.baseurl}/badges/neon",
             "namespace":"neon-gitlab-10-commit"
+        },
+        {
+            "name":"Team player",
+            "description":"Join a project in Gitlab",
+            "image":"${neon.baseurl}/badges/images/gitlab-join-project.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-join-project.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-join-project"
+        },
+        {
+            "name":"Split personality",
+            "description":"Become a member of more than one project",
+            "image":"${neon.baseurl}/badges/images/gitlab-multi-project.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-multi-project.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-multi-project"
+        },
+        {
+            "name":"Pest control",
+            "description":"Resolve an issue",
+            "image":"${neon.baseurl}/badges/images/gitlab-resolve-issue.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-resolve-issue.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-resolve-issue"
+        },
+        {
+            "name":"Bug hunter",
+            "description":"Raise an issue",
+            "image":"${neon.baseurl}/badges/images/gitlab-author-issue.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-author-issue.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-author-issue"
+        },
+        {
+            "name":"Big Cheese",
+            "description":"Own a project",
+            "image":"${neon.baseurl}/badges/images/gitlab-own-project.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-own-project.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-own-project"
+        },
+        {
+            "name":"Social Butterfly",
+            "description":"Have connections with 20 other Gitlab members",
+            "image":"${neon.baseurl}/badges/images/gitlab-social-butterfly.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-social-butterfly.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"neon-gitlab-social-butterfly"
         }
     ]
 }

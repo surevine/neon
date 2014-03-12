@@ -6,7 +6,7 @@
 	<display-name>Neon</display-name>
 	<jsp-config>
 		<jsp-property-group>
-			<url-pattern>/*.jsp</url-pattern>
+			<url-pattern>*.jsp</url-pattern>
 		</jsp-property-group>
 	</jsp-config>
 </web-app>

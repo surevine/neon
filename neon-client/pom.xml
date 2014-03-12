@@ -39,6 +39,25 @@
 					<srcDirectoryName>js</srcDirectoryName>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.0.Beta1</version>
+                <configuration>
+                    <hostname>127.0.0.1</hostname>
+                    <username>admin</username>
+                    <password>password</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<parent>

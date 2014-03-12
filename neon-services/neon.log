@@ -292,3 +292,143 @@
 2014-03-11 12:27:31 DEBUG ImportRegistry:75 - Importing using single thread mode.
 2014-03-11 12:27:31 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
 2014-03-11 12:27:31 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:44:26 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-11 12:44:26 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-11 12:44:26 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:44:26 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:44:26 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:44:26 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:44:26 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:44:26 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:44:26 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 12:44:26 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:44:26 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 12:44:26 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:44:26 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-11 12:44:26 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:46:14 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-11 12:46:14 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-11 12:46:14 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:46:14 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:46:14 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:46:14 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:46:14 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 12:46:14 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 12:46:14 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 12:46:14 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:46:14 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 12:46:14 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 12:46:14 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-11 12:46:14 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:37 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-11 16:07:37 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-11 16:07:37 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:37 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:37 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:37 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:37 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:37 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:37 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 16:07:37 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:37 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 16:07:37 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:37 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-11 16:07:37 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:48 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-11 16:07:48 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-11 16:07:48 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:48 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:48 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:48 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:48 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-11 16:07:48 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-11 16:07:48 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 16:07:48 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:48 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-11 16:07:48 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-11 16:07:48 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-11 16:07:48 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 09:44:05 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 09:44:05 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 09:44:05 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 09:44:05 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 09:44:05 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 09:44:05 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 09:44:05 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 09:44:05 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 09:44:05 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 09:44:05 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 09:44:05 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 09:44:05 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 09:44:05 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 09:44:05 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:30 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 10:37:30 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 10:37:30 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:30 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:30 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:30 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:30 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:30 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:30 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:37:30 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:30 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:37:30 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:30 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 10:37:30 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:41 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 10:37:41 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 10:37:41 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:41 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:41 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:41 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:41 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:37:41 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:37:41 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:37:41 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:41 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:37:41 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:37:41 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 10:37:41 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:38:15 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 10:38:15 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 10:38:15 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:38:15 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:38:15 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:38:15 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:38:15 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:38:15 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:38:15 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:38:15 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:38:15 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:38:15 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:38:15 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 10:38:15 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:46:16 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 10:46:16 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 10:46:16 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:46:16 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:46:16 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:46:16 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:46:16 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:46:16 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:46:16 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:46:16 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:46:16 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:46:16 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:46:16 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 10:46:16 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:47:08 TRACE AbstractDataImporter:281 - MOCK_IMPORTER is configured to retain old configuration.
+2014-03-12 10:47:08 INFO  AbstractDataImporter:101 - Retrieving data for 2 users
+2014-03-12 10:47:08 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:47:08 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:47:08 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:47:08 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:47:08 TRACE AbstractDataImporter:253 - Updating basic importer configuration for MOCK_IMPORTER
+2014-03-12 10:47:08 TRACE AbstractDataImporter:269 - No specific importer configuration to udpate for MOCK_IMPORTER
+2014-03-12 10:47:08 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:47:08 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:47:08 INFO  ImportRegistry:59 - Running scheduled data import for all users using 1 importer(s)
+2014-03-12 10:47:08 DEBUG ImportRegistry:75 - Importing using single thread mode.
+2014-03-12 10:47:08 INFO  ImportRegistry:59 - Running scheduled data import for all users using 2 importer(s)
+2014-03-12 10:47:08 DEBUG ImportRegistry:75 - Importing using single thread mode.
