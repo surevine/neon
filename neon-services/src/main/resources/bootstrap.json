@@ -9,62 +9,71 @@
         }
     ],
     
-    "badgeClasses":[
+    "badgeEnabledProjects":[
+        {"projectID":"red","projectName":"Project Red"},
+        {"projectID":"ora","projectName":"Project Orange"},
+        {"projectID":"pin","projectName":"Project Pink"}
+    ],
+    
+    "projectBadgeClassTemplates":[
         {
             "name":"Pushy",
-            "description":"Pushed a commit",
+            "description":"Pushed a commit to project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-commit.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-commit"
+            "namespace":"%s_gc"
         },
         {
             "name":"Merge master",
-            "description":"Created a merge request",
+            "description":"Created a merge request for project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-mr.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-mr.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-mr"
+            "namespace":"%s_gmr"
         },
         {
             "name":"Fully committed",
-            "description":"Pushed ten commits",
+            "description":"Pushed ten commits to project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-10-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-10-commit.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-10-commit"
+            "namespace":"%s_gc10"
         },
         {
             "name":"Team player",
-            "description":"Join a project in Gitlab",
+            "description":"Join project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-join-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-join-project.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-join-project"
+            "namespace":"%s_gjp"
         },
+        {
+            "name":"Pest control",
+            "description":"Resolve an issue for project %s",
+            "image":"${neon.baseurl}/badges/images/gitlab-resolve-issue.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-resolve-issue.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"%s_rei"
+        },
+        {
+            "name":"Bug hunter",
+            "description":"Raise an issue for project %s",
+            "image":"${neon.baseurl}/badges/images/gitlab-author-issue.png",
+            "criteria":"${neon.baseurl}/badges/criteria/gitlab-author-issue.txt",
+            "issuer":"${neon.baseurl}/badges/neon",
+            "namespace":"%s_rai"
+        }
+    ],
+    
+    "badgeClasses":[
         {
             "name":"Split personality",
             "description":"Become a member of more than one project",
             "image":"${neon.baseurl}/badges/images/gitlab-multi-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-multi-project.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-multi-project"
-        },
-        {
-            "name":"Pest control",
-            "description":"Resolve an issue",
-            "image":"${neon.baseurl}/badges/images/gitlab-resolve-issue.png",
-            "criteria":"${neon.baseurl}/badges/criteria/gitlab-resolve-issue.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-resolve-issue"
-        },
-        {
-            "name":"Bug hunter",
-            "description":"Raise an issue",
-            "image":"${neon.baseurl}/badges/images/gitlab-author-issue.png",
-            "criteria":"${neon.baseurl}/badges/criteria/gitlab-author-issue.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-author-issue"
+            "namespace":"mp"
         },
         {
             "name":"Big Cheese",
@@ -72,7 +81,7 @@
             "image":"${neon.baseurl}/badges/images/gitlab-own-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-own-project.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-own-project"
+            "namespace":"op"
         },
         {
             "name":"Social Butterfly",
@@ -80,7 +89,7 @@
             "image":"${neon.baseurl}/badges/images/gitlab-social-butterfly.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-social-butterfly.txt",
             "issuer":"${neon.baseurl}/badges/neon",
-            "namespace":"neon-gitlab-social-butterfly"
+            "namespace":"sb"
         }
     ]
 }
