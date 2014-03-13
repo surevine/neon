@@ -14,7 +14,7 @@ import java.util.*;
 
 public class ProfileDAOImpl implements ProfileDAO {
     private Logger logger = Logger.getLogger(ProfileDAOImpl.class);
-    private Map<String,NamespaceHandler> handlerMapping = new HashMap<>();
+    private Map<String,NamespaceHandler> handlerMapping = new HashMap<String, NamespaceHandler>();
     private IPooledJedis jedis;
     private Set<ProfileUpdatedListener> listeners = new HashSet<ProfileUpdatedListener>();
 

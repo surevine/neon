@@ -26,6 +26,9 @@ requirejs.config({
 		'angularMocks' : {
 			deps : [ 'angular' ],
 			'exports' : 'angular.mock'
-		}
+		},
+		'bootstrapUI' : {
+			deps : [ 'angular' ]
+		},
 	}
 });

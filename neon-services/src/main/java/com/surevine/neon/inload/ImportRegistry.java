@@ -34,7 +34,7 @@ public class ImportRegistry {
     /**
      * Registry of importers
      */
-    private Set<DataImporter> registry = new HashSet<>();
+    private Set<DataImporter> registry = new HashSet<DataImporter>();
 
     /**
      * Private constructor to support singleton pattern
