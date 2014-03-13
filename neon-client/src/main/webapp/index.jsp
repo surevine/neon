@@ -19,6 +19,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script data-main="js/main" src="js/lib/requirejs/require.js"></script>
+  
 </head>
 <body role="document">
 
@@ -42,7 +43,7 @@
                         
                         <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">
                               
-                          <p>Search for people with</p>
+                          <p>Find people with</p>
                           
                           <div class="row">
                             <div class="col-xs-4">
