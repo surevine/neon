@@ -81,6 +81,7 @@ public class Bootstrap {
         logger.info("Bootstrapping");
         parseIssuers(bootstrapJSON);
         parseBadges(bootstrapJSON);
+        parseBadgeTemplates(bootstrapJSON);
     }
 
     private void parseIssuers(JSONObject bootstrapJSON) {
@@ -111,6 +112,32 @@ public class Bootstrap {
                         badgeClassDAO.persist(badgeClass);
                     } catch (MalformedURLException e) {
                         logger.error("Could not parse badge class during bootstrap", e);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void parseBadgeTemplates(JSONObject bootstrapJSON) {
+        if (bootstrapJSON.has("badgeEnabledProjects") && bootstrapJSON.has("projectBadgeClassTemplates")) {
+            JSONArray badgeTemplates = bootstrapJSON.getJSONArray("projectBadgeClassTemplates");
+            JSONArray projects = bootstrapJSON.getJSONArray("badgeEnabledProjects");
+            
+            for (int i = 0; i < badgeTemplates.length(); i++) {
+                JSONObject badgeTemplateJSO = badgeTemplates.getJSONObject(i);
+                if (badgeTemplateJSO != null) {
+                    try {
+                        for (int j = 0; j < projects.length(); j++) {
+                            JSONObject projectJSO = projects.getJSONObject(j);
+                            String projectName = projectJSO.getString("projectName");
+                            String projectID = projectJSO.getString("projectID");
+                            if (projectName != null && (!projectName.isEmpty()) && projectID != null && (!projectID.isEmpty())) {
+                                BadgeClass badgeClass = new BadgeClass(String.format(badgeTemplateJSO.toString(), projectName, projectID), String.format(badgeTemplateJSO.getString("namespace"), projectID));
+                                badgeClassDAO.persist(badgeClass);
+                            }
+                        }
+                    } catch (MalformedURLException e) {
+                        logger.error("Could not parse issuer organisation during bootstrap", e);
                     }
                 }
             }
@@ -268,12 +295,12 @@ public class Bootstrap {
 
         try {
             BadgeAssertion ba1 = new BadgeAssertion();
-            ba1.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-join-project"));
+            ba1.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/red_gjp"));
             ba1.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-join-project.png"));
-            ba1.setNamespace("mockuser_gjp");
+            ba1.setNamespace("mockuser_red_gjp");
             VerificationObject voba1 = new VerificationObject();
             voba1.setType("hosted");
-            voba1.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-join-project/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            voba1.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/red_gjp/mockuser")); // TODO needs to return self? If so need a service call for this.
             ba1.setVerify(voba1);
             IdentityObject ioba1 = new IdentityObject();
             ioba1.setType("email");
@@ -286,10 +313,10 @@ public class Bootstrap {
             BadgeAssertion ba2 = new BadgeAssertion();
             ba2.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-commit"));
             ba2.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-commit.png"));
-            ba2.setNamespace("mockuser_gc");
+            ba2.setNamespace("mockuser_red_gc");
             VerificationObject voba2 = new VerificationObject();
             voba2.setType("hosted");
-            voba2.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-commit/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            voba2.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/red_gc/mockuser")); // TODO needs to return self? If so need a service call for this.
             ba2.setVerify(voba2);
             IdentityObject ioba2 = new IdentityObject();
             ioba2.setType("email");
@@ -302,10 +329,10 @@ public class Bootstrap {
             BadgeAssertion ba3 = new BadgeAssertion();
             ba3.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-mr"));
             ba3.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-mr.png"));
-            ba3.setNamespace("mockuser_gmr");
+            ba3.setNamespace("mockuser_ora_gmr");
             VerificationObject voba3 = new VerificationObject();
             voba3.setType("hosted");
-            voba3.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-mr/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            voba3.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_gmr/mockuser")); // TODO needs to return self? If so need a service call for this.
             ba3.setVerify(voba3);
             IdentityObject ioba3 = new IdentityObject();
             ioba3.setType("email");
@@ -318,10 +345,10 @@ public class Bootstrap {
             BadgeAssertion ba4 = new BadgeAssertion();
             ba4.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-own-project"));
             ba4.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-own-project.png"));
-            ba4.setNamespace("mockuser_gop");
+            ba4.setNamespace("mockuser_op");
             VerificationObject voba4 = new VerificationObject();
             voba4.setType("hosted");
-            voba4.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/neon-gitlab-own-project/mockuser.json")); // TODO needs to return self? If so need a service call for this.
+            voba4.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/op/mockuser")); // TODO needs to return self? If so need a service call for this.
             ba4.setVerify(voba4);
             IdentityObject ioba4 = new IdentityObject();
             ioba4.setType("email");
