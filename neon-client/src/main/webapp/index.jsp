@@ -35,21 +35,37 @@
 				<a class="navbar-brand" href="#">Neon Demonstrator</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="dropdown-header">Nav header</li>
-							<li><a href="#">Separated link</a></li>
-							<li><a href="#">One more separated link</a></li>
-						</ul></li>
+				<ul class="nav navbar-nav pull-right">
+                    <li class="dropdown" ng-controller="SearchCtrl">
+                      <a class="dropdown-toggle" id="find-people-toggle">Find people <b class="caret"></b></a>
+                      <ul class="dropdown-menu" id="find-people-dropdown">
+                        
+                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">
+                              
+                          <p>Search for people with</p>
+                          
+                          <div class="row">
+                            <div class="col-xs-4">
+                              <select class="form-control" ng-model="search.filter" ng-options='option.value as option.name for option in filterOptions'  ng-click="$event.stopPropagation()"></select>
+                            </div>
+                            <div class="col-xs-8">
+                              <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" ng-model="search.query"  ng-click="$event.stopPropagation()">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="submit">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                    
+                          </div>
+                          
+                        </form>
+                        
+                      </ul>
+                    </li>
+                  
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

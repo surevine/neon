@@ -7,7 +7,7 @@ define([], function() {
 			id : 'basic'
 		}, {
 			id : 'location'
-		}, {}, {
+		}, {
 			id : 'skills'
 		}, {
 			id : 'bio'
