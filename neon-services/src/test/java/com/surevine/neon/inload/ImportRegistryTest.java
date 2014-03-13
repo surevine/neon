@@ -19,7 +19,7 @@ public class ImportRegistryTest {
     
     @Test
     public void testCacheExpiredImport() {
-        Set<DataImporter> dataImporterSet = new HashSet<>();
+        Set<DataImporter> dataImporterSet = new HashSet<DataImporter>();
         MockDataImporter cacheExpiredImporter = new MockDataImporter();
         cacheExpiredImporter.setCacheLapsed(true);
         dataImporterSet.add(cacheExpiredImporter);
@@ -32,7 +32,7 @@ public class ImportRegistryTest {
 
     @Test
     public void testCacheNotExpiredImport() {
-        Set<DataImporter> dataImporterSet = new HashSet<>();
+        Set<DataImporter> dataImporterSet = new HashSet<DataImporter>();
         MockDataImporter cacheNotExpiredImporter = new MockDataImporter();
         cacheNotExpiredImporter.setCacheLapsed(false);
         dataImporterSet.add(cacheNotExpiredImporter);
@@ -45,7 +45,7 @@ public class ImportRegistryTest {
 
     @Test
     public void testMulti() {
-        Set<DataImporter> dataImporterSet = new HashSet<>();
+        Set<DataImporter> dataImporterSet = new HashSet<DataImporter>();
         MockDataImporter cacheExpiredImporter = new MockDataImporter();
         cacheExpiredImporter.setCacheLapsed(true);
         dataImporterSet.add(cacheExpiredImporter);

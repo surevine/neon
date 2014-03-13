@@ -16,7 +16,7 @@ import java.util.*;
  */
 public abstract class AbstractNamespaceHandler implements NamespaceHandler {
     protected Logger logger;
-    protected Map<String, ImporterMetaData> metaDataCache = new HashMap<>();
+    protected Map<String, ImporterMetaData> metaDataCache = new HashMap<String, ImporterMetaData>();
     protected IPooledJedis jedis;
     private ImporterConfigurationDAO importerConfigurationDAO;
     
@@ -90,7 +90,7 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
      * @return the collection of values
      */
     protected Collection<String> getMultipleField(final Map<String,String> profileData, String field, ProfileBean profile) {
-        List<String> values = new ArrayList<>();
+        List<String> values = new ArrayList<String>();
         
         for (Map.Entry<String,String> entry:profileData.entrySet()) {
             if (entry.getKey().startsWith(field + ":") && entry.getValue() != null) {
@@ -176,7 +176,7 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
      * @return a collection of importer name (will be empty in no data stored for the argument field)
      */
     protected Set<String> getImportersContributingToField(final Map<String,String> dataMap, final String field) {
-        Set<String> importers = new HashSet<>();
+        Set<String> importers = new HashSet<String>();
         for (Map.Entry<String,String> entry:dataMap.entrySet()) {
             if (entry.getKey().startsWith(field + ":")) {
                 String importerName = entry.getKey().split(":")[1];

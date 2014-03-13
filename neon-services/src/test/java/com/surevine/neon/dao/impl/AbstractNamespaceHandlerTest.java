@@ -42,7 +42,7 @@ public class AbstractNamespaceHandlerTest {
         String hsetKey = "HSET_KEY";
         String field = "MOCK_FIELD";
         String importer = "IMPORTER";
-        List<String> values = new ArrayList<>();
+        List<String> values = new ArrayList<String>();
         values.add("value0");
         values.add("value1");
         values.add("value2");
@@ -60,7 +60,7 @@ public class AbstractNamespaceHandlerTest {
     
     @Test
     public void testGetSingleField() {
-        Map<String,String> data = new HashMap<>();
+        Map<String,String> data = new HashMap<String, String>();
         ProfileBean profileBean = new ProfileBean();
         
         data.put("a:importer1", "apple");
@@ -82,7 +82,7 @@ public class AbstractNamespaceHandlerTest {
     
     @Test
     public void testGetMultipleField() {
-        Map<String,String> data = new HashMap<>();
+        Map<String,String> data = new HashMap<String, String>();
         ProfileBean profileBean = new ProfileBean();
 
         expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer1", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-02-01 10:00:00");
@@ -145,7 +145,7 @@ public class AbstractNamespaceHandlerTest {
         underTest.metaDataCache.put(imd2.getSourceName(), imd2);
         underTest.metaDataCache.put(imd3.getSourceName(), imd3);
 
-        Map<String,String> data = new HashMap<>();
+        Map<String,String> data = new HashMap<String, String>();
         data.put("a:importer1", "apple");
         data.put("a:importer2", "pear");
         data.put("a:importer3", "orange");
@@ -155,7 +155,7 @@ public class AbstractNamespaceHandlerTest {
     
     @Test
     public void testGetImportersContributingToField() {
-        Map<String,String> data = new HashMap<>();
+        Map<String,String> data = new HashMap<String, String>();
 
         data.put("a:importer1", "apple");
         data.put("b:importer1", "pear");
