@@ -23,7 +23,7 @@ public class FeedRegistry {
     /**
      * Registry of data feeds
      */
-    private Set<DataFeed> registry = new HashSet<>();
+    private Set<DataFeed> registry = new HashSet<DataFeed>();
 
     /**
      * Private constructor to support singleton pattern

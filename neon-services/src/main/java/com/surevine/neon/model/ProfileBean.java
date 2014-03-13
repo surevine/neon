@@ -19,13 +19,13 @@ public class ProfileBean {
     private String userID;
     private VCardBean vcard = new VCardBean();
     private Set<SkillBean> skills = new HashSet<SkillBean>();
-    private List<ActivityBean> activityStream = new ArrayList<>();
+    private List<ActivityBean> activityStream = new ArrayList<ActivityBean>();
     private Map<String,String> additionalProperties = new HashMap<String,String>();
     private StatusBean status = new StatusBean();
     private String bio; // needs a priority for multiple importers
     private Set<ProjectActivityBean> projectActivity = new HashSet<ProjectActivityBean>();
     private Set<ConnectionBean> connections = new HashSet<ConnectionBean>();
-    private Map<String,Collection<ImporterMetaData>> metaDataMap = new HashMap<>();
+    private Map<String,Collection<ImporterMetaData>> metaDataMap = new HashMap<String,Collection<ImporterMetaData>>();
 
     public String getUserID() {
         return userID;

@@ -10,7 +10,7 @@ public class VCardBean {
     private String org;
     private String title;
     private VCardPhotoBean photo = new VCardPhotoBean();
-    private Set<VCardTelBean> telephoneNumbers = new HashSet<>();
+    private Set<VCardTelBean> telephoneNumbers = new HashSet<VCardTelBean>();
     private String email;
 
     public String getVCardVersion() {

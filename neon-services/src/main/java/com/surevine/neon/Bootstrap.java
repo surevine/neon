@@ -311,12 +311,12 @@ public class Bootstrap {
             badgeAssertionDAO.persist(ba1);
 
             BadgeAssertion ba2 = new BadgeAssertion();
-            ba2.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-commit"));
+            ba2.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/red_gc"));
             ba2.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-commit.png"));
             ba2.setNamespace("mockuser_red_gc");
             VerificationObject voba2 = new VerificationObject();
             voba2.setType("hosted");
-            voba2.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/red_gc/mockuser")); // TODO needs to return self? If so need a service call for this.
+            voba2.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/red_gc/mockuser"));
             ba2.setVerify(voba2);
             IdentityObject ioba2 = new IdentityObject();
             ioba2.setType("email");
@@ -327,12 +327,12 @@ public class Bootstrap {
             badgeAssertionDAO.persist(ba2);
 
             BadgeAssertion ba3 = new BadgeAssertion();
-            ba3.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-mr"));
+            ba3.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/ora_gmr"));
             ba3.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-mr.png"));
             ba3.setNamespace("mockuser_ora_gmr");
             VerificationObject voba3 = new VerificationObject();
             voba3.setType("hosted");
-            voba3.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_gmr/mockuser")); // TODO needs to return self? If so need a service call for this.
+            voba3.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_gmr/mockuser"));
             ba3.setVerify(voba3);
             IdentityObject ioba3 = new IdentityObject();
             ioba3.setType("email");
@@ -343,12 +343,12 @@ public class Bootstrap {
             badgeAssertionDAO.persist(ba3);
 
             BadgeAssertion ba4 = new BadgeAssertion();
-            ba4.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/neon-gitlab-own-project"));
+            ba4.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/op"));
             ba4.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-own-project.png"));
             ba4.setNamespace("mockuser_op");
             VerificationObject voba4 = new VerificationObject();
             voba4.setType("hosted");
-            voba4.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/op/mockuser")); // TODO needs to return self? If so need a service call for this.
+            voba4.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/op/mockuser"));
             ba4.setVerify(voba4);
             IdentityObject ioba4 = new IdentityObject();
             ioba4.setType("email");
@@ -357,6 +357,87 @@ public class Bootstrap {
             ba4.setRecipient(ioba4);
             ba4.setUid(UUID.randomUUID().toString());
             badgeAssertionDAO.persist(ba4);
+
+            BadgeAssertion ba5 = new BadgeAssertion();
+            ba5.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/ora_gc10"));
+            ba5.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-10-commit.png"));
+            ba5.setNamespace("mockuser_ora_gc10");
+            VerificationObject voba5 = new VerificationObject();
+            voba5.setType("hosted");
+            voba5.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_gc10/mockuser"));
+            ba5.setVerify(voba5);
+            IdentityObject ioba5 = new IdentityObject();
+            ioba5.setType("email");
+            ioba5.setHashed(false);
+            ioba5.setIdentity("mmock@localhost");
+            ba5.setRecipient(ioba5);
+            ba5.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba5);
+
+            BadgeAssertion ba6 = new BadgeAssertion();
+            ba6.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/ora_rei"));
+            ba6.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-resolve-issue.png"));
+            ba6.setNamespace("mockuser_ora_rei");
+            VerificationObject voba6 = new VerificationObject();
+            voba6.setType("hosted");
+            voba6.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_rei/mockuser"));
+            ba6.setVerify(voba6);
+            IdentityObject ioba6 = new IdentityObject();
+            ioba6.setType("email");
+            ioba6.setHashed(false);
+            ioba6.setIdentity("mmock@localhost");
+            ba6.setRecipient(ioba6);
+            ba6.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba6);
+
+            BadgeAssertion ba7 = new BadgeAssertion();
+            ba7.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/ora_rai"));
+            ba7.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-author-issue.png"));
+            ba7.setNamespace("mockuser_ora_rai");
+            VerificationObject voba7 = new VerificationObject();
+            voba7.setType("hosted");
+            voba7.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/ora_rai/mockuser"));
+            ba7.setVerify(voba7);
+            IdentityObject ioba7 = new IdentityObject();
+            ioba7.setType("email");
+            ioba7.setHashed(false);
+            ioba7.setIdentity("mmock@localhost");
+            ba7.setRecipient(ioba7);
+            ba7.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba7);
+
+            BadgeAssertion ba8 = new BadgeAssertion();
+            ba8.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/mp"));
+            ba8.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-multi-project.png"));
+            ba8.setNamespace("mockuser_mp");
+            VerificationObject voba8 = new VerificationObject();
+            voba8.setType("hosted");
+            voba8.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/mp/mockuser"));
+            ba8.setVerify(voba8);
+            IdentityObject ioba8 = new IdentityObject();
+            ioba8.setType("email");
+            ioba8.setHashed(false);
+            ioba8.setIdentity("mmock@localhost");
+            ba8.setRecipient(ioba8);
+            ba8.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba8);
+
+            BadgeAssertion ba9 = new BadgeAssertion();
+            ba9.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/sb"));
+            ba9.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/gitlab-social-butterfly.png"));
+            ba9.setNamespace("mockuser_sb");
+            VerificationObject voba9 = new VerificationObject();
+            voba9.setType("hosted");
+            voba9.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/sb/mockuser"));
+            ba9.setVerify(voba9);
+            IdentityObject ioba9 = new IdentityObject();
+            ioba9.setType("email");
+            ioba9.setHashed(false);
+            ioba9.setIdentity("mmock@localhost");
+            ba9.setRecipient(ioba9);
+            ba9.setUid(UUID.randomUUID().toString());
+            badgeAssertionDAO.persist(ba9);
+            
         } catch (Exception e) {
             // noop
         }

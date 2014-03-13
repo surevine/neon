@@ -23,7 +23,7 @@ public class AbstractDataImporterTest {
     
     @Test
     public void testSetAdditionalConfiguration() {
-        Map<String,String> config = new HashMap<>();
+        Map<String,String> config = new HashMap<String, String>();
         config.put("KEY1","VALUE1");
         config.put("KEY2","VALUE2");
 
@@ -36,7 +36,7 @@ public class AbstractDataImporterTest {
     
     @Test
     public void testUsesFullUserSet() {
-        Set<String> users = new HashSet<>();
+        Set<String> users = new HashSet<String>();
         users.add("user1");
         users.add("user2");
 
