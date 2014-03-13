@@ -7,7 +7,7 @@
   </div>
 
     <ul class="list-group">
-        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item">
+        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item person">
           <a href="#/profile/{{person.userID}}">
             <img ng-src="{{person.vcard.photo.photoURL}}"
                  ng-show="{{person.vcard.photo.photoURL.length}}"

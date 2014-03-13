@@ -21,6 +21,12 @@ ul.badges img {
 	width: 90px;
 }
 
+/* List page styles */
+
+.person .img-thumbnail {
+  width: 32px;
+}
+
 /* Search styles */
 
 #find-people-toggle {
