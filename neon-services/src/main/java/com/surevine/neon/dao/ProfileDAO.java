@@ -59,6 +59,17 @@ public interface ProfileDAO {
      */
     public static final String NS_USER_LIST_KEY = "USERS";
 
+    /**
+     * Adds a profile update listener
+     * @param listener the listener
+     */
+    public void addProfileUpdatedListener(ProfileUpdatedListener listener);
+
+    /**
+     * Removes a profile update listener
+     * @param listener the listener
+     */
+    public void removeProfileUpdatedListener(ProfileUpdatedListener listener);
 
     /**
      * Gets a profile for a specific user
