@@ -8,8 +8,8 @@
 
 <!-- Bootstrap -->
 <link href="js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="js/lib/bootstrap/css/bootstrap-theme.min.css"
-	rel="stylesheet">
+<link href="js/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -24,7 +24,7 @@
 <body role="document">
 
 	<!-- Fixed navbar -->
-	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="navbar navbar-fixed-top navbar-neon" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -66,7 +66,24 @@
                         
                       </ul>
                     </li>
-                  
+                    <li>
+                      <a href="/public" class="has_bottom_tooltip" data-original-title="Public area"><i class="fa fa-globe"></i></a>
+                    </li>
+                    <li>
+                      <a href="/s/root" class="has_bottom_tooltip" data-original-title="My snippets"><i class="fa fa-paste"></i></a>
+                    </li>
+                    <li>
+                      <a href="/admin" class="has_bottom_tooltip" data-original-title="Admin area"><i class="fa fa-cogs"></i></a>
+                    </li>
+                    <li>
+                      <a href="/projects/new" class="has_bottom_tooltip" data-original-title="Create New Project"><i class="fa fa-plus"></i></a>
+                    </li>
+                    <li>
+                      <a href="/profile" class="has_bottom_tooltip" data-original-title="My Profile"><i class="fa fa-user"></i></a>
+                    </li>
+                    <li>
+                      <a href="/users/sign_out" class="has_bottom_tooltip" data-method="delete" data-original-title="Logout" rel="nofollow"><i class="fa fa-sign-out"></i></a>
+                    </li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
