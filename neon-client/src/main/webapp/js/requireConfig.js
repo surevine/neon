@@ -9,6 +9,7 @@ requirejs.config({
 		'domReady' : 'lib/requirejs/domReady',
 		'angularLocale' : 'lib/angularjs/i18n/angular-locale_en-gb',
 		'moment' : 'lib/moment/moment',
+		'd3' : 'lib/d3/d3.min',
         'bootstrapUI': 'lib/bootstrap-ui/ui-bootstrap-tpls-0.10.0.min'
 	},
 

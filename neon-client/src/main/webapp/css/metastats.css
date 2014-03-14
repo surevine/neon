@@ -1,0 +1,45 @@
+	.metastats .arc path {
+	  stroke: #fff;
+	}
+	.metastats .axis path,
+	.metastats .axis line {
+	    display: none;
+	}
+	.metastats .axis text {
+	    font-family: sans-serif;
+	    font-size: 11px;
+	}
+	.metastats .loading {
+	    font-family: sans-serif;
+	    font-size: 15px;
+	}
+	.metastats .circle {
+	    fill: #999;
+	}
+	
+	.commitGraph {
+		border: 1px solid #CCC;
+		background: whiteSmoke;
+		padding: 10px;
+	}
+	
+	.commitGraph .axis path,
+	.commitGraph .axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	
+	.commitGraph .bar {
+	  fill: steelblue;
+	}
+	
+	.commitGraph .x.axis path {
+	  display: none;
+	}
+	
+	.punchcard {
+		padding: 10px;
+		border: 1px solid #ccc;
+		background: whitesmoke;
+	}
