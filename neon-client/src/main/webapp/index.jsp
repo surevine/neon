@@ -44,7 +44,7 @@
               
 			</div>
 
-			<div class="navbar-collapse collapse">
+			<div class="navbar-collapse collapse" ng-controller="SearchCtrl">
 				<ul class="nav navbar-nav pull-right">
                     <li class="dropdown" ng-controller="SearchCtrl">
                       <a class="dropdown-toggle" id="find-people-toggle">Find people <b class="caret"></b></a>
@@ -76,22 +76,22 @@
                       </ul>
                     </li>
                     <li>
-                      <a href="/public" class="has_bottom_tooltip" data-original-title="Public area"><i class="fa fa-globe"></i></a>
+                      <a href="/public" tooltip-placement="bottom" tooltip="Public area"><i class="fa fa-globe"></i></a>
                     </li>
                     <li>
-                      <a href="/s/root" class="has_bottom_tooltip" data-original-title="My snippets"><i class="fa fa-paste"></i></a>
+                      <a href="/s/root" tooltip-placement="bottom" tooltip="My snippets"><i class="fa fa-paste"></i></a>
                     </li>
                     <li>
-                      <a href="/admin" class="has_bottom_tooltip" data-original-title="Admin area"><i class="fa fa-cogs"></i></a>
+                      <a href="/admin" tooltip-placement="bottom" tooltip="Admin area"><i class="fa fa-cogs"></i></a>
                     </li>
                     <li>
-                      <a href="/projects/new" class="has_bottom_tooltip" data-original-title="Create New Project"><i class="fa fa-plus"></i></a>
+                      <a href="/projects/new" tooltip-placement="bottom" tooltip="Create new project"><i class="fa fa-plus"></i></a>
                     </li>
                     <li>
-                      <a href="/profile" class="has_bottom_tooltip" data-original-title="My Profile"><i class="fa fa-user"></i></a>
+                      <a href="/profile" tooltip-placement="bottom" tooltip="My profile"><i class="fa fa-user"></i></a>
                     </li>
                     <li>
-                      <a href="/users/sign_out" class="has_bottom_tooltip" data-method="delete" data-original-title="Logout" rel="nofollow"><i class="fa fa-sign-out"></i></a>
+                      <a href="/users/sign_out" tooltip-placement="bottom" tooltip="Logout" rel="nofollow"><i class="fa fa-sign-out"></i></a>
                     </li>
 				</ul>
 			</div>
