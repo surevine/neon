@@ -37,6 +37,51 @@ ul.badges img {
   
 }
 
+.navbar-neon .app_logo {
+  float: left;
+  margin-right: 9px;
+  position: relative;
+  top: -5px;
+  padding-top: 5px;
+}
+
+.navbar-neon .app_logo a {
+  float: left;
+  padding: 0px;
+  margin: 0 6px;
+}
+
+.navbar-neon .app_logo h1 {
+  margin: 0;
+  background: url(http://10.66.2.243/assets/xlogo-black.png.pagespeed.ic.QTt12uHEfA.png) no-repeat center 1px;
+  background-size: 38px;
+  float: left;
+  height: 40px;
+  width: 40px;
+  color: #474d57;
+  text-shadow: 0 1px 1px #fff;
+  font-size: 16px;
+  line-height: 40px;
+  font-weight: normal;
+  text-indent: -9999px; 
+}
+
+.navbar-neon .app_logo .separator {
+  float: left;
+  height: 46px;
+  width: 2px;
+  margin-top: -3px;
+  margin-left: 0;
+  margin-right: 0;
+  background: #f9f9f9;
+  border-left: 1px solid #ddd;
+}
+
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+  margin-left: 0;
+  font-size: 16px;
+}
+
 .navbar-neon a {
   color: #474d57;
   text-shadow: 0 1px 0 #fff;

@@ -33,8 +33,17 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Neon Demonstrator</a>
+              
+                <div class="app_logo">
+                  <span class="separator"></span>
+                  <a href="/" class="home has_bottom_tooltip" data-original-title="Dashboard"><h1>GITLAB</h1></a>
+                  <span class="separator"></span>
+                </div>
+              
+                <a class="navbar-brand" href="#">Neon Demonstrator</a>
+              
 			</div>
+
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
                     <li class="dropdown" ng-controller="SearchCtrl">
