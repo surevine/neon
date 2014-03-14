@@ -1,6 +1,12 @@
-define([ 'angular', 'config', 'bootstrapUI'  ], function(angular, config, bootstrapUI) {
+define([ 'angular', 'config', 'bootstrapUI' ], function(angular, config, bootstrapUI) {
   
-return angular.module('search.controllers', ['ui.bootstrap'])
+return angular.module('header.controllers', ['ui.bootstrap'])
+
+.controller('HeaderCtrl', ['$scope', function($scope) {
+  
+  $scope.gitlabBaseUrl = config.gitlabBaseUrl;
+  
+}])
 
 .controller('SearchCtrl', ['$scope', '$location',  function($scope, $location) {
 

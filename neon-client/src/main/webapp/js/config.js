@@ -5,6 +5,7 @@ define([], function() {
 //		restBaseUrl: 'test-data/rest/',
 //		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
 		metastatsBaseUrl: 'test-data/metastats/',
+        gitlabBaseUrl: 'http://10.66.2.243',
 		profileExtras : [ {
 			id : 'basic'
 		}, {

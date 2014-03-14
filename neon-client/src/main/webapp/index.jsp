@@ -8,8 +8,8 @@
 
 <!-- Bootstrap -->
 <link href="js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="js/lib/bootstrap/css/bootstrap-theme.min.css"
-	rel="stylesheet">
+<link href="js/lib/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/main.css" rel="stylesheet">
 <link href="css/metastats.css" rel="stylesheet">
 
@@ -25,7 +25,7 @@
 <body role="document">
 
 	<!-- Fixed navbar -->
-	<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="navbar navbar-fixed-top navbar-neon" role="navigation" ng-controller="HeaderCtrl">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -34,18 +34,24 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Neon Demonstrator</a>
+              
+                <div class="app_logo">
+                  <span class="separator"></span>
+                  <a href="{{gitlabBaseUrl}}" class="home has_bottom_tooltip" data-original-title="Dashboard"><h1>GITLAB</h1></a>
+                  <span class="separator"></span>
+                </div>
+              
+                <a class="navbar-brand" href="#">Neon Demonstrator</a>
+              
 			</div>
-			<div class="navbar-collapse collapse">
+
+			<div class="navbar-collapse collapse" ng-controller="SearchCtrl">
 				<ul class="nav navbar-nav pull-right">
                     <li class="dropdown" ng-controller="SearchCtrl">
                       <a class="dropdown-toggle" id="find-people-toggle">Find people <b class="caret"></b></a>
                       <ul class="dropdown-menu" id="find-people-dropdown">
-                        
-                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">
-                              
+                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">  
                           <p>Find people with</p>
-                          
                           <div class="row">
                             <div class="col-xs-4">
                               <select class="form-control" ng-model="search.filter" ng-options='option.value as option.name for option in filterOptions'  ng-click="$event.stopPropagation()"></select>
@@ -60,14 +66,25 @@
                                 </span>
                               </div>
                             </div>
-                    
                           </div>
-                          
                         </form>
-                        
                       </ul>
                     </li>
-                  
+                    <li>
+                      <a href="{{gitlabBaseUrl}}/public" tooltip-placement="bottom" tooltip="Public area"><i class="fa fa-globe"></i></a>
+                    </li>
+                    <li>
+                      <a href="{{gitlabBaseUrl}}/s/root" tooltip-placement="bottom" tooltip="My snippets"><i class="fa fa-paste"></i></a>
+                    </li>
+                    <li>
+                      <a href="{{gitlabBaseUrl}}/admin" tooltip-placement="bottom" tooltip="Admin area"><i class="fa fa-cogs"></i></a>
+                    </li>
+                    <li>
+                      <a href="{{gitlabBaseUrl}}/projects/new" tooltip-placement="bottom" tooltip="Create new project"><i class="fa fa-plus"></i></a>
+                    </li>
+                    <li>
+                      <a href="{{gitlabBaseUrl}}/profile" tooltip-placement="bottom" tooltip="My profile"><i class="fa fa-user"></i></a>
+                    </li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
