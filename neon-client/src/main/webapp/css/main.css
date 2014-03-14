@@ -102,9 +102,12 @@ ul.badges img {
 }
 
 .tooltip.bottom {
-  display: inline;
-  max-width: 80px;
+  display: block;
   font-size: 11px;
+}
+
+.tooltip-inner {
+  white-space: nowrap;
 }
 
 /* List page styles */
