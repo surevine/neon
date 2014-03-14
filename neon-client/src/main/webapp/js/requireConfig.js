@@ -12,7 +12,8 @@ requirejs.config({
 		'angularLocale' : 'lib/angularjs/i18n/angular-locale_en-gb',
 		'moment' : 'lib/moment/moment',
         'angularStrap': 'lib/angularstrap/angular-strap',
-        'angularStrapTpl': 'lib/angularstrap/angular-strap.tpl'
+        'angularStrapTpl': 'lib/angularstrap/angular-strap.tpl',
+		'd3' : 'lib/d3/d3.min',
 	},
 
 	shim : {
