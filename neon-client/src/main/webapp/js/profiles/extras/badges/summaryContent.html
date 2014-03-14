@@ -5,7 +5,8 @@
 		<li ng-repeat="badge in badges.list">
 		  <a href="#/badges/class/{{badge.assertionData.namespace | split:'_':1 }}">
             <img ng-src="{{badge.bakedUrl}}" title="{{profile.vcard.fn}} earned the {{badge.badgeData.name}} badge {{badge.assertionData.issuedOn|fromNow}}" />
-          </a>	
+          </a>
+          
 		</li>
 	</ul>
 </section>

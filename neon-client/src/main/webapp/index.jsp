@@ -47,42 +47,22 @@
 			<div class="navbar-collapse collapse" ng-controller="SearchCtrl">
 				<ul class="nav navbar-nav pull-right">
                     <li class="dropdown" ng-controller="SearchCtrl">
-                      <a class="dropdown-toggle" id="find-people-toggle">Find people <b class="caret"></b></a>
-                      <ul class="dropdown-menu" id="find-people-dropdown">
-                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">  
-                          <p>Find people with</p>
-                          <div class="row">
-                            <div class="col-xs-4">
-                              <select class="form-control" ng-model="search.filter" ng-options='option.value as option.name for option in filterOptions'  ng-click="$event.stopPropagation()"></select>
-                            </div>
-                            <div class="col-xs-8">
-                              <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" ng-model="search.query"  ng-click="$event.stopPropagation()">
-                                <span class="input-group-btn">
-                                  <button class="btn btn-default" type="submit">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                  </button>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </ul>
+                      <a class="dropdown-toggle" id="find-people-toggle" bs-dropdown data-html="true" data-template="js/header/partials/search.html">Find people <b class="caret"></b></a>
                     </li>
                     <li>
-                      <a href="{{gitlabBaseUrl}}/public" tooltip-placement="bottom" tooltip="Public area"><i class="fa fa-globe"></i></a>
+                      <a href="{{gitlabBaseUrl}}/public" bs-tooltip title="{{tooltips.public}}" data-placement="bottom"><i class="fa fa-globe"></i></a>
                     </li>
                     <li>
-                      <a href="{{gitlabBaseUrl}}/s/root" tooltip-placement="bottom" tooltip="My snippets"><i class="fa fa-paste"></i></a>
+                      <a href="{{gitlabBaseUrl}}/s/root" bs-tooltip title="{{tooltips.snippets}}" data-placement="bottom"><i class="fa fa-paste"></i></a>
                     </li>
                     <li>
-                      <a href="{{gitlabBaseUrl}}/admin" tooltip-placement="bottom" tooltip="Admin area"><i class="fa fa-cogs"></i></a>
+                      <a href="{{gitlabBaseUrl}}/admin" bs-tooltip title="{{tooltips.admin}}" data-placement="bottom"><i class="fa fa-cogs"></i></a>
                     </li>
                     <li>
-                      <a href="{{gitlabBaseUrl}}/projects/new" tooltip-placement="bottom" tooltip="Create new project"><i class="fa fa-plus"></i></a>
+                      <a href="{{gitlabBaseUrl}}/projects/new" bs-tooltip title="{{tooltips.create}}" data-placement="bottom"><i class="fa fa-plus"></i></a>
                     </li>
                     <li>
-                      <a href="{{gitlabBaseUrl}}/profile" tooltip-placement="bottom" tooltip="My profile"><i class="fa fa-user"></i></a>
+                      <a href="{{gitlabBaseUrl}}/profile" bs-tooltip title="{{tooltips.profile}}" data-placement="bottom"><i class="fa fa-user"></i></a>
                     </li>
 				</ul>
 			</div>
@@ -96,7 +76,6 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="js/lib/jquery/jquery-1.11.0.js" />
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/lib/bootstrap/js/bootstrap.min.js" />
+
 </body>
 </html>

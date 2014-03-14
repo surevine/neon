@@ -1,10 +1,38 @@
-define([ 'angular', 'config', 'bootstrapUI' ], function(angular, config, bootstrapUI) {
+define([ 'angular', 'config'], function(angular, config) {
   
-return angular.module('header.controllers', ['ui.bootstrap'])
+return angular.module('header.controllers', [])
 
-.controller('HeaderCtrl', ['$scope', function($scope) {
+.controller('HeaderCtrl', ['$scope', '$templateCache', function($scope, $templateCache) {
   
   $scope.gitlabBaseUrl = config.gitlabBaseUrl;
+  
+  // TODO setup tooltip for angularstrap
+  
+  $scope.tooltips = {
+    "public": "Public area",
+    "snippets": "My snippets",
+    "admin": "Admin area",
+    "create": "Create new project",
+    "profile": "My profile",
+  };
+  
+  $scope.dropdown = [
+    {
+      "text": "<i class=\"fa fa-download\"></i>&nbsp;Another action",
+      "href": "#anotherAction"
+    },
+    {
+      "text": "<i class=\"fa fa-globe\"></i>&nbsp;Display an alert",
+      "click": "$alert(\"Holy guacamole!\")"
+    },
+    {
+      "divider": true
+    },
+    {
+      "text": "Separated link",
+      "href": "#separatedLink"
+    }
+  ];
   
 }])
 
@@ -12,7 +40,7 @@ return angular.module('header.controllers', ['ui.bootstrap'])
 
     // setup filter options
     $scope.filterOptions = [
-      { name: 'Skill', value: 'skill' }, 
+      { name: 'Skillz', value: 'skill' }, 
       { name: 'Badge', value: 'badge' }
     ];
   
@@ -20,6 +48,8 @@ return angular.module('header.controllers', ['ui.bootstrap'])
     $scope.search = {filter : $scope.filterOptions[0].value};
   
     $scope.submit = function(formData) {
+      
+      console.log("submitted...");
       
       // basic validation
       if(formData.query == '' || formData.query == undefined) {

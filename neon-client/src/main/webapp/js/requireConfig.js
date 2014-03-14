@@ -6,10 +6,13 @@ requirejs.config({
 		'angular' : 'lib/angularjs/angular',
 		'angularRoute' : 'lib/angularjs/angular-route',
 		'angularMocks' : 'lib/angularjs/angular-mocks',
+        'angularAnimate': 'lib/angularjs/angular-animate',
+        'angularSanitize': 'lib/angularjs/angular-sanitize',
 		'domReady' : 'lib/requirejs/domReady',
 		'angularLocale' : 'lib/angularjs/i18n/angular-locale_en-gb',
 		'moment' : 'lib/moment/moment',
-        'bootstrapUI': 'lib/bootstrap-ui/ui-bootstrap-tpls-0.10.0.min'
+        'angularStrap': 'lib/angularstrap/angular-strap',
+        'angularStrapTpl': 'lib/angularstrap/angular-strap.tpl'
 	},
 
 	shim : {
@@ -27,8 +30,20 @@ requirejs.config({
 			deps : [ 'angular' ],
 			'exports' : 'angular.mock'
 		},
-		'bootstrapUI' : {
-			deps : [ 'angular' ]
+		'angularAnimate' : {
+			deps : [ 'angular' ],
+			'exports' : 'ngAnimate'
 		},
+		'angularSanitize' : {
+			deps : [ 'angular' ],
+			'exports' : 'ngSanitize'
+		},
+		'angularStrap' : {
+			deps : [ 'angular', 'angularAnimate' ]
+		}, 
+        'angularStrapTpl' : {
+			deps : [ 'angular', 'angularAnimate', 'angularStrap' ]
+		} 
+
 	}
 });
