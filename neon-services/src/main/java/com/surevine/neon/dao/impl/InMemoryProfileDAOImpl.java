@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.surevine.neon.dao.ProfileDAO;
+import com.surevine.neon.dao.ProfileUpdatedListener;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.VCardBean;
@@ -20,8 +21,18 @@ public class InMemoryProfileDAOImpl implements ProfileDAO {
 
 	private Map<String,ProfileBean> storage = new HashMap<String,ProfileBean>();
 	private Set<String> explicitUserIDs = new HashSet<String>();
-	
-	@Override
+
+    @Override
+    public void addProfileUpdatedListener(ProfileUpdatedListener listener) {
+        
+    }
+
+    @Override
+    public void removeProfileUpdatedListener(ProfileUpdatedListener listener) {
+
+    }
+
+    @Override
 	public ProfileBean getProfileForUser(String userID) {
 		ProfileBean rV = storage.get(userID);
 		if (rV==null) {

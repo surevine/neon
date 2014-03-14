@@ -2,6 +2,7 @@ package com.surevine.neon.dao.impl;
 
 import com.surevine.neon.dao.NamespaceHandler;
 import com.surevine.neon.dao.ProfileDAO;
+import com.surevine.neon.dao.ProfileUpdatedListener;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.inload.FeedRegistry;
 import com.surevine.neon.model.ProfileBean;
@@ -9,16 +10,28 @@ import com.surevine.neon.redis.IPooledJedis;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ProfileDAOImpl implements ProfileDAO {
     private Logger logger = Logger.getLogger(ProfileDAOImpl.class);
     private Map<String,NamespaceHandler> handlerMapping = new HashMap<String, NamespaceHandler>();
     private IPooledJedis jedis;
-        
+    private Set<ProfileUpdatedListener> listeners = new HashSet<ProfileUpdatedListener>();
+
+    @Override
+    public void addProfileUpdatedListener(ProfileUpdatedListener listener) {
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
+    }
+
+    @Override
+    public void removeProfileUpdatedListener(ProfileUpdatedListener listener) {
+        if (listeners.contains(listener)) {
+            listeners.remove(listener);
+        }
+    }
+
     @Override
     public ProfileBean getProfileForUser(String userID) {
         // If dev.use_mock_profile application property is true OR the argument userID = mockuser then the mock profile is returned
@@ -103,7 +116,16 @@ public class ProfileDAOImpl implements ProfileDAO {
 	                logger.error("Could not persist profile information provided by " + importer.getImporterName() + " as there is no handler configured for namespace " + namespaces[i]);
 	            }
         	}
+            fireListeners(profile.getUserID());
         }        
+    }
+
+    /**
+     * Sets listeners. On the implementation to allow Spring to inject some listeners
+     * @param listeners some listeners
+     */
+    public void setListeners(Set<ProfileUpdatedListener> listeners) {
+        this.listeners = listeners;
     }
 
     /**
@@ -122,5 +144,19 @@ public class ProfileDAOImpl implements ProfileDAO {
 
     public void setJedis(IPooledJedis jedis) {
         this.jedis = jedis;
+    }
+
+    /**
+     * Alerts and listeners that a profile has been updated
+     * @param userID the user ID
+     */
+    private void fireListeners(String userID) {
+        if (listeners.size() > 0) {
+            // if there's at least one listener registered then load the full profile and fire the listeners
+            ProfileBean fullProfile = getProfileForUser(userID);
+            for (ProfileUpdatedListener l:listeners) {
+                l.profileUpdated(fullProfile);
+            }
+        }
     }
 }

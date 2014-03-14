@@ -59,6 +59,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
                 <bean class="com.surevine.neon.dao.impl.StatusPersistenceHandler" parent="abstractPersistenceHandler" />
             </list>
         </property>
+        <property name="listeners">
+            <set>
+                <ref bean="badgeCriteriaProfileListener" />
+            </set>
+        </property>
     </bean>
     
     <bean name="searchDAO" class="com.surevine.neon.dao.impl.SimpleIteratingSearchDAOIml">
@@ -179,5 +184,26 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="revocationListService" class="com.surevine.neon.badges.service.impl.RevocationListServiceImpl">
         <property name="dao" ref="revocationListDAO" />
+    </bean>
+    
+    <!-- Badge criteria checking -->
+    <bean name="abstractBadgeCriteriaChecker" class="com.surevine.neon.badges.criteria.BadgeCriteriaChecker" abstract="true">
+        <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
+    </bean>
+    
+    <bean name="badgeCriteriaProfileListener" class="com.surevine.neon.badges.criteria.BadgeCriteriaProfileListener">
+        <property name="criteriaCheckers">
+            <set>
+                <bean class="com.surevine.neon.badges.criteria.BigCheeseCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.BugHunterCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.FullyCommittedCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.MergeMasterCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.PestControlCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.PushyCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.SocialButterflyCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.SplitPersonalityCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+                <bean class="com.surevine.neon.badges.criteria.TeamPlayerCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
+            </set>
+        </property>
     </bean>
 </beans>
