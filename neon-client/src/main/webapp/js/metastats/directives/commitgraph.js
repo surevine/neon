@@ -35,23 +35,40 @@ define([ 'd3' ], function(d3) {
 				var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(
 						formatPercent);
 
-				var svg = d3.select(element[0]).append('svg').attr("width",
-						width + margin.left + margin.right).attr("height",
-						height + margin.top + margin.bottom).attr('viewBox',
-						'0, 0, ' + width + ', ' + height);
+				var svg = d3.select(element[0]).append('div').classed(
+						'commitGraph', true).classed('metastats', true).append(
+						'svg')
+						.attr("width", width + margin.left + margin.right)
+						.attr("height", height + margin.top + margin.bottom)
+						.attr('viewBox', '0, 0, ' + width + ', ' + height);
 
-				scope.$watchCollection('commitData', function(commitsByWeek, oldVal) {
+				scope.$watchCollection('commitData', function(commitsByWeek,
+						oldVal) {
 					svg.selectAll('*').remove();
-					
-					if(!commitsByWeek) {
+
+					svg.append("g").attr("class", "x axis").attr("transform",
+							"translate(700," + (height + 20) + ")").append(
+							"text").style("text-anchor", "end").text("Time");
+					// .call(xAxis);
+
+					svg.append("g").attr("class", "y axis")
+					// .call(yAxis)
+					.append("text").attr("transform", "rotate(-90)").attr("y",
+							6).attr("dy", ".71em").style("text-anchor", "end")
+							.text("Commits");
+
+					if (!commitsByWeek) {
 						return;
 					}
 
 					var cData = [];
-					for (var i = 0; i<commitsByWeek.length; i++) {
-						cData.push({"week" :i, "count": commitsByWeek[i] });
+					for ( var i = 0; i < commitsByWeek.length; i++) {
+						cData.push({
+							"week" : i,
+							"count" : commitsByWeek[i]
+						});
 					}
-					
+
 					svg.append("g")
 							.attr(
 									"transform",
@@ -68,17 +85,6 @@ define([ 'd3' ], function(d3) {
 					y.domain([ 0, d3.max(cData, function(d) {
 						return d.count;
 					}) ]);
-
-					svg.append("g").attr("class", "x axis").attr("transform",
-							"translate(700," + (height + 20) + ")").append(
-							"text").style("text-anchor", "end").text("Time");
-					// .call(xAxis);
-
-					svg.append("g").attr("class", "y axis")
-					// .call(yAxis)
-					.append("text").attr("transform", "rotate(-90)").attr("y",
-							6).attr("dy", ".71em").style("text-anchor", "end")
-							.text("Commits");
 
 					svg.selectAll(".bar").data(cData).enter().append("rect")
 							.attr("class", "bar").attr("x", function(d) {

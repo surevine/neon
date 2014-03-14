@@ -1,6 +1,7 @@
-define([ 'angular', './directives/userstats', './directives/commitgraph' ],
-		function(angular, userStats, commitgraph) {
+define([ 'angular', './directives/userstats', './directives/commitgraph', './directives/punchcard' ],
+		function(angular, userStats, commitgraph, punchcard) {
 			return angular.module('profiles.directives', []).directive(
 					'metastatsUser', userStats).directive(
-					'metastatsCommitGraph', commitgraph);
+					'metastatsCommitGraph', commitgraph).directive(
+							'metastatsPunchcard', punchcard);
 		});
