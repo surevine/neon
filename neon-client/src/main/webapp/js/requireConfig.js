@@ -8,7 +8,8 @@ requirejs.config({
 		'angularMocks' : 'lib/angularjs/angular-mocks',
 		'domReady' : 'lib/requirejs/domReady',
 		'angularLocale' : 'lib/angularjs/i18n/angular-locale_en-gb',
-		'moment' : 'lib/moment/moment'
+		'moment' : 'lib/moment/moment',
+		'd3' : 'lib/d3/d3.min'
 	},
 
 	shim : {
