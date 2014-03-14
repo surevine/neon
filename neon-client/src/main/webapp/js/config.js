@@ -3,6 +3,9 @@ define([], function() {
 		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
 //		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
 //		restBaseUrl: 'test-data/rest/',
+      
+        gitlabBaseUrl: 'http://10.66.2.243',
+      
 		profileExtras : [ {
 			id : 'basic'
 		}, {

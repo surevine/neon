@@ -24,7 +24,7 @@
 <body role="document">
 
 	<!-- Fixed navbar -->
-	<div class="navbar navbar-fixed-top navbar-neon" role="navigation">
+	<div class="navbar navbar-fixed-top navbar-neon" role="navigation" ng-controller="HeaderCtrl">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -36,7 +36,7 @@
               
                 <div class="app_logo">
                   <span class="separator"></span>
-                  <a href="/" class="home has_bottom_tooltip" data-original-title="Dashboard"><h1>GITLAB</h1></a>
+                  <a href="{{gitlabBaseUrl}}" class="home has_bottom_tooltip" data-original-title="Dashboard"><h1>GITLAB</h1></a>
                   <span class="separator"></span>
                 </div>
               
@@ -49,11 +49,8 @@
                     <li class="dropdown" ng-controller="SearchCtrl">
                       <a class="dropdown-toggle" id="find-people-toggle">Find people <b class="caret"></b></a>
                       <ul class="dropdown-menu" id="find-people-dropdown">
-                        
-                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">
-                              
+                        <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">  
                           <p>Find people with</p>
-                          
                           <div class="row">
                             <div class="col-xs-4">
                               <select class="form-control" ng-model="search.filter" ng-options='option.value as option.name for option in filterOptions'  ng-click="$event.stopPropagation()"></select>
@@ -68,30 +65,24 @@
                                 </span>
                               </div>
                             </div>
-                    
                           </div>
-                          
                         </form>
-                        
                       </ul>
                     </li>
                     <li>
-                      <a href="/public" tooltip-placement="bottom" tooltip="Public area"><i class="fa fa-globe"></i></a>
+                      <a href="{{gitlabBaseUrl}}/public" tooltip-placement="bottom" tooltip="Public area"><i class="fa fa-globe"></i></a>
                     </li>
                     <li>
-                      <a href="/s/root" tooltip-placement="bottom" tooltip="My snippets"><i class="fa fa-paste"></i></a>
+                      <a href="{{gitlabBaseUrl}}/s/root" tooltip-placement="bottom" tooltip="My snippets"><i class="fa fa-paste"></i></a>
                     </li>
                     <li>
-                      <a href="/admin" tooltip-placement="bottom" tooltip="Admin area"><i class="fa fa-cogs"></i></a>
+                      <a href="{{gitlabBaseUrl}}/admin" tooltip-placement="bottom" tooltip="Admin area"><i class="fa fa-cogs"></i></a>
                     </li>
                     <li>
-                      <a href="/projects/new" tooltip-placement="bottom" tooltip="Create new project"><i class="fa fa-plus"></i></a>
+                      <a href="{{gitlabBaseUrl}}/projects/new" tooltip-placement="bottom" tooltip="Create new project"><i class="fa fa-plus"></i></a>
                     </li>
                     <li>
-                      <a href="/profile" tooltip-placement="bottom" tooltip="My profile"><i class="fa fa-user"></i></a>
-                    </li>
-                    <li>
-                      <a href="/users/sign_out" tooltip-placement="bottom" tooltip="Logout" rel="nofollow"><i class="fa fa-sign-out"></i></a>
+                      <a href="{{gitlabBaseUrl}}/profile" tooltip-placement="bottom" tooltip="My profile"><i class="fa fa-user"></i></a>
                     </li>
 				</ul>
 			</div>
