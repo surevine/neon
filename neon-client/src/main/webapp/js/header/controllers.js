@@ -40,7 +40,7 @@ return angular.module('header.controllers', [])
 
     // setup filter options
     $scope.filterOptions = [
-      { name: 'Skillz', value: 'skill' }, 
+      { name: 'Skill', value: 'skill' }, 
       { name: 'Badge', value: 'badge' }
     ];
   
