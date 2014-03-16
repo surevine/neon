@@ -45,9 +45,9 @@
               
 			</div>
 
-			<div class="navbar-collapse collapse" ng-controller="SearchCtrl">
+			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav pull-right">
-                    <li class="dropdown" ng-controller="SearchCtrl">
+                    <li class="dropdown">
                       <a class="dropdown-toggle" id="find-people-toggle" bs-dropdown data-html="true" data-template="js/header/partials/search.html">Find people <b class="caret"></b></a>
                     </li>
                     <li>
