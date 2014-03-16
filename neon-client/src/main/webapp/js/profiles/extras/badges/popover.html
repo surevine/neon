@@ -1,3 +1,5 @@
-<p>valid: {{content.valid}}</p>
 <p>{{content.awarded}}</p>
+<span class="text-success" ng-if="content.valid">
+  <i class="fa fa-check-circle"></i> Verified</p>
+</span>
 <a href="#/badges/class/{{content.badgeSlug}}" class="btn btn-default">View other people with this badge</a>
