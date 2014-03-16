@@ -10,4 +10,5 @@ define(['angular'], function(angular) {
 			template: '<a ng-href="#/profile/{{userId}}" ng-transclude></a>'
 		}
 	});
+
 });
