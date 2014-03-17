@@ -30,4 +30,9 @@ public class RedisJSONBadgeClassDAOImpl extends AbstractRedisJSONDAO implements 
 		}
 	}
 
+    public boolean badgeClassExists(String namespace) {
+        String badgeJSON = jedis.get(redisNamespace+namespace);
+        return badgeJSON == null || badgeJSON.trim().isEmpty();
+    }
+
 }

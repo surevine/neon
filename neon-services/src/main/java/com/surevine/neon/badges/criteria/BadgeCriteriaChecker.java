@@ -1,6 +1,7 @@
 package com.surevine.neon.badges.criteria;
 
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
+import com.surevine.neon.badges.dao.BadgeClassDAO;
 import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.badges.model.IdentityObject;
 import com.surevine.neon.badges.model.VerificationObject;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public abstract class BadgeCriteriaChecker {
     private Logger logger = Logger.getLogger(this.getClass());
     protected BadgeAssertionDAO badgeAssertionDAO;
+    protected BadgeClassDAO badgeClassDAO;
 
     void checkCriteria(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
         if (profileBean.getVcard().getEmail() != null) {
@@ -30,7 +32,11 @@ public abstract class BadgeCriteriaChecker {
     public void setBadgeAssertionDAO(BadgeAssertionDAO badgeAssertionDAO) {
         this.badgeAssertionDAO = badgeAssertionDAO;
     }
-    
+
+    public void setBadgeClassDAO(BadgeClassDAO badgeClassDAO) {
+        this.badgeClassDAO = badgeClassDAO;
+    }
+
     protected boolean alreadyAwarded(String namespace, Collection<BadgeAssertion> existingBadges) {
         for (BadgeAssertion existingAssertion:existingBadges) {
             if (existingAssertion.getNamespace().equals(namespace)) {
@@ -42,47 +48,59 @@ public abstract class BadgeCriteriaChecker {
 
     protected void assertProjectBadge(String userID, String email, String projectID, String namespacePostfix, String image) {
         String namespace = userID + "_" + projectID + "_" + namespacePostfix;
-        try {
-            BadgeAssertion ba = new BadgeAssertion();
-            ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + projectID + "_" + namespacePostfix));
-            ba.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/" + image));
-            ba.setNamespace(namespace);
-            VerificationObject voba = new VerificationObject();
-            voba.setType("hosted");
-            voba.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/" + projectID + "_" + namespacePostfix + "/" + userID));
-            ba.setVerify(voba);
-            IdentityObject ioba = new IdentityObject();
-            ioba.setType("email");
-            ioba.setHashed(false);
-            ioba.setIdentity(email);
-            ba.setRecipient(ioba);
-            ba.setUid(UUID.randomUUID().toString());
-            badgeAssertionDAO.persist(ba);
-        } catch (MalformedURLException mue) {
-            // set by us so will be a code or config issue if we get here - noop
+        if (badgeClassExists(namespace)) {
+            try {
+                BadgeAssertion ba = new BadgeAssertion();
+                ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + projectID + "_" + namespacePostfix));
+                ba.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/" + image));
+                ba.setNamespace(namespace);
+                VerificationObject voba = new VerificationObject();
+                voba.setType("hosted");
+                voba.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/" + userID + "_" + projectID + "_" + namespacePostfix));
+                ba.setVerify(voba);
+                IdentityObject ioba = new IdentityObject();
+                ioba.setType("email");
+                ioba.setHashed(false);
+                ioba.setIdentity(email);
+                ba.setRecipient(ioba);
+                ba.setUid(UUID.randomUUID().toString());
+                badgeAssertionDAO.persist(ba);
+            } catch (MalformedURLException mue) {
+                // set by us so will be a code or config issue if we get here - noop
+            }
+        } else {
+            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + namespace);
         }
     }
 
     protected void assertBadge(String userID, String email, String namespacePostfix, String image) {
         String namespace = userID + "_" + namespacePostfix;
-        try {
-            BadgeAssertion ba = new BadgeAssertion();
-            ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + namespacePostfix));
-            ba.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/" + image));
-            ba.setNamespace(namespace);
-            VerificationObject voba = new VerificationObject();
-            voba.setType("hosted");
-            voba.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/" + namespacePostfix + "/" + userID));
-            ba.setVerify(voba);
-            IdentityObject ioba = new IdentityObject();
-            ioba.setType("email");
-            ioba.setHashed(false);
-            ioba.setIdentity(email);
-            ba.setRecipient(ioba);
-            ba.setUid(UUID.randomUUID().toString());
-            badgeAssertionDAO.persist(ba);
-        } catch (MalformedURLException mue) {
-            // set by us so will be a code or config issue if we get here - noop
+        if (badgeClassExists(namespace)) {
+            try {
+                BadgeAssertion ba = new BadgeAssertion();
+                ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + namespacePostfix));
+                ba.setImage(new URL(Properties.getProperties().getBaseURL() + "/badges/images/" + image));
+                ba.setNamespace(namespace);
+                VerificationObject voba = new VerificationObject();
+                voba.setType("hosted");
+                voba.setUrl(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/assertion/" + userID + "_" + namespacePostfix));
+                ba.setVerify(voba);
+                IdentityObject ioba = new IdentityObject();
+                ioba.setType("email");
+                ioba.setHashed(false);
+                ioba.setIdentity(email);
+                ba.setRecipient(ioba);
+                ba.setUid(UUID.randomUUID().toString());
+                badgeAssertionDAO.persist(ba);
+            } catch (MalformedURLException mue) {
+                // set by us so will be a code or config issue if we get here - noop
+            }
+        } else {
+            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + namespace);
         }
+    }
+    
+    protected boolean badgeClassExists(final String badgeClassNamespace) {
+        return badgeClassDAO.badgeClassExists(badgeClassNamespace);
     }
 }
