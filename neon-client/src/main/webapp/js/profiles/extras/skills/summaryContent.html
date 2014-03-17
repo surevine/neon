@@ -1,9 +1,19 @@
 <section class="profile-summary-section"
 	ng-controller='profilesSkillsExtrasCtrl' ng-show='skills.hasSkills'>
 		<h4>Skills</h4>
-		<p ng-pluralize count="skills.count" offset="2" when="{
-				'1': '{{profile.skills[0].skillName}}',
-				'2': '{{profile.skills[0].skillName}} and {{profile.skills[1].skillName}}',
-				'one': '{{profile.skills[0].skillName}}, {{profile.skills[1].skillName}} and one other',
-				'other': '{{profile.skills[0].skillName}}, {{profile.skills[1].skillName}} and {} others'}"></p>
+		<p ng-show="skills.count == 1">
+			<a ng-href='#/skill/{{profile.skills[0].skillName}}'>{{profile.skills[0].skillName}}</a>
+		</p>
+		<p ng-if="skills.count == 2">
+			<a ng-href='#/skill/{{profile.skills[0].skillName}}'>{{profile.skills[0].skillName}}</a> and
+			<a ng-href='#/skill/{{profile.skills[1].skillName}}'>{{profile.skills[1].skillName}}</a>
+		</p>
+		<p ng-if="skills.count == 3">
+			<a ng-href='#/skill/{{profile.skills[0].skillName}}'>{{profile.skills[0].skillName}}</a>,
+			<a ng-href='#/skill/{{profile.skills[1].skillName}}'>{{profile.skills[1].skillName}}</a>, and one other
+		</p>
+		<p ng-if="skills.count > 3">
+			<a ng-href='#/skill/{{profile.skills[0].skillName}}'>{{profile.skills[0].skillName}}</a>,
+			<a ng-href='#/skill/{{profile.skills[1].skillName}}'>{{profile.skills[1].skillName}}</a>, and {{skills.count - 2}} others
+		</p>
 </section>

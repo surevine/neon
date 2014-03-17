@@ -190,6 +190,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Badge criteria checking -->
     <bean name="abstractBadgeCriteriaChecker" class="com.surevine.neon.badges.criteria.BadgeCriteriaChecker" abstract="true">
         <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
+        <property name="badgeClassDAO" ref="badgeClassDAO" />
     </bean>
     
     <bean name="badgeCriteriaProfileListener" class="com.surevine.neon.badges.criteria.BadgeCriteriaProfileListener">

@@ -21,7 +21,7 @@
             "description":"Pushed a commit to project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-commit.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_gc"
         },
         {
@@ -29,7 +29,7 @@
             "description":"Created a merge request for project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-mr.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-mr.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_gmr"
         },
         {
@@ -37,7 +37,7 @@
             "description":"Pushed ten commits to project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-10-commit.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-10-commit.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_gc10"
         },
         {
@@ -45,7 +45,7 @@
             "description":"Join project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-join-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-join-project.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_gjp"
         },
         {
@@ -53,7 +53,7 @@
             "description":"Resolve an issue for project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-resolve-issue.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-resolve-issue.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_rei"
         },
         {
@@ -61,7 +61,7 @@
             "description":"Raise an issue for project %s",
             "image":"${neon.baseurl}/badges/images/gitlab-author-issue.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-author-issue.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"%s_rai"
         }
     ],
@@ -72,7 +72,7 @@
             "description":"Become a member of more than one project",
             "image":"${neon.baseurl}/badges/images/gitlab-multi-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-multi-project.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"mp"
         },
         {
@@ -80,7 +80,7 @@
             "description":"Own a project",
             "image":"${neon.baseurl}/badges/images/gitlab-own-project.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-own-project.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"op"
         },
         {
@@ -88,7 +88,7 @@
             "description":"Have connections with 20 other Gitlab members",
             "image":"${neon.baseurl}/badges/images/gitlab-social-butterfly.png",
             "criteria":"${neon.baseurl}/badges/criteria/gitlab-social-butterfly.txt",
-            "issuer":"${neon.baseurl}/badges/neon",
+            "issuer":"${neon.baseurl}/rest/badges/issuer/neon",
             "namespace":"sb"
         }
     ]

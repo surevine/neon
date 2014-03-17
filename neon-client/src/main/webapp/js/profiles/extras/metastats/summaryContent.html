@@ -1,0 +1,12 @@
+<h4>Project</h4>
+<ul class="list-group">
+	<li class="list-group-item"
+		ng-repeat="(project, commits) in metastatsUserData.projects">{{project}}
+		<span class="badge" count="commits"
+		when="{
+				'1': '1 commit',
+				other: '{{commits}} commits'
+			}"
+		ng-pluralize></span>
+	</li>
+</ul>
