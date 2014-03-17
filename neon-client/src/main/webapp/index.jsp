@@ -44,12 +44,26 @@
                 <a class="navbar-brand" href="#">Neon Demonstrator</a>
               
 			</div>
-
-			<div class="navbar-collapse collapse">
+          
+			<div class="collapse navbar-collapse navbar-right">
+              
+                <form class="navbar-form navbar-left" role="search" id="searchForm" name="searchForm" ng-model="search" ng-controller="SearchCtrl" ng-submit="submit(search)">
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-model="search.filter" data-html="1" ng-options="option.value as option.label for option in filterOptions" bs-select>
+                          Action <span class="caret"></span>
+                        </button>
+                      </span>
+                      <input type="text" class="form-control" placeholder="Search" ng-model="search.query">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                          <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                      </span>
+                    </div>
+                </form>
+              
 				<ul class="nav navbar-nav pull-right">
-                    <li class="dropdown">
-                      <a class="dropdown-toggle" id="find-people-toggle" bs-dropdown data-html="true" data-template="js/header/partials/search.html">Find people <b class="caret"></b></a>
-                    </li>
                     <li>
                       <a href="{{gitlabBaseUrl}}/public" bs-tooltip title="{{tooltips.public}}" data-placement="bottom"><i class="fa fa-globe"></i></a>
                     </li>
