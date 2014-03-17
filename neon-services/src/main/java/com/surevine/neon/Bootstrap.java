@@ -4,9 +4,11 @@ import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.dao.BadgeClassDAO;
 import com.surevine.neon.badges.dao.IssuerOrganisationDAO;
 import com.surevine.neon.badges.model.*;
+import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.ProfileDAO;
 import com.surevine.neon.inload.importers.MockImporter;
 import com.surevine.neon.model.*;
+import com.surevine.neon.util.DateUtil;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -27,6 +29,7 @@ public class Bootstrap {
     private BadgeClassDAO badgeClassDAO;
     private ProfileDAO profileDAO;
     private BadgeAssertionDAO badgeAssertionDAO;
+    private ImporterConfigurationDAO importerConfigurationDAO;
 
     public void bootstrap() {
         InputStream bootstrapIS = Bootstrap.class.getClassLoader().getResourceAsStream("bootstrap.json");
@@ -75,6 +78,10 @@ public class Bootstrap {
 
     public void setBadgeAssertionDAO(BadgeAssertionDAO badgeAssertionDAO) {
         this.badgeAssertionDAO = badgeAssertionDAO;
+    }
+
+    public void setImporterConfigurationDAO(ImporterConfigurationDAO importerConfigurationDAO) {
+        this.importerConfigurationDAO = importerConfigurationDAO;
     }
 
     private void processBootstrapJSON(JSONObject bootstrapJSON) {
@@ -237,6 +244,7 @@ public class Bootstrap {
         pab1.setUrl("http://localhost/project/orange");
         pab1.setWhen(new Date());
         pab1.setActivityDescription("Created project");
+        pab1.setType(ProjectActivityBean.ProjectActivityType.UNKNOWN);
         bean.getProjectActivity().add(pab1);
 
         ProjectActivityBean pab2 = new ProjectActivityBean();
@@ -245,6 +253,7 @@ public class Bootstrap {
         pab2.setUrl("http://localhost/project/orange");
         pab2.setWhen(new Date());
         pab2.setActivityDescription("Created a merge request");
+        pab2.setType(ProjectActivityBean.ProjectActivityType.UNKNOWN);
         bean.getProjectActivity().add(pab2);
 
         ProjectActivityBean pab3 = new ProjectActivityBean();
@@ -253,6 +262,7 @@ public class Bootstrap {
         pab3.setUrl("http://localhost/project/orange");
         pab3.setWhen(new Date());
         pab3.setActivityDescription("Committed some code");
+        pab3.setType(ProjectActivityBean.ProjectActivityType.PROJECT_COMMIT);
         bean.getProjectActivity().add(pab3);
 
         ProjectActivityBean pab4 = new ProjectActivityBean();
@@ -261,6 +271,7 @@ public class Bootstrap {
         pab4.setUrl("http://localhost/project/pink");
         pab4.setWhen(new Date());
         pab4.setActivityDescription("Joined project as a member");
+        pab4.setType(ProjectActivityBean.ProjectActivityType.PROJECT_JOIN);
         bean.getProjectActivity().add(pab4);
 
         ProjectActivityBean pab5 = new ProjectActivityBean();
@@ -269,6 +280,7 @@ public class Bootstrap {
         pab5.setUrl("http://localhost/project/pink");
         pab5.setWhen(new Date());
         pab5.setActivityDescription("Closed a merge request");
+        pab5.setType(ProjectActivityBean.ProjectActivityType.UNKNOWN);
         bean.getProjectActivity().add(pab5);
         
         ConnectionBean con1 = new ConnectionBean();
@@ -291,7 +303,10 @@ public class Bootstrap {
         con4.setAnnotation("Manages");
         bean.getConnections().add(con4);
         
-        profileDAO.persistProfile(bean, new MockImporter());
+        MockImporter imp = new MockImporter();
+        profileDAO.persistProfile(bean, imp);
+        importerConfigurationDAO.addImporterConfigurationOption(imp.getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
+        
 
         try {
             BadgeAssertion ba1 = new BadgeAssertion();

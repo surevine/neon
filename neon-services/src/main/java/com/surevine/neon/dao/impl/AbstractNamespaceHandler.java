@@ -154,6 +154,12 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
             try {
                 if (!metaDataCache.containsKey(importerName)) {
                     metaDataCache.put(importerName, createMetaDataForImporter(importerName));
+                } else {
+                    // make sure our cache contains the last import date
+                    String lastImportString = importerConfigurationDAO.getStringConfigurationOption(importerName, ImporterConfigurationDAO.NS_LAST_IMPORT);
+                    if (lastImportString != null && lastImportString.length() > 0) {
+                        metaDataCache.get(importerName).setLastImport(lastImportString);
+                    }
                 }
                 priority = metaDataCache.get(importerName).getSourcePriority();
             } catch (NumberFormatException nfe) {

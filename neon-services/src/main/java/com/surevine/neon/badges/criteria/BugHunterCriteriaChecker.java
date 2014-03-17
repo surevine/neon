@@ -2,13 +2,24 @@ package com.surevine.neon.badges.criteria;
 
 import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.model.ProfileBean;
+import com.surevine.neon.model.ProjectActivityBean;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class BugHunterCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
-        // check whether the profile meets the criteria to be awarded this badge
-        // if it does create the relevant badge assertion (BadgeAssertionDAO in super class)
+        String userID = profileBean.getUserID();
+        Set<ProjectActivityBean> pabs = profileBean.getProjectActivity();
+        
+        for (ProjectActivityBean pab:pabs) {
+            if (ProjectActivityBean.ProjectActivityType.ISSUE_AUTHOR.equals(pab.getType())) {
+                String namespace = userID + "_" + pab.getProjectID() + "_rai";
+                if (!alreadyAwarded(namespace,existingBadges)) {
+                    assertProjectBadge(userID, profileBean.getVcard().getEmail(), pab.getProjectID(), "rai", "gitlab-author-issue.png");
+                }
+            }
+        }
     }
 }

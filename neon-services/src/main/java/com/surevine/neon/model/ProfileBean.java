@@ -150,15 +150,19 @@ public class ProfileBean {
     }
 
     public Iterator<String> getIDsOfJoinedProjects() {
-        Set<String> target = new HashSet<String>();
-        Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
-        while (pabs.hasNext()) {
-            ProjectActivityBean pab = pabs.next();
-            if (ProjectActivityBean.ProjectActivityType.PROJECT_JOIN.equals(pab.getType())) {
-                target.add(pabs.next().getProjectID());
+        // assumption that any activity on a project indicates membership - left as a separate method in case
+        // this changes
+        return getIDsOfActiveProjects();
+    }
+    
+    public Set<String> getUniqueConnectionUserIDs() {
+        Set<String> connections = new HashSet<String>();
+        for (ConnectionBean cb:getConnections()) {
+            if (!connections.contains(cb.getUserID())) {
+                connections.add(cb.getUserID());
             }
         }
-        return target.iterator();
+        return connections;
     }
 
     public Map<String, Collection<ImporterMetaData>> getMetaDataMap() {

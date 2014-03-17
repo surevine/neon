@@ -8,7 +8,6 @@ import java.util.Collection;
 public class MergeMasterCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
-        // check whether the profile meets the criteria to be awarded this badge
-        // if it does create the relevant badge assertion (BadgeAssertionDAO in super class)
+        // not in the gitlab importer yet - implementation TODO
     }
 }
