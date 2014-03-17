@@ -87,6 +87,8 @@ define(
 
                                     var badge = $scope.$parent.badges.list[$attr.badgeindex]; 
                                   
+                                    console.log(badge);
+                                  
                                     if(!$scope.badgeMetaPopovers[badge.assertionData.namespace]) {
                                       
                                       $scope.badgeMetaPopovers[badge.assertionData.namespace] = $popover($element, {
@@ -94,6 +96,7 @@ define(
                                                                     title: badge.badgeData.name, 
                                                                     content: {
                                                                       description: badge.badgeData.description,
+                                                                      issuedOn: badge.assertionData.issuedOn,
                                                                       awarded: $attr.awarded,
                                                                       slug: $attr.slug,
                                                                       evidence: badge.assertionData.evidence,
