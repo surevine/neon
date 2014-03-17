@@ -18,7 +18,7 @@ public class RestBadgeValidationServiceImpl implements BadgeValidationService {
 	@GET
 	@Path("enrich")
 	@Override
-	public EnrichedBadgeAssertion validateAndEnrich(URL badge, @QueryParam("trustedIssuer") List<URL> trustedIssuers) throws MalformedURLException {
+	public EnrichedBadgeAssertion validateAndEnrich(@QueryParam("badge") URL badge, @QueryParam("trustedIssuer") List<URL> trustedIssuers) throws MalformedURLException {
         if (implementation == null) {
             loadServiceFromSpringContext();
         }
