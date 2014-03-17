@@ -49,17 +49,24 @@ define(
 																								+ escape(assertion.image);
 																					}
                                                                                   
-																					$http(
-																							{
-																								method : 'GET',
-																								url : assertion.badge
-																							})
-																							.success(
-																									function(
-																											badgeData) {
-																										displayBadge.badgeData = badgeData;
-																									});
-																					
+																					$http({
+                                                                                      method : 'GET',
+                                                                                      url : assertion.badge
+                                                                                    })
+                                                                                    .success(function(badgeData) {
+                                                                                                
+                                                                                      displayBadge.badgeData = badgeData;
+                                                                                                      
+                                                                                      $http({
+                                                                                        method : 'GET',
+                                                                                        url : displayBadge.badgeData.issuer
+                                                                                      })
+                                                                                      .success(function(issuerData) {
+                                                                                        displayBadge.issuerData = issuerData;
+                                                                                      });
+                                                                                              
+                                                                                    });
+                                                                            
 																					$scope.badges.list.push(displayBadge);
 																				}
 																			});
@@ -90,7 +97,8 @@ define(
                                                                       awarded: $attr.awarded,
                                                                       slug: $attr.slug,
                                                                       evidence: badge.assertionData.evidence,
-                                                                      alignments: badge.badgeData.alignment
+                                                                      alignments: badge.badgeData.alignment,
+                                                                      issuer: badge.issuerData
                                                                     },
                                                                     contentTemplate: 'js/profiles/extras/badges/popover.html'
                                                                 });

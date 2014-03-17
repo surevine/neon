@@ -1,17 +1,18 @@
 <p class="text-center"><em>"{{content.description}}"</em></p>
 
 <dl>
+  <dt>Issued by</dt>
+  <dd>
+    <a href="{{content.issuer.url}}">{{content.issuer.name}}</a>
+  </dd>
   <dt>Earned</dt>
   <dd>
     <a href="{{content.evidence}}">{{content.awarded}}</a>
   </dd>
-</dl>
-<dl>
   <dt>Alignments</dt>
   <dd ng-repeat="alignment in content.alignments">
     <a href="{{alignment.url}}">{{alignment.name}}</a>
   </dd>
 </dl>
 
-<!--<a href="{{content.evidence}}" class="btn btn-default">View evidence</a>-->
 <a href="#/badges/class/{{content.slug}}" class="btn btn-default">View other people with this badge &raquo;</a>
