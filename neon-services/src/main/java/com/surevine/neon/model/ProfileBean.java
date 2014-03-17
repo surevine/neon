@@ -137,6 +137,30 @@ public class ProfileBean {
     	return null;
     }
 
+    public Iterator<String> getIDsOfOwnedProjects() {
+        Set<String> target = new HashSet<String>();
+        Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
+        while (pabs.hasNext()) {
+            ProjectActivityBean pab = pabs.next();
+            if (ProjectActivityBean.ProjectActivityType.PROJECT_OWN.equals(pab.getType())) {
+                target.add(pabs.next().getProjectID());
+            }
+        }
+        return target.iterator();
+    }
+
+    public Iterator<String> getIDsOfJoinedProjects() {
+        Set<String> target = new HashSet<String>();
+        Iterator<ProjectActivityBean> pabs = projectActivity.iterator();
+        while (pabs.hasNext()) {
+            ProjectActivityBean pab = pabs.next();
+            if (ProjectActivityBean.ProjectActivityType.PROJECT_JOIN.equals(pab.getType())) {
+                target.add(pabs.next().getProjectID());
+            }
+        }
+        return target.iterator();
+    }
+
     public Map<String, Collection<ImporterMetaData>> getMetaDataMap() {
         return metaDataMap;
     }

@@ -205,5 +205,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
                 <bean class="com.surevine.neon.badges.criteria.TeamPlayerCriteriaChecker" parent="abstractBadgeCriteriaChecker" />
             </set>
         </property>
+        <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
     </bean>
 </beans>
