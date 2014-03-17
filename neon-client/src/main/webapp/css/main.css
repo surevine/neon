@@ -128,8 +128,9 @@ ul.badges img {
 }
 
 #searchForm {
-  width: 400px;
-  padding: 10px;
+  position: relative;
+  top: -5px;
+  max-width: 400px;
 }
 
 /* Badges */
