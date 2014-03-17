@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 public abstract class BadgeCriteriaChecker {
@@ -64,6 +65,7 @@ public abstract class BadgeCriteriaChecker {
                 ioba.setIdentity(email);
                 ba.setRecipient(ioba);
                 ba.setUid(UUID.randomUUID().toString());
+                ba.setIssuedOn(new Date());
                 badgeAssertionDAO.persist(ba);
             } catch (MalformedURLException mue) {
                 // set by us so will be a code or config issue if we get here - noop
@@ -91,6 +93,7 @@ public abstract class BadgeCriteriaChecker {
                 ioba.setIdentity(email);
                 ba.setRecipient(ioba);
                 ba.setUid(UUID.randomUUID().toString());
+                ba.setIssuedOn(new Date());
                 badgeAssertionDAO.persist(ba);
             } catch (MalformedURLException mue) {
                 // set by us so will be a code or config issue if we get here - noop
