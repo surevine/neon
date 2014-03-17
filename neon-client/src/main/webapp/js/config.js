@@ -3,11 +3,13 @@ define([], function() {
 		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
 //		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
 //		restBaseUrl: 'test-data/rest/',
-//		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
-		metastatsBaseUrl: 'test-data/metastats/',
+		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
+//		metastatsBaseUrl: 'test-data/metastats/',
         gitlabBaseUrl: 'http://10.66.2.243',
 		profileExtras : [ {
 			id : 'basic'
+		}, {
+			id : 'metastats'
 		}, {
 			id : 'location'
 		}, {
@@ -22,8 +24,6 @@ define([], function() {
 			id : 'additional'
 		}, {
 			id : 'badges'
-		}, {
-			id : 'metastats'
 		} ],
 		skillRatings : {
 			1 : "beginner",
