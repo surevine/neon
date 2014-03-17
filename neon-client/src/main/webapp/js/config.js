@@ -3,27 +3,57 @@ define([], function() {
 		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
 //		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
 //		restBaseUrl: 'test-data/rest/',
-		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
-//		metastatsBaseUrl: 'test-data/metastats/',
+//		restBaseUrl: '/neon-services/rest/',
+//		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
+		metastatsBaseUrl: 'test-data/metastats/',
         gitlabBaseUrl: 'http://10.66.2.243',
 		profileExtras : [ {
-			id : 'basic'
+			id : 'basic',
+			sections : {
+				detail : true,
+				summary : true
+			}
 		}, {
-			id : 'metastats'
+			id : 'metastats',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'location'
+			id : 'location',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'skills'
+			id : 'skills',
+			sections : {
+				detail : true,
+				summary : true
+			}
 		}, {
-			id : 'bio'
+			id : 'bio',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'connections'
+			id : 'connections',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'projectActivity'
+			id : 'projectActivity',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'additional'
+			id : 'additional',
+			sections : {
+				detail : true,
+			}
 		}, {
-			id : 'badges'
+			id : 'badges',
+			sections : {
+				summary : true
+			}
 		} ],
 		skillRatings : {
 			1 : "beginner",

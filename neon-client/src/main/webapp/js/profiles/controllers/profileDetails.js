@@ -11,10 +11,15 @@ define(['angular', 'config'], function(ng, config) {
 		
 		for(var i = 0; i < config.profileExtras.length; ++i) {
 			var extra = config.profileExtras[i];
-			$scope.extras.push({
-				sectionInclude: 'js/profiles/extras/' + extra.id + '/detailContent.html',
-				summaryInclude: 'js/profiles/extras/' + extra.id + '/summaryContent.html'
-			});
+			var extraObj = {};
+			
+			for(var sectionId in extra.sections) {
+				if(extra.sections[sectionId]) {
+					extraObj[sectionId + 'Include'] = 'js/profiles/extras/' + extra.id + '/' + sectionId + 'Content.html';
+				}
+			}
+			
+			$scope.extras.push(extraObj);
 		}
 	};
 	fn.$inject = ['$scope', '$http', '$routeParams'];

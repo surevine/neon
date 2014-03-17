@@ -5,7 +5,7 @@
 		<li ng-repeat="badge in badges.list">
             <img ng-src="{{badge.bakedUrl}}" title="{{profile.vcard.fn}} earned the {{badge.badgeData.name}} badge {{badge.assertionData.issuedOn|fromNow}}" class="badge-pop-over"   
                 data-awarded="{{badge.assertionData.issuedOn|fromNow}}"
-                data-slug="{{badge.assertionData.namespace | split:'_':1 }}"
+                data-slug="{{badge.assertionData.namespace | namespaceSplit:'_' }}"
                 data-badgeindex="{{$index}}" />
 		</li>
 	</ul>

@@ -5,9 +5,9 @@ define([ 'angular', 'moment' ], function(angular, moment) {
               return moment(dateString).fromNow()
           };
       })
-      .filter('split', function() {
-          return function(input, splitChar, splitIndex) {
-              return input.split(splitChar)[splitIndex];
+      .filter('namespaceSplit', function() {
+          return function(input, splitChar) {
+              return input.substring(input.indexOf(splitChar)+1);
           }
       });
 });
