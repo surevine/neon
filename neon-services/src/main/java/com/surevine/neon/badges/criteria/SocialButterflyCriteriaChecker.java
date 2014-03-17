@@ -1,11 +1,15 @@
 package com.surevine.neon.badges.criteria;
 
+import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.model.ProfileBean;
+
+import java.util.Collection;
 
 public class SocialButterflyCriteriaChecker extends BadgeCriteriaChecker {
     @Override
-    void checkCriteria(ProfileBean profileBean) {
-        // check whether the profile meets the criteria to be awarded this badge
-        // if it does create the relevant badge assertion (BadgeAssertionDAO in super class)
+    void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
+        if (profileBean.getUniqueConnectionUserIDs().size() >= 20 && !alreadyAwarded(profileBean.getUserID() + "_sb",existingBadges)) {
+            assertBadge(profileBean.getUserID(), profileBean.getVcard().getEmail(), "sb", "gitlab-social-butterfly.png");
+        }
     }
 }

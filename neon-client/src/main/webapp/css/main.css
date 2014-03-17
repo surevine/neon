@@ -131,3 +131,17 @@ ul.badges img {
   width: 400px;
   padding: 10px;
 }
+
+/* Badges */
+
+.badges li img {
+  cursor: pointer;
+}
+
+.popover-content p {
+  color: #999;
+}
+
+.popover-content dl {
+  margin-bottom: 10px;
+}

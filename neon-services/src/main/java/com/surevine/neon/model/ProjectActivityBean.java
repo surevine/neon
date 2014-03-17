@@ -11,12 +11,42 @@ public class ProjectActivityBean implements NeonSerializableObject {
     private static final String JSONKEY_WHEN = "when";
     private static final String JSONKEY_PROJECT_ID = "projectID";
     private static final String JSONKEY_PROJECT_NAME = "projectName";
+    private static final String JSONKEY_TYPE = "type";
+
+    public enum ProjectActivityType {
+        ISSUE_AUTHOR,
+        ISSUE_RESOLVE,
+        ISSUE_ASSIGN,
+        PROJECT_OWN,
+        PROJECT_JOIN,
+        PROJECT_COMMIT,
+        UNKNOWN;
+
+        static ProjectActivityType fromString(final String type) {
+            if (ISSUE_AUTHOR.toString().equalsIgnoreCase(type)) {
+                return ISSUE_AUTHOR;
+            } else if (ISSUE_RESOLVE.toString().equalsIgnoreCase(type)) {
+                return ISSUE_RESOLVE;
+            } else if (ISSUE_ASSIGN.toString().equalsIgnoreCase(type)) {
+                    return ISSUE_ASSIGN;
+            } else if (PROJECT_OWN.toString().equalsIgnoreCase(type)) {
+                return PROJECT_OWN;
+            } else if (PROJECT_JOIN.toString().equalsIgnoreCase(type)) {
+                return PROJECT_JOIN;
+            } else if (PROJECT_COMMIT.toString().equalsIgnoreCase(type)) {
+                return PROJECT_COMMIT;
+            } else {
+                return UNKNOWN;
+            }
+        }
+    }
     
 	private String url;
 	private String activityDescription;
 	private Date when;
 	private String projectID;
 	private String projectName;
+    private ProjectActivityType type = ProjectActivityType.UNKNOWN;
 	
 	public String getProjectName() {
 		return projectName;
@@ -34,12 +64,13 @@ public class ProjectActivityBean implements NeonSerializableObject {
 		this.projectID = projectID;
 	}
 
-	public ProjectActivityBean(String activityDescription, String url, Date when, String projectID, String projectName) {
+	public ProjectActivityBean(ProjectActivityType type, String activityDescription, String url, Date when, String projectID, String projectName) {
 		this.activityDescription=activityDescription;
 		this.url=url;
 		this.when=when;
 		this.projectID=projectID;
 		this.projectName=projectName;
+        this.type = type;
 	}
     
     public ProjectActivityBean() {
@@ -64,7 +95,15 @@ public class ProjectActivityBean implements NeonSerializableObject {
 	public void setWhen(Date when) {
 		this.when = when;
 	}
-    
+
+    public ProjectActivityType getType() {
+        return type;
+    }
+
+    public void setType(ProjectActivityType type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         JSONObject jsonObject = new JSONObject();
@@ -82,6 +121,9 @@ public class ProjectActivityBean implements NeonSerializableObject {
         }
         if (getWhen() != null) {
             jsonObject.put(JSONKEY_WHEN, DateUtil.dateToString(getWhen()));
+        }
+        if (getType() != null) {
+            jsonObject.put(JSONKEY_TYPE, getType().toString());
         }
         return jsonObject.toString();
     }
@@ -103,6 +145,9 @@ public class ProjectActivityBean implements NeonSerializableObject {
         }
         if (!jsonObject.isNull(JSONKEY_WHEN)) {
             setWhen(DateUtil.stringToDate(jsonObject.getString(JSONKEY_WHEN)));
+        }
+        if (!jsonObject.isNull(JSONKEY_TYPE)) {
+            setType(ProjectActivityType.fromString(jsonObject.getString(JSONKEY_TYPE)));
         }
     }
 }

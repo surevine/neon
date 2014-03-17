@@ -1,0 +1,20 @@
+<ul class="dropdown-menu" id="find-people-dropdown" ng-controller="SearchCtrl" ng-click="$event.stopPropagation()">
+  <form id="searchForm" name="searchForm" ng-model="search" ng-submit="submit(search)">  
+    <p>Find people with</p>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <select class="btn btn-default form-control" ng-model="search.filter" ng-options='option.value as option.name for option in filterOptions'></select>
+          </span>
+          <input type="text" class="form-control" placeholder="Search" ng-model="search.query">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+</ul>

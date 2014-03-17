@@ -162,7 +162,9 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						log.debug("Issue text: "+text);
 						log.debug("Issue date: "+createdAt);
 						log.debug("Issue URL: "+webURL);
-						profile.addProjectActivity(new ProjectActivityBean(issueText, webURL, createdAt, projectID, projectName));
+
+                        ProjectActivityBean.ProjectActivityType type = (author) ? ProjectActivityBean.ProjectActivityType.ISSUE_AUTHOR : ProjectActivityBean.ProjectActivityType.ISSUE_ASSIGN;
+						profile.addProjectActivity(new ProjectActivityBean(type, issueText, webURL, createdAt, projectID, projectName));
 					}
 				}
 				catch (JSONException e) {
@@ -207,7 +209,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						log.debug("Date for commit: "+createdAt);
 						String webURL=gitlabURLBase.concat(commitWebURLBase).replaceAll("\\{project_name\\}", projectName).replaceAll("\\{commit_id\\}", commit.getString("id"));
 						log.debug("URL for commit: "+webURL);
-						ProjectActivityBean pab = new ProjectActivityBean(text,  webURL, createdAt, projectID, projectName);
+						ProjectActivityBean pab = new ProjectActivityBean(ProjectActivityBean.ProjectActivityType.PROJECT_COMMIT, text,  webURL, createdAt, projectID, projectName);
 						profile.addProjectActivity(pab);
 					}
 					catch (JSONException e) {
@@ -294,7 +296,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 						String text = "Owner of the '"+project.getString("name")+"' project";
 						log.debug("Owner of project text: "+text);
 	
-						ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, project.getString("name"));
+						ProjectActivityBean pab = new ProjectActivityBean(ProjectActivityBean.ProjectActivityType.PROJECT_OWN, text, webURL, createdAt, projectID, project.getString("name"));
 						profile.addProjectActivity(pab);
 						captureConnections(userID, "Owner of a projet that {destination} is a member of", projectID, profile);
 					}
@@ -315,7 +317,7 @@ public class GitlabProfileImporter extends AbstractDataImporter implements DataI
 							log.debug("Memeber of a project with URL: "+webURL);
 							String text="Member of the '"+project.getString("name")+"' project";
 							log.debug("Memeber of a project text: "+text);
-							ProjectActivityBean pab = new ProjectActivityBean(text, webURL, createdAt, projectID, project.getString("path_with_namespace"));
+							ProjectActivityBean pab = new ProjectActivityBean(ProjectActivityBean.ProjectActivityType.PROJECT_JOIN, text, webURL, createdAt, projectID, project.getString("path_with_namespace"));
 							profile.addProjectActivity(pab);
 							captureConnections(userID, "Member of the same project as {destination}", projectID, profile);
 						}
