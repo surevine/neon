@@ -1,8 +1,8 @@
 define([], function() {
 	return ({
-		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
+//		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
 //		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
-//		restBaseUrl: 'test-data/rest/',
+		restBaseUrl: 'test-data/rest/',
 //		restBaseUrl: '/neon-services/rest/',
 //		metastatsBaseUrl : 'http://10.66.2.25/si/api/',
 		metastatsBaseUrl: 'test-data/metastats/',
@@ -14,20 +14,16 @@ define([], function() {
 				summary : true
 			}
 		}, {
-			id : 'metastats',
-			sections : {
-				detail : true,
-			}
-		}, {
-			id : 'location',
-			sections : {
-				detail : true,
-			}
-		}, {
 			id : 'skills',
 			sections : {
 				detail : true,
 				summary : true
+			}
+		}, {
+			id : 'metastats',
+			sections : {
+				detail : true,
+				summary : true,
 			}
 		}, {
 			id : 'bio',
@@ -41,6 +37,11 @@ define([], function() {
 			}
 		}, {
 			id : 'projectActivity',
+			sections : {
+				detail : true,
+			}
+		}, {
+			id : 'location',
 			sections : {
 				detail : true,
 			}
