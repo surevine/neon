@@ -2,7 +2,7 @@
 	ng-controller='profilesBadgesExtrasCtrl' ng-show='badges.hasBadges'>
 	<h4>Badges</h4>
 	<ul class="badges list-inline">
-		<li ng-repeat="badge in badges.list">
+		<li ng-repeat="badge in badges.list track by $index">
             <img ng-src="{{badge.bakedUrl}}" title="{{profile.vcard.fn}} earned the {{badge.badgeData.name}} badge {{badge.assertionData.issuedOn|fromNow}}" class="badge-pop-over"   
                 data-awarded="{{badge.assertionData.issuedOn|fromNow}}"
                 data-slug="{{badge.assertionData.namespace | namespaceSplit:'_' }}"
