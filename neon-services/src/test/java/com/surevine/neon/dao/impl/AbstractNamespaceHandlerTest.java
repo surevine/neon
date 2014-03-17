@@ -131,6 +131,11 @@ public class AbstractNamespaceHandlerTest {
     
     @Test
     public void testGetHighestPriorityImporterNameAndCacheMetadata() {
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer1", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-03-10 10:20:30");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer2", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-03-10 10:20:30");
+        expect(mockImporterConfigurationDAO.getStringConfigurationOption("importer3", ImporterConfigurationDAO.NS_LAST_IMPORT)).andReturn("2014-03-10 10:20:30");
+        replay(mockImporterConfigurationDAO);
+        
         ImporterMetaData imd1 = new ImporterMetaData();
         imd1.setSourceName("importer1");
         imd1.setSourcePriority(2);

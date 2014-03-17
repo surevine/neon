@@ -8,7 +8,8 @@ import java.util.Collection;
 public class SocialButterflyCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
-        // check whether the profile meets the criteria to be awarded this badge
-        // if it does create the relevant badge assertion (BadgeAssertionDAO in super class)
+        if (profileBean.getUniqueConnectionUserIDs().size() >= 20 && !alreadyAwarded(profileBean.getUserID() + "_sb",existingBadges)) {
+            assertBadge(profileBean.getUserID(), profileBean.getVcard().getEmail(), "sb", "gitlab-social-butterfly.png");
+        }
     }
 }
