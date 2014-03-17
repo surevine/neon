@@ -3,7 +3,10 @@
 	<h4>Badges</h4>
 	<ul class="badges list-inline">
 		<li ng-repeat="badge in badges.list">
-            <img ng-src="{{badge.bakedUrl}}" title="{{profile.vcard.fn}} earned the {{badge.badgeData.name}} badge {{badge.assertionData.issuedOn|fromNow}}" class="badge-pop-over" data-namespace="{{badge.assertionData.namespace}}" data-badgename="{{badge.badgeData.name}}" data-badgeslug="{{badge.assertionData.namespace | split:'_':1 }}" />
+            <img ng-src="{{badge.bakedUrl}}" title="{{profile.vcard.fn}} earned the {{badge.badgeData.name}} badge {{badge.assertionData.issuedOn|fromNow}}" class="badge-pop-over"   
+                data-awarded="{{badge.assertionData.issuedOn|fromNow}}"
+                data-slug="{{badge.assertionData.namespace | split:'_':1 }}"
+                data-badgeindex="{{$index}}" />
 		</li>
 	</ul>
 </section>

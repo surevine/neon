@@ -48,7 +48,7 @@ define(
 																						displayBadge.bakedUrl += '?source='
 																								+ escape(assertion.image);
 																					}
-
+                                                                                  
 																					$http(
 																							{
 																								method : 'GET',
@@ -69,42 +69,29 @@ define(
                     .directive('badgePopOver', function($http, $popover) {
                         return {
                             restrict: 'C',
-                            link: function($scope, element, attr) {
-                        
-                                element.bind('click', function(e) {
+                            link: function($scope, $element, $attr) {
+
+                                $element.bind('click', function(e) {
 
                                     // init array for popovers if required
                                     if(!$scope.badgeMetaPopovers) {
                                       $scope.badgeMetaPopovers = [];
                                     }
 
-                                    if(!$scope.badgeMetaPopovers[attr.namespace]) {
+                                    var badge = $scope.$parent.badges.list[$attr.badgeindex]; 
+                                  
+                                    if(!$scope.badgeMetaPopovers[badge.assertionData.namespace]) {
                                       
-                                        // TODO when the service is complete
-                                      
-//                                      $http({
-//                                          method : 'GET',
-//                                          url : config.restBaseUrl+'/badges/validate/enrich/{username}?badge={FullURLToPNG}'
-//                                      })
-//                                      .success(function(data){
-//                                        // todo create tooltip with the data!
-//                                      })
-//                                      .error(function(){
-//                                        // todo create tooltip with error message in it?
-//                                        // or do nothing...
-//                                      });
-                                    
-                                      $scope.badgeMetaPopovers[attr.namespace] = $popover(element, {
+                                      $scope.badgeMetaPopovers[badge.assertionData.namespace] = $popover($element, {
                                                                     scope: $scope,
-                                                                    title: attr.badgename, 
+                                                                    title: badge.badgeData.name, 
                                                                     content: {
-                                                                      name: "TESTING NAME FROM DIR",
-                                                                      description: "description in object",
-                                                                      valid: true,
-                                                                      awarded: 'This badge was awarded on 21/01/2014',
-                                                                      badgeSlug: attr.badgeslug
+                                                                      description: badge.badgeData.description,
+                                                                      awarded: $attr.awarded,
+                                                                      slug: $attr.slug,
+                                                                      evidence: badge.assertionData.evidence,
+                                                                      alignments: badge.badgeData.alignment
                                                                     },
-                                                                    placement: 'top',
                                                                     contentTemplate: 'js/profiles/extras/badges/popover.html'
                                                                 });
                                       

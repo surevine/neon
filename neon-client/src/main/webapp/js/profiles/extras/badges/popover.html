@@ -1,5 +1,17 @@
-<p>{{content.awarded}}</p>
-<span class="text-success" ng-if="content.valid">
-  <i class="fa fa-check-circle"></i> Verified</p>
-</span>
-<a href="#/badges/class/{{content.badgeSlug}}" class="btn btn-default">View other people with this badge</a>
+<p class="text-center"><em>"{{content.description}}"</em></p>
+
+<dl>
+  <dt>Earned</dt>
+  <dd>
+    <a href="{{content.evidence}}">{{content.awarded}}</a>
+  </dd>
+</dl>
+<dl>
+  <dt>Alignments</dt>
+  <dd ng-repeat="alignment in content.alignments">
+    <a href="{{alignment.url}}">{{alignment.name}}</a>
+  </dd>
+</dl>
+
+<!--<a href="{{content.evidence}}" class="btn btn-default">View evidence</a>-->
+<a href="#/badges/class/{{content.slug}}" class="btn btn-default">View other people with this badge &raquo;</a>
