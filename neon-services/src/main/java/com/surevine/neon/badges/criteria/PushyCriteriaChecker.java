@@ -13,6 +13,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Checks the criteria for the "Pushy" badge (pushed some code)
+ */
 public class PushyCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {

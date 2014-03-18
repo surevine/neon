@@ -7,6 +7,9 @@ import com.surevine.neon.model.ProjectActivityBean;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Checks the criteria for the "Bug Hunter" badge (raised an issue)
+ */
 public class BugHunterCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {

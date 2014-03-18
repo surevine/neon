@@ -1,9 +1,5 @@
 package com.surevine.neon.inload;
 
-import com.surevine.neon.dao.ImporterConfigurationDAO;
-import com.surevine.neon.redis.IPooledJedis;
-import com.surevine.neon.redis.PooledJedis;
-import com.surevine.neon.redis.PooledJedisProxy;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
