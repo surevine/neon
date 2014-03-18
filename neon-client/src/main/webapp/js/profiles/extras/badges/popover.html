@@ -1,13 +1,14 @@
-<p class="text-center" ng-show="{{content.description != undefined}}"><em>"{{content.description}}"</em></p>
+<p class="text-center" ng-show="content.description"><em>"{{content.description}}"</em></p>
 
 <dl>
-  <dt ng-show="{{content.issuer != undefined}}">Issued by</dt>
-  <dd ng-show="{{content.issuer != undefined}}">
+  <dt ng-show="content.issuer">Issued by</dt>
+  <dd ng-show="content.issuer">
     <a href="{{content.issuer.url}}">{{content.issuer.name}}</a>
   </dd>
   <dt>Earned</dt>
   <dd>
-    <a href="{{content.evidence}}">{{content.awarded}}</a>
+    <a href="{{content.evidence}}" ng-show="content.evidence">{{content.awarded}}</a>
+    <span ng-show="!content.evidence">{{content.awarded}}</span>
   </dd>
   <dt ng-show="{{content.alignments.length}}">Alignments</dt>
   <dd ng-repeat="alignment in content.alignments">
