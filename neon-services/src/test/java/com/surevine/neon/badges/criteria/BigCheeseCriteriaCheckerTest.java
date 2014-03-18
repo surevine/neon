@@ -5,6 +5,7 @@ import com.surevine.neon.badges.dao.BadgeClassDAO;
 import com.surevine.neon.badges.model.BadgeAssertion;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.model.ProjectActivityBean;
+import org.easymock.Capture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertTrue;
 
 public class BigCheeseCriteriaCheckerTest {
     private BigCheeseCriteriaChecker underTest;
@@ -24,7 +26,8 @@ public class BigCheeseCriteriaCheckerTest {
     @Test
     public void testCriteria() {
         expect(mockBadgeDAO.badgeClassExists("user_op")).andReturn(true);
-        mockBadgeAssertionDAO.persist(anyObject(BadgeAssertion.class));
+        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -43,6 +46,7 @@ public class BigCheeseCriteriaCheckerTest {
         profileBean.getProjectActivity().add(pab);
 
         underTest.checkCriteriaInternal(profileBean, existingBadges);
+        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("user_op"));
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
     }
@@ -50,7 +54,9 @@ public class BigCheeseCriteriaCheckerTest {
     @Test
     public void testCriteriaMultiplePab() {
         expect(mockBadgeDAO.badgeClassExists("user_op")).andReturn(true);
-        mockBadgeAssertionDAO.persist(anyObject(BadgeAssertion.class));
+
+        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -72,6 +78,7 @@ public class BigCheeseCriteriaCheckerTest {
         profileBean.getProjectActivity().add(pab2);
 
         underTest.checkCriteriaInternal(profileBean, existingBadges);
+        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("user_op"));
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
     }
