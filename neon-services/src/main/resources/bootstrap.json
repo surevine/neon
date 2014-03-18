@@ -12,7 +12,9 @@
     "badgeEnabledProjects":[
         {"projectID":"red","projectName":"Project Red"},
         {"projectID":"ora","projectName":"Project Orange"},
-        {"projectID":"pin","projectName":"Project Pink"}
+        {"projectID":"pin","projectName":"Project Pink"},
+        {"projectID":"82","projectName":"Project Rouge"}
+        
     ],
     
     "projectBadgeClassTemplates":[
