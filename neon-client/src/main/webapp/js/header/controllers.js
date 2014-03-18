@@ -6,8 +6,6 @@ return angular.module('header.controllers', [])
   
   $scope.gitlabBaseUrl = config.gitlabBaseUrl;
   
-  // TODO setup tooltip for angularstrap
-  
   $scope.tooltips = {
     "public": "Public area",
     "snippets": "My snippets",
@@ -16,40 +14,21 @@ return angular.module('header.controllers', [])
     "profile": "My profile",
   };
   
-  $scope.dropdown = [
-    {
-      "text": "<i class=\"fa fa-download\"></i>&nbsp;Another action",
-      "href": "#anotherAction"
-    },
-    {
-      "text": "<i class=\"fa fa-globe\"></i>&nbsp;Display an alert",
-      "click": "$alert(\"Holy guacamole!\")"
-    },
-    {
-      "divider": true
-    },
-    {
-      "text": "Separated link",
-      "href": "#separatedLink"
-    }
-  ];
-  
 }])
 
 .controller('SearchCtrl', ['$scope', '$location',  function($scope, $location) {
 
     // setup filter options
     $scope.filterOptions = [
-      { name: 'Skill', value: 'skill' }, 
-      { name: 'Badge', value: 'badge' }
+      { label: 'Skill', value: 'skill' }, 
+      { label: 'Badge', value: 'badge' },
+      { label: 'Gitlab', value: 'gitlab' }
     ];
   
     // set selected option (prevents angular inserting empty option)
     $scope.search = {filter : $scope.filterOptions[0].value};
-  
+
     $scope.submit = function(formData) {
-      
-      console.log("submitted...");
       
       // basic validation
       if(formData.query == '' || formData.query == undefined) {
@@ -70,6 +49,10 @@ return angular.module('header.controllers', [])
           
           case 'badge':
               $location.path( '/badges/class/'+query );
+          break;
+          
+          case 'gitlab':
+              window.location.href = config.gitlabBaseUrl+'/search?search='+query;
           break;
       }
       
