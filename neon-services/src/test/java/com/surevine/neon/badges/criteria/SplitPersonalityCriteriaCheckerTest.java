@@ -23,7 +23,7 @@ public class SplitPersonalityCriteriaCheckerTest {
 
     @Test
     public void testCriteria() {
-        expect(mockBadgeDAO.badgeClassExists("user_mp")).andReturn(true);
+        expect(mockBadgeDAO.badgeClassExists("mp")).andReturn(true);
         Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
         mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 

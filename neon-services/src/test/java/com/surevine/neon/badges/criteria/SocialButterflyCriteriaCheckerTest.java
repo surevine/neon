@@ -36,7 +36,7 @@ public class SocialButterflyCriteriaCheckerTest {
             profileBean.getConnections().add(c);
         }
 
-        expect(mockBadgeDAO.badgeClassExists("user1_sb")).andReturn(true);
+        expect(mockBadgeDAO.badgeClassExists("sb")).andReturn(true);
 
         Capture<BadgeAssertion> badgeAssertionCapture = new Capture<BadgeAssertion>();
         mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture));

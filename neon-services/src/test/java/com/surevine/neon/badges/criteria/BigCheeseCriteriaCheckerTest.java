@@ -25,7 +25,7 @@ public class BigCheeseCriteriaCheckerTest {
 
     @Test
     public void testCriteria() {
-        expect(mockBadgeDAO.badgeClassExists("user_op")).andReturn(true);
+        expect(mockBadgeDAO.badgeClassExists("op")).andReturn(true);
         Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
         mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
@@ -53,7 +53,7 @@ public class BigCheeseCriteriaCheckerTest {
 
     @Test
     public void testCriteriaMultiplePab() {
-        expect(mockBadgeDAO.badgeClassExists("user_op")).andReturn(true);
+        expect(mockBadgeDAO.badgeClassExists("op")).andReturn(true);
 
         Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
         mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));

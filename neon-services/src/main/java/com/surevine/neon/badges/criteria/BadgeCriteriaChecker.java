@@ -98,7 +98,7 @@ public abstract class BadgeCriteriaChecker {
                 // set by us so will be a code or config issue if we get here - noop
             }
         } else {
-            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + namespace);
+            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + projectID + "_" + namespacePostfix);
         }
     }
 
@@ -111,7 +111,7 @@ public abstract class BadgeCriteriaChecker {
      */
     protected void assertBadge(String userID, String email, String namespacePostfix, String image) {
         String namespace = userID + "_" + namespacePostfix;
-        if (badgeClassExists(namespace)) {
+        if (badgeClassExists(namespacePostfix)) {
             try {
                 BadgeAssertion ba = new BadgeAssertion();
                 ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + namespacePostfix));
@@ -133,7 +133,7 @@ public abstract class BadgeCriteriaChecker {
                 // set by us so will be a code or config issue if we get here - noop
             }
         } else {
-            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + namespace);
+            logger.trace("Did not create badge assertion for " + userID + " as no badge class exists for namespace " + namespacePostfix);
         }
     }
 
