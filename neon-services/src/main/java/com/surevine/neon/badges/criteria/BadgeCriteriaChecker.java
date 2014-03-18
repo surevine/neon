@@ -49,7 +49,7 @@ public abstract class BadgeCriteriaChecker {
 
     protected void assertProjectBadge(String userID, String email, String projectID, String namespacePostfix, String image) {
         String namespace = userID + "_" + projectID + "_" + namespacePostfix;
-        if (badgeClassExists(namespace)) {
+        if (badgeClassExists(projectID + "_" + namespacePostfix)) {
             try {
                 BadgeAssertion ba = new BadgeAssertion();
                 ba.setBadge(new URL(Properties.getProperties().getBaseURL() + "/rest/badges/class/" + projectID + "_" + namespacePostfix));

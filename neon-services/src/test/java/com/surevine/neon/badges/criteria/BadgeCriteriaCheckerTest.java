@@ -72,7 +72,7 @@ public class BadgeCriteriaCheckerTest {
 
     @Test
     public void testAssertProjectBadgeFail() {
-        expect(mockBadgeDAO.badgeClassExists("u1_p1_b1")).andReturn(false);
+        expect(mockBadgeDAO.badgeClassExists("p1_b1")).andReturn(false);
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -84,7 +84,7 @@ public class BadgeCriteriaCheckerTest {
 
     @Test
     public void testAssertProjectBadge() {
-        expect(mockBadgeDAO.badgeClassExists("u1_p1_b1")).andReturn(true);
+        expect(mockBadgeDAO.badgeClassExists("p1_b1")).andReturn(true);
         Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
         mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 

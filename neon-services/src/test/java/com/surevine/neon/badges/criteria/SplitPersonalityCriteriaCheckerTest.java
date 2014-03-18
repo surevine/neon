@@ -10,54 +10,49 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.HashSet;
 
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertTrue;
 
-public class FullyCommittedCriteriaCheckerTest {
-    private FullyCommittedCriteriaChecker underTest;
+public class SplitPersonalityCriteriaCheckerTest {
+    private SplitPersonalityCriteriaChecker underTest;
     private BadgeClassDAO mockBadgeDAO;
     private BadgeAssertionDAO mockBadgeAssertionDAO;
 
     @Test
-    public void checkAssertionLogic() {
-        Collection<BadgeAssertion> existingBadges = new HashSet<BadgeAssertion>();
-        ProfileBean profileBean = new ProfileBean();
-        profileBean.setUserID("user1");
-
-        for (int i = 0; i < 10; i++) {
-            ProjectActivityBean pab = new ProjectActivityBean();
-            pab.setProjectID("p1");
-            pab.setType(ProjectActivityBean.ProjectActivityType.PROJECT_COMMIT);
-            profileBean.getProjectActivity().add(pab);
-        }
-        
-
-        expect(mockBadgeDAO.badgeClassExists("p1_gc10")).andReturn(true);
-
-        Capture<BadgeAssertion> badgeAssertionCapture = new Capture<BadgeAssertion>();
-        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture));
+    public void testCriteria() {
+        expect(mockBadgeDAO.badgeClassExists("user_mp")).andReturn(true);
+        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
 
-        underTest.checkCriteriaInternal(profileBean, existingBadges);
+        
+        ProfileBean profileBean = new ProfileBean();
+        profileBean.setUserID("user");
+        ProjectActivityBean pab = new ProjectActivityBean();
+        pab.setProjectID("a");
+        pab.setType(ProjectActivityBean.ProjectActivityType.PROJECT_OWN);
+        profileBean.getProjectActivity().add(pab);
+        ProjectActivityBean pab2 = new ProjectActivityBean();
+        pab2.setProjectID("b");
+        pab2.setType(ProjectActivityBean.ProjectActivityType.PROJECT_COMMIT);
+        profileBean.getProjectActivity().add(pab2);
 
+        underTest.checkCriteriaInternal(profileBean, new HashSet<BadgeAssertion>());
+        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("user_mp"));
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
-
-        assertTrue(badgeAssertionCapture.getValue().getNamespace().equals("user1_p1_gc10"));
     }
 
     @Before
     public void setup() {
         mockBadgeDAO = createMock(BadgeClassDAO.class);
         mockBadgeAssertionDAO = createMock(BadgeAssertionDAO.class);
-        underTest = new FullyCommittedCriteriaChecker();
+        underTest = new SplitPersonalityCriteriaChecker();
         underTest.setBadgeAssertionDAO(mockBadgeAssertionDAO);
         underTest.setBadgeClassDAO(mockBadgeDAO);
     }

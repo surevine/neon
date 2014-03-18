@@ -14,13 +14,15 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertTrue;
 
-public class BugHunterCriteriaCheckerTest {
-    private BugHunterCriteriaChecker underTest;
+public class PushyCriteriaCheckerTest {
+    private PushyCriteriaChecker underTest;
     private BadgeClassDAO mockBadgeDAO;
     private BadgeAssertionDAO mockBadgeAssertionDAO;
-    
+
     @Test
     public void checkAssertionLogic() {
         Collection<BadgeAssertion> existingBadges = new HashSet<BadgeAssertion>();
@@ -33,44 +35,30 @@ public class BugHunterCriteriaCheckerTest {
         profileBean.getProjectActivity().add(pab);
         ProjectActivityBean pab2 = new ProjectActivityBean();
         pab2.setProjectID("p1");
-        pab2.setType(ProjectActivityBean.ProjectActivityType.ISSUE_AUTHOR);
+        pab2.setType(ProjectActivityBean.ProjectActivityType.PROJECT_COMMIT);
         profileBean.getProjectActivity().add(pab2);
-        ProjectActivityBean pab3 = new ProjectActivityBean();
-        pab3.setProjectID("p2");
-        pab3.setType(ProjectActivityBean.ProjectActivityType.PROJECT_OWN);
-        profileBean.getProjectActivity().add(pab3);
-        ProjectActivityBean pab4 = new ProjectActivityBean();
-        pab4.setProjectID("p3");
-        pab4.setType(ProjectActivityBean.ProjectActivityType.ISSUE_AUTHOR);
-        profileBean.getProjectActivity().add(pab4);
-        
-        // the class existence will be checked for the two matching assertions
-        expect(mockBadgeDAO.badgeClassExists("p1_rai")).andReturn(true);
-        expect(mockBadgeDAO.badgeClassExists("p3_rai")).andReturn(true);
 
-        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
-        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
-        Capture<BadgeAssertion> badgeAssertionCapture2 = new Capture<BadgeAssertion>();
-        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture2));
-        
+        expect(mockBadgeDAO.badgeClassExists("p1_gc")).andReturn(true);
+
+        Capture<BadgeAssertion> badgeAssertionCapture = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture));
+
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
-        
+
         underTest.checkCriteriaInternal(profileBean, existingBadges);
-        
+
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
-        
-        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("user1_p1_rai") || badgeAssertionCapture2.getValue().getNamespace().equals("user1_p1_rai"));
-        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("user1_p3_rai") || badgeAssertionCapture2.getValue().getNamespace().equals("user1_p3_rai"));
-        
+
+        assertTrue(badgeAssertionCapture.getValue().getNamespace().equals("user1_p1_gc"));
     }
 
     @Before
     public void setup() {
         mockBadgeDAO = createMock(BadgeClassDAO.class);
         mockBadgeAssertionDAO = createMock(BadgeAssertionDAO.class);
-        underTest = new BugHunterCriteriaChecker();
+        underTest = new PushyCriteriaChecker();
         underTest.setBadgeAssertionDAO(mockBadgeAssertionDAO);
         underTest.setBadgeClassDAO(mockBadgeDAO);
     }
