@@ -33,7 +33,7 @@ public class FullyCommittedCriteriaChecker extends BadgeCriteriaChecker {
             Integer commitCount = entry.getValue();
             String namespace = userID + "_" + projectID + "_gc10";
             
-            if (commitCount > 10 && !alreadyAwarded(namespace,existingBadges)) {
+            if (commitCount >= 10 && !alreadyAwarded(namespace,existingBadges)) {
                 assertProjectBadge(userID, profileBean.getVcard().getEmail(), projectID, "gc10", "gitlab-10-commit.png");
             }
         }
