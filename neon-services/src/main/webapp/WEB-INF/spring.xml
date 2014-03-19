@@ -82,10 +82,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Profile service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
+        <property name="importRegistry" ref="importRegistry" />
     </bean>
     
     <bean name="skillService" class="com.surevine.neon.service.impl.SkillServiceImpl">
         <property name="searchDAO" ref="searchDAO" />
+        <property name="profileDAO" ref="profileDAO" />
     </bean>
 
     <bean name="inloadControlService" class="com.surevine.neon.service.impl.InloadControlServiceImpl">

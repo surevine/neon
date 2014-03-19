@@ -23,6 +23,10 @@
 		padding: 10px;
 	}
 	
+	.metastats svg {
+		width: 100%
+	}
+	
 	.commitGraph .axis path,
 	.commitGraph .axis line {
 	  fill: none;

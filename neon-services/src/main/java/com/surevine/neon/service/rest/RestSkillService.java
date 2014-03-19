@@ -2,14 +2,9 @@ package com.surevine.neon.service.rest;
 
 import java.util.Collection;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
+import com.surevine.neon.service.bean.SkillServiceBean;
 import org.apache.log4j.Logger;
 
 import com.surevine.neon.model.ProfileBean;
@@ -40,7 +35,15 @@ public class RestSkillService implements SkillService {
         }
 		return implementation.getUsersForSkill(skillName, minLevel);
 	}
-	
+
+    @POST
+    public void addSkill(SkillServiceBean skillBean) {
+        if (implementation == null) {
+            loadServiceFromSpringContext();
+        }
+        implementation.addSkill(skillBean);
+    }
+
     private void loadServiceFromSpringContext() {
         log.debug("Loading profileService from Spring context");
         implementation = (SkillService) SpringApplicationContext.getBean("skillService");

@@ -22,7 +22,8 @@ define([ 'd3' ], function(d3) {
 				var svg = d3.select(element[0]).append('div').classed(
 						'punchcard', true).classed('metastats', true).append(
 						'svg').attr("width", w).attr("height", h).attr(
-						'viewBox', '0, 0, ' + w + ', ' + h);
+						'viewBox', '0, 0, ' + w + ', ' + h).attr(
+						'preserveAspectRatio', 'xMidYMid meet');
 
 				scope.$watchCollection('data', function(data, oldVal) {
 					svg.selectAll('*').remove();

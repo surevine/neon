@@ -40,7 +40,8 @@ define([ 'd3' ], function(d3) {
 						'svg')
 						.attr("width", width + margin.left + margin.right)
 						.attr("height", height + margin.top + margin.bottom)
-						.attr('viewBox', '0, 0, ' + width + ', ' + height);
+						.attr('viewBox', '0, 0, ' + width + ', ' + height)
+						.attr('preserveAspectRatio', 'xMidYMid meet');
 
 				scope.$watchCollection('commitData', function(commitsByWeek,
 						oldVal) {

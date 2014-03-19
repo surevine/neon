@@ -2,7 +2,9 @@ package com.surevine.neon.dao;
 
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.model.ProfileBean;
+import com.surevine.neon.model.VCardBean;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -102,4 +104,10 @@ public interface ProfileDAO {
      * @param userID the userID to remove
      */
     public void removeUserIDFromProfileList(final String userID);
+
+    /**
+     * Gets the vcard for all users in the system
+     * @return set containing the vcards for all users in the system
+     */
+    public Map<String, VCardBean> getAllUserVCards();
 }

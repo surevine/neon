@@ -14,6 +14,11 @@ define([], function() {
 				summary : true
 			}
 		}, {
+			id : 'badges',
+			sections : {
+				summary : true
+			}
+		}, {
 			id : 'skills',
 			sections : {
 				detail : true,
@@ -49,11 +54,6 @@ define([], function() {
 			id : 'additional',
 			sections : {
 				detail : true,
-			}
-		}, {
-			id : 'badges',
-			sections : {
-				summary : true
 			}
 		} ],
 		skillRatings : {

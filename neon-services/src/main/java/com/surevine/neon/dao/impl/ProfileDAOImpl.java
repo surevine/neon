@@ -6,6 +6,7 @@ import com.surevine.neon.dao.ProfileUpdatedListener;
 import com.surevine.neon.inload.DataImporter;
 import com.surevine.neon.inload.FeedRegistry;
 import com.surevine.neon.model.ProfileBean;
+import com.surevine.neon.model.VCardBean;
 import com.surevine.neon.redis.IPooledJedis;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
@@ -82,6 +83,23 @@ public class ProfileDAOImpl implements ProfileDAO {
                 jedis.del(userKey);
             }
         }
+    }
+
+    @Override
+    public Map<String, VCardBean> getAllUserVCards() {
+        Map<String, VCardBean> vcards = new HashMap<String, VCardBean>();
+        NamespaceHandler vcardHandler = handlerMapping.get(NS_BASIC_DETAILS);
+        if (vcardHandler != null) {
+            for (String userID:getUserIDList()) {
+                ProfileBean bean = new ProfileBean();
+                bean.setUserID(userID);
+                vcardHandler.load(bean);
+                vcards.put(userID, bean.getVcard());
+            }
+        } else {
+            logger.debug("Could not load VCard summaries for users as there is no handler configured for the vcard namespace");
+        }
+        return vcards;
     }
 
     /**

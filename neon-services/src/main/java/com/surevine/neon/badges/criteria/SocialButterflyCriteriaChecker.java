@@ -5,6 +5,9 @@ import com.surevine.neon.model.ProfileBean;
 
 import java.util.Collection;
 
+/**
+ * Checks the criteria for the "Social Butterfly" badge (>=20 connections)
+ */
 public class SocialButterflyCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {

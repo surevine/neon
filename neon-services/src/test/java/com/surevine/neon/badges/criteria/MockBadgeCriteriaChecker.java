@@ -5,12 +5,9 @@ import com.surevine.neon.model.ProfileBean;
 
 import java.util.Collection;
 
-/**
- * Checks the criteria for the "Merge Master" badge (created a merge request)
- */
-public class MergeMasterCriteriaChecker extends BadgeCriteriaChecker {
+public class MockBadgeCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
-        // not in the gitlab importer yet - implementation TODO
+        // noop
     }
 }
