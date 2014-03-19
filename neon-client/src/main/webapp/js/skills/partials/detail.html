@@ -1,7 +1,7 @@
 <div class="skill-info">
   <h1>{{skillName}}</h1>
 </div>
-<div class="skill-people">
+<div class="skill-people" ng-show="people">
   <h3>{{people.length}} people with this skill</h3>
   <div class="panel panel-default" ng-show="people.length">
     <div class="panel-heading">
@@ -27,7 +27,8 @@
   
   </div>
   
-  <div class="alert alert-warning" ng-hide="people.length">
-    No people found with this skill.
-  </div>
+</div>
+
+<div class="alert alert-warning" ng-hide="people.length">
+  No people found with this skill.
 </div>

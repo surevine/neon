@@ -1,10 +1,10 @@
-<div class="badge-info">
+<div class="badge-info" ng-show="badge">
   <img src="{{badge.image}}" alt="{{badge.name}}" class="pull-left" />
   <h1>{{badge.name}}</h1>
   <p><em>"{{badge.description}}"</em></p>
   <a href="{{badge.criteria}}" class="btn btn-default">View badge criteria &raquo;</a>
 </div>
-<div class="badge-people">
+<div class="badge-people" ng-show="people">
   <h3>{{people.length}} people with this badge</h3>
   <div class="panel panel-default" ng-show="people.length">
     <div class="panel-heading">
@@ -26,7 +26,12 @@
       </ul>
   </div>
   
-  <div class="alert alert-warning" ng-hide="people.length">
-    No people found with this badge.
-  </div>
+</div>
+
+<div class="alert alert-warning" ng-hide="badge">
+  Badge not found.
+</div>
+
+<div class="alert alert-warning" ng-hide="people.length || !badge">
+  No people found with this badge.
 </div>
