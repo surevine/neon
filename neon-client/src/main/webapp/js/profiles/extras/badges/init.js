@@ -78,7 +78,7 @@ define([ 'angular', 'config' ], function(ng, config) {
                     $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.content.error = false;
 
                     // Retrieve addional badge info
-                    $http.get( badge.assertionData.badge)
+                    $http.get(badge.assertionData.badge)
                     .success(function(badgeData) {
                           
                       badge.badgeData = badgeData;

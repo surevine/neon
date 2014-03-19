@@ -1,27 +1,32 @@
-<h1>People with '{{badgeClassId}}' badge</h1>
-
-<div class="panel panel-default" ng-show="people.length">
-  <div class="panel-heading">
-    <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
-  </div>
-
-    <ul class="list-group">
-        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item person">
-          <a href="#/profile/{{person.userID}}">
-            <img ng-src="{{person.vcard.photo.photoURL}}"
-                 ng-show="{{person.vcard.photo.photoURL.length}}"
-                    class="profile-image img-thumbnail" />
-            <div ng-hide="{{person.vcard.photo.photoURL.length}}"
-                 class="profile-image img-thumbnail">
-              <span class="glyphicon glyphicon-user"></span>
-            </div>
-          </a>
-          <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
-      </li>
-    </ul>
-
+<div class="badge-info">
+  <img src="{{badge.image}}" alt="{{badge.name}}" class="pull-left" />
+  <h1>{{badge.name}}</h1>
+  <p><em>"{{badge.description}}"</em></p>
+  <a href="{{badge.criteria}}" class="btn btn-default">View badge criteria &raquo;</a>
 </div>
-
-<div class="alert alert-warning" ng-hide="people.length">
-  No people found with this badge.
+<div class="badge-people">
+  <h3>People with this badge</h3>
+  <div class="panel panel-default" ng-show="people.length">
+    <div class="panel-heading">
+      <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
+    </div>
+      <ul class="list-group">
+          <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item person">
+            <a href="#/profile/{{person.userID}}">
+              <img ng-src="{{person.vcard.photo.photoURL}}"
+                   ng-show="{{person.vcard.photo.photoURL.length}}"
+                      class="profile-image img-thumbnail" />
+              <div ng-hide="{{person.vcard.photo.photoURL.length}}"
+                   class="profile-image img-thumbnail">
+                <span class="glyphicon glyphicon-user"></span>
+              </div>
+            </a>
+            <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
+        </li>
+      </ul>
+  </div>
+  
+  <div class="alert alert-warning" ng-hide="people.length">
+    No people found with this badge.
+  </div>
 </div>
