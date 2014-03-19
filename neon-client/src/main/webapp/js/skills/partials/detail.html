@@ -2,6 +2,15 @@
   <h1>{{skillName}}</h1>
 </div>
 <div class="skill-people" ng-show="people">
+  
+  <div class="pull-right">
+    <form class="form-horizontal">
+      <button type="button" name="filter" class="btn btn-default" ng-model="filter.rating" data-html="1" data-placeholder="Filter" ng-options="option.value as option.label for option in filterOptions" bs-select>
+        Filter <span class="caret"></span>
+      </button>
+    </form>
+  </div>
+  
   <h3>{{people.length}} people with this skill</h3>
   <div class="panel panel-default" ng-show="people.length">
     <div class="panel-heading">
@@ -10,7 +19,7 @@
     </div>
   
       <ul class="list-group">
-          <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item person">
+          <li ng-repeat="person in people | orderBy:predicate:reverse  | filter:filter.rating" class="list-group-item person">
             <a href="#/profile/{{person.userID}}">
               <img ng-src="{{person.vcard.photo.photoURL}}"
                    ng-show="{{person.vcard.photo.photoURL.length}}"
