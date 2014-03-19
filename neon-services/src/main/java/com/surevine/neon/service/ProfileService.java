@@ -1,6 +1,7 @@
 package com.surevine.neon.service;
 
 import com.surevine.neon.model.ProfileBean;
+import com.surevine.neon.service.bean.UserSummaryServiceBean;
 
 import java.util.Collection;
 
@@ -28,8 +29,8 @@ public interface ProfileService {
     public void removeUser(String userID);
 
     /**
-     * Gets all userIDs in the system
-     * @return all userIDs in the system
+     * Gets a summary for all users in the system
+     * @return summaries for users in the system
      */
-    public Collection<String> getAllUserIDs();
+    public Collection<UserSummaryServiceBean> getAllUsers();
 }

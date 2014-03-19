@@ -113,4 +113,9 @@ public class InMemoryProfileDAOImpl implements ProfileDAO {
 		explicitUserIDs.remove(userID);
 	}
 
+    @Override
+    public Map<String, VCardBean> getAllUserVCards() {
+        return null;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.surevine.neon.service.rest;
 
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.service.ProfileService;
+import com.surevine.neon.service.bean.UserSummaryServiceBean;
 import com.surevine.neon.util.SpringApplicationContext;
 import org.apache.log4j.Logger;
 
@@ -52,11 +53,11 @@ public class RestProfileService implements ProfileService {
 
     @GET
     @Path("users")
-    public Collection<String> getAllUserIDs() {
+    public Collection<UserSummaryServiceBean> getAllUsers() {
         if (serviceImplementation == null) {
             loadServiceFromSpringContext();
         }
-        return serviceImplementation.getAllUserIDs();
+        return serviceImplementation.getAllUsers();
     }
 
     private void loadServiceFromSpringContext() {
