@@ -18,6 +18,7 @@ define([ 'angular', 'config' ], function(ng, config) {
               
               $scope.badges.hasBadges = (data.length > 0);
               $scope.badges.list = [];
+              //$scope.badges.popovers = [];
             
               for ( var i = 0; i < data.length; ++i) {
                 
@@ -35,6 +36,8 @@ define([ 'angular', 'config' ], function(ng, config) {
                 
                   $scope.badges.list.push(displayBadge);
                 
+                  //$scope.badges.popovers[displayBadge.assertionData.namespace] = ;
+                
               }
           });
         });
@@ -44,50 +47,78 @@ define([ 'angular', 'config' ], function(ng, config) {
         return {
             restrict: 'C',
             link: function($scope, $element, $attr) {
+              
+                // init array for popovers if required
+                if(!$scope.badgeMetaPopovers) {
+                  $scope.badgeMetaPopovers = [];
+                }
+
+                var badge = $scope.$parent.badges.list[$attr.badgeindex]; 
+              
+                if(!$scope.badgeMetaPopovers[badge.assertionData.namespace]) {
+                  
+                  // Create empty popover
+                  $scope.badgeMetaPopovers[badge.assertionData.namespace] = $popover($element, {
+                                                                                scope: $scope,
+                                                                                title: 'Loading', 
+                                                                                content: {
+                                                                                  loaded: false
+                                                                                },
+                                                                                contentTemplate: 'js/profiles/extras/badges/popover.html'
+                                                                            });
+                  
+                }
 
                 $element.bind('click', function(e) {
-
-                    // init array for popovers if required
-                    if(!$scope.badgeMetaPopovers) {
-                      $scope.badgeMetaPopovers = [];
-                    }
-
-                    var badge = $scope.$parent.badges.list[$attr.badgeindex]; 
                   
-                    if(!$scope.badgeMetaPopovers[badge.assertionData.namespace]) {
+                  if(!$scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.content.loaded) {
+                    
+                    // reset error state (for retry)
+                    $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.title = 'Loading';
+                    $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.content.error = false;
 
-                      // Retrieve addional badge info
-                      $http.get( badge.assertionData.badge)
-                      .success(function(badgeData) {
-                            
-                        badge.badgeData = badgeData;
-                                  
-                        $http.get(badge.badgeData.issuer)
-                        .success(function(issuerData) {
+                    // Retrieve addional badge info
+                    $http.get( badge.assertionData.badge)
+                    .success(function(badgeData) {
                           
-                          badge.issuerData = issuerData;
-                          
-                          $scope.badgeMetaPopovers[badge.assertionData.namespace] = $popover($element, {
-                                                                                        scope: $scope,
-                                                                                        title: badge.badgeData.name, 
-                                                                                        content: {
-                                                                                          description: badge.badgeData.description,
-                                                                                          issuedOn: badge.assertionData.issuedOn,
-                                                                                          awarded: $attr.awarded,
-                                                                                          slug: $attr.slug,
-                                                                                          evidence: badge.assertionData.evidence,
-                                                                                          alignments: badge.badgeData.alignment,
-                                                                                          issuer: badge.issuerData
-                                                                                        },
-                                                                                        contentTemplate: 'js/profiles/extras/badges/popover.html'
-                                                                                    });
-
-                        });
-                                                                                   
+                      badge.badgeData = badgeData;
+                                
+                      $http.get(badge.badgeData.issuer)
+                      .success(function(issuerData) {
+                        
+                        badge.issuerData = issuerData;
+                        
+                        var content = {
+                          loaded: true,
+                          description: badge.badgeData.description,
+                          issuedOn: badge.assertionData.issuedOn,
+                          awarded: $attr.awarded,
+                          slug: $attr.slug,
+                          evidence: badge.assertionData.evidence,
+                          alignments: badge.badgeData.alignment,
+                          issuer: badge.issuerData
+                        }
+                        
+                        $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.title = badge.badgeData.name;
+                        $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.content = content;
+                        
                       });
-
-                    }
-                  
+                                                                                 
+                    })
+                    .error(function(error) {
+                      
+                      var content = {
+                        loaded: false,
+                        error: true
+                      }
+                       
+                      $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.title = "Error";
+                      $scope.badgeMetaPopovers[badge.assertionData.namespace].$scope.content = content;
+                      
+                    });
+                    
+                  }
+                      
                 })
             }
         }
