@@ -1,0 +1,33 @@
+<div class="people-info">
+  <h1>People</h1>
+</div>
+<div class="people-list" ng-show="people">
+  
+  <form class="form-inline" id="nameFilterForm">
+    <label for="nameFilter">Filter</label>
+    <input name="nameFilter" ng-model="nameFilter" class="form-control" type="text" placeholder="Name" />
+  </form>
+  
+  <div class="panel panel-default" ng-show="people.length">
+    <div class="panel-heading">
+      <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
+    </div>
+  
+    <ul class="list-group">
+        <li ng-repeat="person in people | orderBy:predicate:reverse | filter:nameFilter" class="list-group-item person">
+          <a href="#/profile/{{person.userID}}">
+            <img ng-src="{{person.vcard.photo.photoURL}}"
+                 ng-show="{{person.vcard.photo.photoURL.length}}"
+                    class="profile-image img-thumbnail" />
+            <div ng-hide="{{person.vcard.photo.photoURL.length}}"
+                 class="profile-image img-thumbnail">
+              <span class="glyphicon glyphicon-user"></span>
+            </div>
+          </a>
+          <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
+      </li>
+    </ul>
+  
+  </div>
+  
+</div>

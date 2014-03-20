@@ -155,3 +155,9 @@ ul.badges img {
 .popover-content dl {
   margin-bottom: 10px;
 }
+
+/* People page */
+
+#nameFilterForm {
+  margin: 10px 0;
+}
