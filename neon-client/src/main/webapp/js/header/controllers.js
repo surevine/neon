@@ -22,6 +22,7 @@ return angular.module('header.controllers', [])
     $scope.filterOptions = [
       { label: 'Skill', value: 'skill' }, 
       { label: 'Badge', value: 'badge' },
+      { label: 'Person', value: 'people' },
       { label: 'Gitlab', value: 'gitlab' }
     ];
   
@@ -49,6 +50,10 @@ return angular.module('header.controllers', [])
           
           case 'badge':
               $location.path( '/badges/class/'+query );
+          break;
+          
+          case 'people':
+              $location.path( '/people/'+query );
           break;
           
           case 'gitlab':
