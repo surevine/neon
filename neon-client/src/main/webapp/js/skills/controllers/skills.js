@@ -3,7 +3,7 @@ define(['angular', 'config'], function(ng, config) {
 
 		$scope.skillName = $routeParams.skillName;
       
-        $scope.filterOptions = [{ label: 'all', value: '' }];
+        $scope.filterOptions = [{ label: 'All', value: '' }];
         for (var key in config.skillRatings) {
           if (config.skillRatings.hasOwnProperty(key)) {
             $scope.filterOptions.push({ label: config.skillRatings[key], value: config.skillRatings[key] });

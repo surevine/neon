@@ -16,8 +16,7 @@ define([ 'angular', 'config' ], function(ng, config) {
         }
         $scope.skill = {rating : $scope.skillRatingOptions[0].value};
 
-        $scope.$watchCollection('profile.skills', function(
-                newVal, oldVal) {
+        $scope.$watchCollection('profile.skills', function(newVal, oldVal) {
             if (newVal && newVal.length > 0) {
 
                 $scope.skills.hasSkills = true;
