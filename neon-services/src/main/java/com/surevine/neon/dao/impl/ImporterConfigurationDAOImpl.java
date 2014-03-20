@@ -34,6 +34,17 @@ public class ImporterConfigurationDAOImpl implements ImporterConfigurationDAO {
     }
 
     @Override
+    public Map<String, Map<String, String>> getConfigurationForImporters() {
+        Set<String> impKeys = jedis.keys(Properties.getProperties().getSystemNamespace() + ":" + NS_IMPORTER_PREFIX + ":*");
+        Map<String, Map<String,String>> configs = new HashMap<String, Map<String, String>>();
+        for (String key:impKeys) {
+            String importerName = key.substring(key.lastIndexOf(":") + 1);
+            configs.put(importerName, jedis.hgetAll(key));
+        }
+        return configs;
+    }
+
+    @Override
     public String getStringConfigurationOption(String importerName, String configurationKey) {
         return jedis.hget(Properties.getProperties().getSystemNamespace() + ":" + NS_IMPORTER_PREFIX + ":" + importerName, configurationKey);
     }

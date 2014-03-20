@@ -28,7 +28,12 @@ public class PropertyImporterConfigurationDAOImpl implements ImporterConfigurati
 		return null;
 	}
 
-	@Override
+    @Override
+    public Map<String, Map<String, String>> getConfigurationForImporters() {
+        return null;
+    }
+
+    @Override
 	public String getStringConfigurationOption(String importerName, String configurationKey) {
 		// TODO Auto-generated method stub
 		return null;

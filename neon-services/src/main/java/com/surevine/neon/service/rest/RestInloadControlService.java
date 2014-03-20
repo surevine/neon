@@ -6,6 +6,7 @@ import com.surevine.neon.util.SpringApplicationContext;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,17 @@ public class RestInloadControlService implements InloadControlService {
         }
         
         return serviceImplementation.getConfigForImporter(importer);
+    }
+
+    @GET
+    @Path("importerconfig")
+    @Override
+    public Collection<ImporterConfigurationServiceBean> getAllImporterConfigurations() {
+        if (serviceImplementation == null) {
+            loadServiceFromSpringContext();
+        }
+
+        return serviceImplementation.getAllImporterConfigurations();
     }
 
     @POST

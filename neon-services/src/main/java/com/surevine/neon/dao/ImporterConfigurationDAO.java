@@ -1,5 +1,6 @@
 package com.surevine.neon.dao;
 
+import java.util.Collection;
 import java.util.Map;
 
 public interface ImporterConfigurationDAO {
@@ -32,6 +33,12 @@ public interface ImporterConfigurationDAO {
      */
     public Map<String,String> getConfigurationForImporter(String importerName);
 
+    /**
+     * Gets the configuration for all importers
+     * @return the importer config for all importers as Map<"importer name", Map<"config option","config value">>
+     */
+    public Map<String, Map<String,String>> getConfigurationForImporters();
+    
     /**
      * Gets a single string configuration option
      * @param importerName the importer name
