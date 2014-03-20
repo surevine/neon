@@ -30,7 +30,6 @@ define([ 'angular', 'config' ], function(ng, config) {
             }
         });
       
-      // Pre-fetch an external template populated with a custom scope
         $scope.addSkillModal = $modal({
           scope: $scope,
           contentTemplate: 'js/profiles/extras/skills/addSkill.html',
@@ -56,8 +55,6 @@ define([ 'angular', 'config' ], function(ng, config) {
             skillName: skill.name,
             rating: skill.rating
           };
-          
-          // TODO show loading state...
           
           $http.post(config.restBaseUrl + 'skill', newSkill)
           .success(function(){
