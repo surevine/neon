@@ -18,7 +18,6 @@ define([ 'angular', 'config' ], function(ng, config) {
               
               $scope.badges.hasBadges = (data.length > 0);
               $scope.badges.list = [];
-              //$scope.badges.popovers = [];
             
               for ( var i = 0; i < data.length; ++i) {
                 
@@ -35,8 +34,6 @@ define([ 'angular', 'config' ], function(ng, config) {
                   }
                 
                   $scope.badges.list.push(displayBadge);
-                
-                  //$scope.badges.popovers[displayBadge.assertionData.namespace] = ;
                 
               }
           });

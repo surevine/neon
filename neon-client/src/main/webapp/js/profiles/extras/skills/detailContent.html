@@ -1,5 +1,6 @@
 <section class="profile-section"
 	ng-controller='profilesSkillsExtrasCtrl' ng-show='skills.hasSkills'>
+    <a ng-click="showAddSkillForm()" class="btn btn-default pull-right">Add skill</a>
 	<h3>{{profile.vcard.fn}} has {{skills.count}} Skills</h3>
 	<ul class="list-group">
 		<li ng-repeat="skill in profile.skills" class="list-group-item"><a
