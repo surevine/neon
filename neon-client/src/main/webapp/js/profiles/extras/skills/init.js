@@ -1,6 +1,6 @@
 define([ 'angular', 'config' ], function(ng, config) {
 	return ng.module('profiles.extras.skills', [])
-    .controller('profilesSkillsExtrasCtrl', ['$scope', '$http', '$routeParams', '$modal', function($scope, $http, $routeParams, $modal) {
+    .controller('profilesSkillsExtrasCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$modal', function($scope, $http, $routeParams, $timeout, $modal) {
 
         $scope.skills = {
             hasSkills : false,
@@ -17,8 +17,11 @@ define([ 'angular', 'config' ], function(ng, config) {
         $scope.skill = {rating : $scope.skillRatingOptions[0].value};
 
         $scope.$watchCollection('profile.skills', function(newVal, oldVal) {
+          
+            console.log("Skills changed...");
+            console.log(newVal);
+          
             if (newVal && newVal.length > 0) {
-
                 $scope.skills.hasSkills = true;
                 $scope.skills.topSkill = newVal[0];
                 $scope.skills.count = newVal.length;
@@ -36,7 +39,6 @@ define([ 'angular', 'config' ], function(ng, config) {
           show: false,
           title: 'Add Skill',
         });
-      
       
         $scope.showAddSkillForm = function() {
           $scope.addSkillModal.show();
@@ -63,7 +65,9 @@ define([ 'angular', 'config' ], function(ng, config) {
             // Reloading entire profile (as no get skills service)
             $http({method: 'GET', url: config.restBaseUrl + 'profile/' + escape($routeParams.userId)})
 			.success(function(data) {
-				$scope.profile = data;
+              
+              $scope.profile = data;
+              
 			});
             
           });
