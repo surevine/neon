@@ -1,6 +1,6 @@
 define([ 'angular', 'config' ], function(ng, config) {
 	return ng.module('profiles.extras.skills', [])
-    .controller('profilesSkillsExtrasCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$modal', function($scope, $http, $routeParams, $timeout, $modal) {
+    .controller('profilesSkillsExtrasCtrl', ['$scope', '$http', '$routeParams', '$modal', function($scope, $http, $routeParams, $modal) {
 
         $scope.skills = {
             hasSkills : false,
