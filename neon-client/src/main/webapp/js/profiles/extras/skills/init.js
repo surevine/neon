@@ -18,9 +18,6 @@ define([ 'angular', 'config' ], function(ng, config) {
 
         $scope.$watchCollection('profile.skills', function(newVal, oldVal) {
           
-            console.log("Skills changed...");
-            console.log(newVal);
-          
             if (newVal && newVal.length > 0) {
                 $scope.skills.hasSkills = true;
                 $scope.skills.topSkill = newVal[0];
