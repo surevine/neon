@@ -14,7 +14,7 @@ final class InternalImporter implements DataImporter {
     
     @Override
     public String getImporterName() {
-        return "NEON Internal";
+        return "NEON_INTERNAL";
     }
 
     @Override

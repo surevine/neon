@@ -2,6 +2,7 @@ package com.surevine.neon.dao.impl;
 
 import com.surevine.neon.dao.ImporterConfigurationDAO;
 import com.surevine.neon.dao.NamespaceHandler;
+import com.surevine.neon.inload.ImportRegistry;
 import com.surevine.neon.model.ImporterMetaData;
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.redis.IPooledJedis;
@@ -49,6 +50,38 @@ public abstract class AbstractNamespaceHandler implements NamespaceHandler {
      */
     protected void setMultipleField(final String hsetKey, final String field, final String importer, final Collection<? extends Object> values) {
         int index = 0;
+
+        /**
+         * In general we have assumed that the importers will give us all the data we need each import. This is true for all 
+         * automated importers but not for anything added manually. For this reason, when we persist multiple values from the
+         * internal importer (which is used for manual updates), we want to ensure we aren't overwriting anything already stored. 
+         * 
+         * This is a short-term fix and some more work will need to be done around meta data and updating existing values but 
+         * for now we just count any existing entries from the internal importer for the field we are persisting and increment the 
+         * index start point to ensure we don't replace any existing values. There is a downside with this approach in that we 
+         * will allow duplicate entries - this is because we don't know the data structure being persisted at this point so cannot 
+         * check if something already exists.
+         * 
+         * This logic needs to be moved up to the individual namespace handlers that will be able to look at the existing data and 
+         * see if this is updating an existing entry or adding a new one. This cannot be done until metadata is improved as we 
+         * do not currently associate an importer to each entry in a multiple field at the business object level, only aggregate 
+         * all contributing importers.
+         * 
+         * At the time of writing we only have Skills being created manually which means the limitations in this implementation 
+         * will allow a user to grant themselves the same skill twice. This could be compensated for elsewhere in sytem or 
+         * on the client as a short term workaround but we should have proper update logic at some point.
+         * 
+         * TL;DR; we increment the index by the amount of existing entries for this field and importer pair to avoid any overwrites.
+         */
+        if (ImportRegistry.getInstance().getInternalDataImporter().getImporterName().equals(importer)) {
+            Map<String,String> existingHash = jedis.hgetAll(hsetKey);
+            for (Map.Entry<String,String> existingEntry:existingHash.entrySet()) {
+                if (existingEntry.getKey().startsWith(field + ":" + importer + ":")) {
+                    index++;
+                }
+            }
+        }
+        
         for (Object valueObject:values) {
             String value = valueObject.toString();
             if (value != null && value.length() > 0) {
