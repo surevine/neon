@@ -57,7 +57,8 @@ define([ 'angular', 'config' ], function(ng, config) {
                   // Create empty popover
                   $scope.badgeMetaPopovers[badge.assertionData.namespace] = $popover($element, {
                                                                                 scope: $scope,
-                                                                                title: 'Loading', 
+                                                                                title: 'Loading',
+                                                                                html: true,
                                                                                 content: {
                                                                                   loaded: false
                                                                                 },
