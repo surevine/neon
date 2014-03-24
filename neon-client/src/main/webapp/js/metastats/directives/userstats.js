@@ -10,7 +10,7 @@ define([ 'config' ], function(config) {
 						$http(
 								{
 									method : 'GET',
-									url : config.metastatsBaseUrl + 'user/'
+									url : config.metastatsBaseUrl + 'api/users/id/'
 											+ escape(newVal)
 								}).success(function(data) {
 							scope.metastatsUserData = data;
