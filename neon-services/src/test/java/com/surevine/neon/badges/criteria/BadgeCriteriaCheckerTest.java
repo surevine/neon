@@ -3,6 +3,7 @@ package com.surevine.neon.badges.criteria;
 import com.surevine.neon.badges.dao.BadgeAssertionDAO;
 import com.surevine.neon.badges.dao.BadgeClassDAO;
 import com.surevine.neon.badges.model.BadgeAssertion;
+import org.easymock.Capture;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,8 +44,9 @@ public class BadgeCriteriaCheckerTest {
 
     @Test
     public void testAssertBadge() {
-        expect(mockBadgeDAO.badgeClassExists("u1_b1")).andReturn(true);
-        mockBadgeAssertionDAO.persist(anyObject(BadgeAssertion.class));
+        expect(mockBadgeDAO.badgeClassExists("b1")).andReturn(true);
+        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -52,11 +54,13 @@ public class BadgeCriteriaCheckerTest {
         underTest.assertBadge("u1","","b1","");
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
+        
+        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("u1_b1"));
     }
 
     @Test
     public void testAssertBadgeFail() {
-        expect(mockBadgeDAO.badgeClassExists("u1_b1")).andReturn(false);
+        expect(mockBadgeDAO.badgeClassExists("b1")).andReturn(false);
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -68,7 +72,7 @@ public class BadgeCriteriaCheckerTest {
 
     @Test
     public void testAssertProjectBadgeFail() {
-        expect(mockBadgeDAO.badgeClassExists("u1_p1_b1")).andReturn(false);
+        expect(mockBadgeDAO.badgeClassExists("p1_b1")).andReturn(false);
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -80,8 +84,9 @@ public class BadgeCriteriaCheckerTest {
 
     @Test
     public void testAssertProjectBadge() {
-        expect(mockBadgeDAO.badgeClassExists("u1_p1_b1")).andReturn(true);
-        mockBadgeAssertionDAO.persist(anyObject(BadgeAssertion.class));
+        expect(mockBadgeDAO.badgeClassExists("p1_b1")).andReturn(true);
+        Capture<BadgeAssertion> badgeAssertionCapture1 = new Capture<BadgeAssertion>();
+        mockBadgeAssertionDAO.persist(capture(badgeAssertionCapture1));
 
         replay(mockBadgeDAO);
         replay(mockBadgeAssertionDAO);
@@ -89,6 +94,8 @@ public class BadgeCriteriaCheckerTest {
         underTest.assertProjectBadge("u1", "", "p1", "b1", "");
         verify(mockBadgeDAO);
         verify(mockBadgeAssertionDAO);
+        
+        assertTrue(badgeAssertionCapture1.getValue().getNamespace().equals("u1_p1_b1"));
     }
 
     @Before

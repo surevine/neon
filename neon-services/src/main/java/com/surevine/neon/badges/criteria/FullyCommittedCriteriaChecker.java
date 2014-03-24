@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Checks the criteria for the "Fully Committed" badge (10 or more commits on a project)
+ */
 public class FullyCommittedCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {
@@ -33,7 +36,7 @@ public class FullyCommittedCriteriaChecker extends BadgeCriteriaChecker {
             Integer commitCount = entry.getValue();
             String namespace = userID + "_" + projectID + "_gc10";
             
-            if (commitCount > 10 && !alreadyAwarded(namespace,existingBadges)) {
+            if (commitCount >= 10 && !alreadyAwarded(namespace,existingBadges)) {
                 assertProjectBadge(userID, profileBean.getVcard().getEmail(), projectID, "gc10", "gitlab-10-commit.png");
             }
         }

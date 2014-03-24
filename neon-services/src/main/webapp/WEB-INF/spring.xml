@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <!-- APPLICATION BEANS -->
+    <!-- APPLICATION AND SYSTEM BEANS -->
     <bean class="com.surevine.neon.util.SpringApplicationContext"/>
     
     <bean class="com.surevine.neon.Bootstrap" init-method="bootstrap">
@@ -14,6 +14,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
         <property name="profileDAO" ref="profileDAO" />
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO" />
+    </bean>
+    
+    <bean name="systemHealthService" class="com.surevine.neon.service.impl.SystemHealthServiceImpl">
+        <property name="inloadControlService" ref="inloadControlService" />
     </bean>
     
     <!-- PROFILE BEANS -->
@@ -82,10 +86,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Profile service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
+        <property name="importRegistry" ref="importRegistry" />
     </bean>
     
     <bean name="skillService" class="com.surevine.neon.service.impl.SkillServiceImpl">
         <property name="searchDAO" ref="searchDAO" />
+        <property name="profileDAO" ref="profileDAO" />
     </bean>
 
     <bean name="inloadControlService" class="com.surevine.neon.service.impl.InloadControlServiceImpl">

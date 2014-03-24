@@ -112,6 +112,15 @@ ul.badges img {
 
 /* List page styles */
 
+.badge-info img {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.badge-people {
+  margin-top: 30px;
+}
+
 .person .img-thumbnail {
   width: 32px;
 }
@@ -145,4 +154,10 @@ ul.badges img {
 
 .popover-content dl {
   margin-bottom: 10px;
+}
+
+/* People page */
+
+#nameFilterForm {
+  margin: 10px 0;
 }

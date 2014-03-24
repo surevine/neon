@@ -9,6 +9,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Profile listener that responds to a profile being updated by running badge criteria checkers against the updated 
+ * profile.
+ */
 public class BadgeCriteriaProfileListener implements ProfileUpdatedListener {
     private Set<BadgeCriteriaChecker> criteriaCheckers = new HashSet<BadgeCriteriaChecker>();
     protected BadgeAssertionDAO badgeAssertionDAO;

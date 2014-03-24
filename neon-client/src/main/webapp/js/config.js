@@ -58,11 +58,11 @@ define([], function() {
 			}
 		} ],
 		skillRatings : {
-			1 : "beginner",
-			2 : "journeyman",
-			3 : "artisan",
-			4 : "expert",
-			5 : "mentor"
+			1 : "Beginner",
+			2 : "Journeyman",
+			3 : "Artisan",
+			4 : "Expert",
+			5 : "Mentor"
 		}
 	});
 });

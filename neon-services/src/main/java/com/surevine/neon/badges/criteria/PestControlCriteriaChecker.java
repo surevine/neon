@@ -5,6 +5,9 @@ import com.surevine.neon.model.ProfileBean;
 
 import java.util.Collection;
 
+/**
+ * Checks the criteria for the "Pest Control" badge (resolved a bug)
+ */
 public class PestControlCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {

@@ -14,6 +14,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Checks the criteria for the "Big Cheese" badge (project ownership)
+ */
 public class BigCheeseCriteriaChecker extends BadgeCriteriaChecker {
     @Override
     void checkCriteriaInternal(ProfileBean profileBean, Collection<BadgeAssertion> existingBadges) {

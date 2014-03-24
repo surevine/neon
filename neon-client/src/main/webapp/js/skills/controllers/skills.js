@@ -2,7 +2,14 @@ define(['angular', 'config'], function(ng, config) {
 	var fn = function($scope, $http, $routeParams) {
 
 		$scope.skillName = $routeParams.skillName;
-
+      
+        $scope.filterOptions = [{ label: 'All', value: '' }];
+        for (var key in config.skillRatings) {
+          if (config.skillRatings.hasOwnProperty(key)) {
+            $scope.filterOptions.push({ label: config.skillRatings[key], value: config.skillRatings[key] });
+          }
+        }
+      
 		$http({method: 'GET', url: config.restBaseUrl + 'skill/' + escape($routeParams.skillName) + '/people/' })
 			.success(function(data) {
             

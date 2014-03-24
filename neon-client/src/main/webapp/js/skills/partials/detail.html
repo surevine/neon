@@ -1,27 +1,41 @@
-<h1>People with '{{skillName}}' skill</h1>
-
-<div class="panel panel-default" ng-show="people.length">
-  <div class="panel-heading">
-    <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
-    <a href="" ng-click="predicate = 'currentSkill.rating'; reverse=!reverse" class="pull-right">Rating</a>
+<div class="skill-info">
+  <h1>{{skillName}}</h1>
+</div>
+<div class="skill-people" ng-show="people">
+  
+  <div class="pull-right">
+    <form class="form-horizontal">
+      <button type="button" name="filter" class="btn btn-default" ng-model="filter.rating" data-html="1" data-placeholder="Filter" ng-options="option.value as option.label for option in filterOptions" bs-select>
+        Filter <span class="caret"></span>
+      </button>
+    </form>
   </div>
-
-    <ul class="list-group">
-        <li ng-repeat="person in people | orderBy:predicate:reverse" class="list-group-item person">
-          <a href="#/profile/{{person.userID}}">
-            <img ng-src="{{person.vcard.photo.photoURL}}"
-                 ng-show="{{person.vcard.photo.photoURL.length}}"
-                    class="profile-image img-thumbnail" />
-            <div ng-hide="{{person.vcard.photo.photoURL.length}}"
-                 class="profile-image img-thumbnail">
-              <span class="glyphicon glyphicon-user"></span>
-            </div>
-          </a>
-          <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
-          <span class="badge">{{person.currentSkill.label}}</span>
-      </li>
-    </ul>
-
+  
+  <h3>{{people.length}} people with this skill</h3>
+  <div class="panel panel-default" ng-show="people.length">
+    <div class="panel-heading">
+      <a href="" ng-click="predicate = 'vcard.fn'; reverse=!reverse">Name</a>
+      <a href="" ng-click="predicate = 'currentSkill.rating'; reverse=!reverse" class="pull-right">Rating</a>
+    </div>
+  
+      <ul class="list-group">
+          <li ng-repeat="person in people | orderBy:predicate:reverse  | filter:filter.rating" class="list-group-item person">
+            <a href="#/profile/{{person.userID}}">
+              <img ng-src="{{person.vcard.photo.photoURL}}"
+                   ng-show="{{person.vcard.photo.photoURL.length}}"
+                      class="profile-image img-thumbnail" />
+              <div ng-hide="{{person.vcard.photo.photoURL.length}}"
+                   class="profile-image img-thumbnail">
+                <span class="glyphicon glyphicon-user"></span>
+              </div>
+            </a>
+            <a href="#/profile/{{person.userID}}" >{{person.vcard.fn}}</a> ({{person.userID}}) - {{person.vcard.title}}
+            <span class="badge">{{person.currentSkill.label}}</span>
+        </li>
+      </ul>
+  
+  </div>
+  
 </div>
 
 <div class="alert alert-warning" ng-hide="people.length">

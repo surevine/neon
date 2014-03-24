@@ -5,7 +5,10 @@ import com.surevine.neon.inload.ImportRegistry;
 import com.surevine.neon.service.InloadControlService;
 import com.surevine.neon.service.bean.ImporterConfigurationServiceBean;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Service implementation for control data importers via the registry.
@@ -26,6 +29,19 @@ public class InloadControlServiceImpl implements InloadControlService {
         bean.setConfiguration(config);
         bean.setImporterName(importer);
         return bean;
+    }
+
+    @Override
+    public Collection<ImporterConfigurationServiceBean> getAllImporterConfigurations() {
+        Set<ImporterConfigurationServiceBean> configBeans = new HashSet<ImporterConfigurationServiceBean>();
+        Map<String, Map<String,String>> configMaps = importerConfigurationDAO.getConfigurationForImporters();
+        for (Map.Entry<String, Map<String,String>> entry:configMaps.entrySet()) {
+            ImporterConfigurationServiceBean bean = new ImporterConfigurationServiceBean();
+            bean.setImporterName(entry.getKey());
+            bean.setConfiguration(entry.getValue());
+            configBeans.add(bean);
+        }
+        return configBeans;
     }
 
     public void setRegistry(ImportRegistry registry) {

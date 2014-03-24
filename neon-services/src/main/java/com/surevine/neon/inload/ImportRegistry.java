@@ -1,9 +1,5 @@
 package com.surevine.neon.inload;
 
-import com.surevine.neon.dao.ImporterConfigurationDAO;
-import com.surevine.neon.redis.IPooledJedis;
-import com.surevine.neon.redis.PooledJedis;
-import com.surevine.neon.redis.PooledJedisProxy;
 import com.surevine.neon.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -25,6 +21,11 @@ public class ImportRegistry {
      * logger
      */
     private Logger logger = Logger.getLogger(ImportRegistry.class);
+
+    /**
+     * Internal noop importer used for updates made internally or from the NEON client.
+     */
+    private DataImporter internalDataImporter = new InternalImporter();
 
     /**
      * Whether or not to multi-thread the import jobs
@@ -95,6 +96,14 @@ public class ImportRegistry {
         for (DataImporter prov: this.registry) {
             prov.runImport(userID);
         }
+    }
+
+    /**
+     * Gets the internal data importer used to record metadata for internal or client data changes
+     * @return internal data importer
+     */
+    public DataImporter getInternalDataImporter() {
+        return internalDataImporter;
     }
     
     /**

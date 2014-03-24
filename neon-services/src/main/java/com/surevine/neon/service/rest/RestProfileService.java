@@ -2,10 +2,12 @@ package com.surevine.neon.service.rest;
 
 import com.surevine.neon.model.ProfileBean;
 import com.surevine.neon.service.ProfileService;
+import com.surevine.neon.service.bean.UserSummaryServiceBean;
 import com.surevine.neon.util.SpringApplicationContext;
 import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
+import java.util.Collection;
 
 /**
  * Provided interface exposed as a REST service serving JSON.
@@ -49,6 +51,14 @@ public class RestProfileService implements ProfileService {
         serviceImplementation.removeUser(userID);
     }
 
+    @GET
+    @Path("users")
+    public Collection<UserSummaryServiceBean> getAllUsers() {
+        if (serviceImplementation == null) {
+            loadServiceFromSpringContext();
+        }
+        return serviceImplementation.getAllUsers();
+    }
 
     private void loadServiceFromSpringContext() {
         log.debug("Loading profileService from Spring context");

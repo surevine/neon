@@ -1,18 +1,31 @@
-<p class="text-center" ng-show="{{content.description != undefined}}"><em>"{{content.description}}"</em></p>
+<p class="text-center" ng-hide="content.loaded || content.error">
+  <i class="fa fa-spinner fa-spin"></i> Loading...
+</p>
 
-<dl>
-  <dt ng-show="{{content.issuer != undefined}}">Issued by</dt>
-  <dd ng-show="{{content.issuer != undefined}}">
-    <a href="{{content.issuer.url}}">{{content.issuer.name}}</a>
-  </dd>
-  <dt>Earned</dt>
-  <dd>
-    <a href="{{content.evidence}}">{{content.awarded}}</a>
-  </dd>
-  <dt ng-show="{{content.alignments.length}}">Alignments</dt>
-  <dd ng-repeat="alignment in content.alignments">
-    <a href="{{alignment.url}}">{{alignment.name}}</a>
-  </dd>
-</dl>
+<div class="alert alert-danger" ng-show="content.error">
+  <i class="fa fa-times"></i> Error loading badge metadata.
+</div>
 
-<a href="#/badges/class/{{content.slug}}" class="btn btn-default">View other people with this badge &raquo;</a>
+<div ng-show="content.loaded">
+
+  <p class="text-center" ng-show="content.description"><em>"{{content.description}}"</em></p>
+
+  <dl>
+    <dt ng-show="content.issuer">Issued by</dt>
+    <dd ng-show="content.issuer">
+      <a href="{{content.issuer.url}}">{{content.issuer.name}}</a>
+    </dd>
+    <dt>Earned</dt>
+    <dd>
+      <a href="{{content.evidence}}" ng-show="content.evidence">{{content.awarded}}</a>
+      <span ng-show="!content.evidence">{{content.awarded}}</span>
+    </dd>
+    <dt ng-show="content.alignments.length">Alignments</dt>
+    <dd ng-repeat="alignment in content.alignments">
+      <a href="{{alignment.url}}">{{alignment.name}}</a>
+    </dd>
+  </dl>
+  
+  <a href="#/badges/class/{{content.slug}}" class="btn btn-default">View other people with this badge &raquo;</a>
+  
+</div>
