@@ -1,5 +1,11 @@
 <div class="profile-detail" metastats-user="{{profile.vcard.email}}">
-	<div class="row profile-header">
+	<div class="row" ng-show="!profile">
+      <div class="alert alert-warning">
+        <i class="fa fa-spinner fa-spin"></i>
+        Loading profile data
+      </div>
+    </div>
+    <div class="row profile-header" ng-show="profile">
 		<div class="col-md-12">
 			<img ng-src="{{profile.vcard.photo.photoURL}}"
 				class="profile-image img-thumbnail" />

@@ -1,12 +1,16 @@
 define(['angular', 'config'], function(ng, config) {
 	var fn = function($scope, $http, $routeParams) {
 		$scope.userId = $routeParams.userId;
-		
-		$http({method: 'GET', url: config.restBaseUrl + 'profile/' + escape($routeParams.userId)})
-			.success(function(data) {
-				$scope.profile = data;
-			});
-		
+      
+		$http({
+          method: 'GET',
+          url: config.restBaseUrl + 'profile/' + escape($routeParams.userId),
+          timeout: 60000 // extended timeout established to cater for service needing to load profile data on the fly
+        })
+        .success(function(data) {
+            $scope.profile = data;
+        });
+
 		$scope.extras = [];
 		
 		for(var i = 0; i < config.profileExtras.length; ++i) {
