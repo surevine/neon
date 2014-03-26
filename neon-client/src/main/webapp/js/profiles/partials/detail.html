@@ -12,7 +12,7 @@
 			<h1>{{profile.vcard.fn}} <small>({{profile.userID}})</small></h1>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" ng-show="profile">
 		<div class="col-md-4">
 			<div class="profile-summary" ng-repeat="extra in extras"
 				ng-include="extra.summaryInclude"></div>
