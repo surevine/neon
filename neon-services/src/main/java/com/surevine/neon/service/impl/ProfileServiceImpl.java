@@ -21,11 +21,16 @@ public class ProfileServiceImpl implements ProfileService {
     
     @Override
     public ProfileBean getProfile(String userID) {
-        return dao.getProfileForUser(userID);
+        ProfileBean bean = dao.getProfileForUser(userID);
+        if (bean == null) {
+            addUser(userID);
+            bean = dao.getProfileForUser(userID);
+        }
+        return bean;
     }
 
     @Override
-    public void addUser(String userID) {
+    public void addUser(final String userID) {
         dao.addUserIDToProfileList(userID);
         importRegistry.runImport(userID);
     }

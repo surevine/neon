@@ -16,6 +16,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +57,19 @@ public class WikiProfileImporter extends AbstractDataImporter implements DataImp
 	public void setMyersBriggsPattern(String mbPattern) {
 		myersBriggsPattern=mbPattern;
 	}
+
+    @Override
+    public void updateSpecificConfiguration(Map<String, String> config) {
+        if (config.containsKey("mediaWikiProfilePage")) {
+            mediaWikiProfilePage=config.get("mediaWikiProfilePage");
+        }
+        if (config.containsKey("wikiImageURLBase")) {
+            wikiImageURLBase=config.get("wikiImageURLBase");
+        }
+        if (config.containsKey("wikiImageRawURLBase")) {
+            wikiImageRawURLBase=config.get("wikiImageRawURLBase");
+        }       
+    }
 
 	protected MediaWikiProfile getMediaWikiProfile(String userID) {
 		log.info("Creating A MediaWiki user profile object for "+userID);

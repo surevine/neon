@@ -97,22 +97,26 @@ public abstract class AbstractDataImporter implements DataImporter {
 
     @Override
     public void runImport() {
-        Set<String> userIDs = profileDAO.getUserIDList();
-		log.info("Retrieving data for " + userIDs.size() + " users");
-		Iterator<String> userID = userIDs.iterator();
-		while (userID.hasNext()) {
-			runImport(userID.next());
-		}
+        if (isEnabled()) {
+            Set<String> userIDs = profileDAO.getUserIDList();
+            log.info("Retrieving data for " + userIDs.size() + " users");
+            Iterator<String> userID = userIDs.iterator();
+            while (userID.hasNext()) {
+                runImport(userID.next());
+            }
+        }
 	}
 
     @Override
     public void runImport(String userID) {
-        try {
-        	updateConfiguration();
-            runImportImplementation(userID);
-            configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
-        } catch (DataImportException die) {
-            log.warn("Importer " + getImporterName() + " failed to import data for user " + userID + "[" + die.getMessage() + "]");
+        if (isEnabled()) {
+            try {
+                updateConfiguration();
+                runImportImplementation(userID);
+                configurationDAO.addImporterConfigurationOption(getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));
+            } catch (DataImportException die) {
+                log.warn("Importer " + getImporterName() + " failed to import data for user " + userID + "[" + die.getMessage() + "]");
+            }
         }
     }
 
@@ -183,6 +187,10 @@ public abstract class AbstractDataImporter implements DataImporter {
 			targetURL=new URL(urlBase.replaceAll("\\{username\\}", userID));
 			log.trace("Target URL for import: "+targetURL.toString());
 			URLConnection connection = targetURL.openConnection();
+            
+            // add a timeout to stop imports blocking when a target resource is unavailable
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
 			
 			if (connection instanceof HttpsURLConnection && useCertificate) {
 				try {

@@ -42,15 +42,21 @@ public class ProfileDAOImpl implements ProfileDAO {
         if (Properties.getProperties().isUseMockProfile()) {
             bean.setUserID(MOCK_USER_ID);
         }
-        
-        // run handlers to load persistent information held about the user
-        for (NamespaceHandler handler:handlerMapping.values()) {
-            handler.load(bean);
+
+        Set<String> userIDs = getUserIDList();
+        if ((userIDs != null && userIDs.contains(userID)) || bean.getUserID().equals(MOCK_USER_ID)) {
+            // run handlers to load persistent information held about the user
+            for (NamespaceHandler handler:handlerMapping.values()) {
+                handler.load(bean);
+            }
+            
+            // augment profile data with any live feeds
+            FeedRegistry.getInstance().augmentProfileWithFeeds(bean);
+            return bean;
+        } else {
+            return null;
         }
         
-        // augment profile data with any live feeds
-        FeedRegistry.getInstance().augmentProfileWithFeeds(bean);
-        return bean;
     }
     
     @Override

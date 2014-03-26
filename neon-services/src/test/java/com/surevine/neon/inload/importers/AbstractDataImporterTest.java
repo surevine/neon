@@ -40,6 +40,9 @@ public class AbstractDataImporterTest {
         users.add("user1");
         users.add("user2");
 
+        expect(mockImporterConfigurationDAO.getBooleanConfigurationOption("MOCK_IMPORTER", ImporterConfigurationDAO.NS_ENABLED)).andReturn(true);
+        expect(mockImporterConfigurationDAO.getBooleanConfigurationOption("MOCK_IMPORTER", ImporterConfigurationDAO.NS_ENABLED)).andReturn(true);
+        expect(mockImporterConfigurationDAO.getBooleanConfigurationOption("MOCK_IMPORTER", ImporterConfigurationDAO.NS_ENABLED)).andReturn(true);
         expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
         mockImporterConfigurationDAO.addImporterConfigurationOption(eq("MOCK_IMPORTER"), eq(ImporterConfigurationDAO.NS_LAST_IMPORT), anyString());
         expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
@@ -57,6 +60,7 @@ public class AbstractDataImporterTest {
     @Test
     public void testRunImportSetsLastRunDate() {
         String userID = "user1";
+        expect(mockImporterConfigurationDAO.getBooleanConfigurationOption("MOCK_IMPORTER", ImporterConfigurationDAO.NS_ENABLED)).andReturn(true);
         expect(mockImporterConfigurationDAO.getConfigurationForImporter("MOCK_IMPORTER")).andReturn(null);
         mockImporterConfigurationDAO.addImporterConfigurationOption(eq("MOCK_IMPORTER"), eq(ImporterConfigurationDAO.NS_LAST_IMPORT), anyString());
         replay(mockImporterConfigurationDAO);

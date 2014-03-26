@@ -44,7 +44,6 @@ public class ImportRegistry {
         runImportMultithreaded = Properties.getProperties().isMultiThreadImport();
     }
 
-    
     /**
      * Spring injected registry of importers
      * @param registry the registry
@@ -57,8 +56,12 @@ public class ImportRegistry {
      * Run data importers
      */              
     public void runImport() {
+        runImport(runImportMultithreaded);
+    }
+    
+    public void runImport(boolean multiThread) {
         logger.info("Running scheduled data import for all users using " + registry.size() + " importer(s)");
-        if (runImportMultithreaded) {
+        if (multiThread) {
             logger.debug("Importing using multi-threaded mode.");
             Executor executor = Executors.newFixedThreadPool(Properties.getProperties().getImportExecutors());
             for (DataImporter imp: this.registry) {
@@ -76,12 +79,12 @@ public class ImportRegistry {
             logger.debug("Importing using single thread mode.");
             for (DataImporter imp: this.registry) {
                 if (imp.cacheLapsed()) {
-                	try {
-                		imp.runImport();
-                	}
-                	catch (Exception e) {
-                		logger.error("Exception occured when running "+imp.getClass(), e);
-                	}
+                    try {
+                        imp.runImport();
+                    }
+                    catch (Exception e) {
+                        logger.error("Exception occured when running "+imp.getClass(), e);
+                    }
                 }
             }
         }

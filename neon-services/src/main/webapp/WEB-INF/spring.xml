@@ -123,18 +123,47 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
+        <property name="additionalConfiguration">
+            <map>
+                <entry key="urlBase" value="http://10.66.2.127:8080/neon-services/example_fsrf.json?user={username}" />
+                <entry key="dateFormat" value="YYYY-MM-dd" />
+            </map>
+        </property>
     </bean>
 
     <bean name="mediaWikiImporter" class="com.surevine.neon.inload.importers.mediawiki.WikiProfileImporter" parent="baseImporter">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
+        <property name="additionalConfiguration">
+            <map>
+                <entry key="mediaWikiProfilePage" value="http://wiki.surevine.net/index.php/User:{username}@client?action=raw" />
+                <entry key="wikiImageURLBase" value="http://wiki.surevine.net/index.php/File:{fileName}" />
+                <entry key="wikiImageRawURLBase" value="http://wiki.surevine.net/images/{rawFile}" />
+            </map>
+        </property>
     </bean>
 
     <bean name="gitlabImporter" class="com.surevine.neon.inload.importers.gitlab.GitlabProfileImporter" parent="baseImporter">
         <property name="enabled" value="true" />
         <property name="cacheTimeout" value="120" />
         <property name="sourcePriority" value="1" />
+        <property name="additionalConfiguration">
+            <map>
+                <entry key="authenticationToken" value="Pf4JKf6GEdeNmYEWxwBs" />
+                <entry key="urlBase" value="http://10.66.2.254/" />
+                <entry key="dateFormat" value="YYYY-MM-dd'T'HH:mm:ss'Z'" />
+                <entry key="commitDateFormat" value="yyyy-MM-dd'T'HH:mm:ssXXX" />
+                <entry key="profileBaseURL" value="api/v3/users?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
+                <entry key="projectBaseURL" value="api/v3/projects?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
+                <entry key="commitsBaseURL" value="api/v3/projects/{projectId}/repository/commits?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
+                <entry key="projectMembershipURLBase" value="api/v3/projects/{projectId}/members?private_token={auth_token}&amp;query={username}&amp;per_page=100" />
+                <entry key="listProjectMembersURLBase" value="api/v3/projects/{projectId}/members?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
+                <entry key="commitWebURLBase" value="{project_name}/commit/{commit_id}" />
+                <entry key="issueURLBase" value="api/v3/issues?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
+                <entry key="issueWebURLBase" value="{project_name}/issues/{issue_id}" />
+            </map>
+        </property>
     </bean>
 
     <bean name="jiveImporter" class="com.surevine.neon.inload.importers.jive.JiveImporter" parent="baseImporter">
@@ -143,6 +172,15 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="sourcePriority" value="1" />
         <property name="username" value="admin" />
         <property name="password" value="admin" />
+        <property name="additionalConfiguration">
+            <map>
+                <entry key="hostname" value="10.66.2.89" />
+                <entry key="jiveUrlBase" value="http://{hostname}/api/core/v3/" />
+                <entry key="peopleService" value="people/username/{username}" />
+                <entry key="followersService" value="people/{username}/@followers" />
+                <entry key="followingService" value="people/{username}/@following" />
+            </map>
+        </property>
     </bean>
     
     <!-- Profile data feeds - add to feedRegistry above -->
