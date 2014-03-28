@@ -9,6 +9,9 @@ define(['angular', 'config'], function(ng, config) {
         })
         .success(function(data) {
             $scope.profile = data;
+        })
+        .error(function(data, status, headers, config) {
+            $scope.loadError = true;
         });
 
 		$scope.extras = [];
