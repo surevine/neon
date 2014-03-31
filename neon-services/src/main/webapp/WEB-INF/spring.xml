@@ -120,38 +120,38 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
 
     <bean name="findImporter" class="com.surevine.neon.inload.importers.find.FindImporter" parent="baseImporter">
-        <property name="enabled" value="true" />
-        <property name="cacheTimeout" value="120" />
-        <property name="sourcePriority" value="1" />
+        <property name="enabled" value="${import.find.enabled}" />
+        <property name="cacheTimeout" value="${import.find.cacheTimeout}" />
+        <property name="sourcePriority" value="${import.find.sourcePriority}" />
         <property name="additionalConfiguration">
             <map>
-                <entry key="urlBase" value="http://10.66.2.127:8080/neon-services/example_fsrf.json?user={username}" />
+                <entry key="urlBase" value="${import.find.host}:8080/neon-services/example_fsrf.json?user={username}" />
                 <entry key="dateFormat" value="YYYY-MM-dd" />
             </map>
         </property>
     </bean>
 
     <bean name="mediaWikiImporter" class="com.surevine.neon.inload.importers.mediawiki.WikiProfileImporter" parent="baseImporter">
-        <property name="enabled" value="true" />
-        <property name="cacheTimeout" value="120" />
-        <property name="sourcePriority" value="1" />
+        <property name="enabled" value="${import.wiki.enabled}" />
+        <property name="cacheTimeout" value="${import.wiki.cacheTimeout}" />
+        <property name="sourcePriority" value="${import.wiki.sourcePriority}" />
         <property name="additionalConfiguration">
             <map>
-                <entry key="mediaWikiProfilePage" value="http://wiki.surevine.net/index.php/User:{username}@client?action=raw" />
-                <entry key="wikiImageURLBase" value="http://wiki.surevine.net/index.php/File:{fileName}" />
-                <entry key="wikiImageRawURLBase" value="http://wiki.surevine.net/images/{rawFile}" />
+                <entry key="mediaWikiProfilePage" value="${import.wiki.host}/index.php/User:{username}@client?action=raw" />
+                <entry key="wikiImageURLBase" value="${import.wiki.host}/index.php/File:{fileName}" />
+                <entry key="wikiImageRawURLBase" value="${import.wiki.host}/images/{rawFile}" />
             </map>
         </property>
     </bean>
 
     <bean name="gitlabImporter" class="com.surevine.neon.inload.importers.gitlab.GitlabProfileImporter" parent="baseImporter">
-        <property name="enabled" value="true" />
-        <property name="cacheTimeout" value="120" />
-        <property name="sourcePriority" value="1" />
+        <property name="enabled" value="${import.gitlab.enabled}" />
+        <property name="cacheTimeout" value="${import.gitlab.cacheTimeout}" />
+        <property name="sourcePriority" value="${import.gitlab.sourcePriority}" />
         <property name="additionalConfiguration">
             <map>
-                <entry key="authenticationToken" value="Pf4JKf6GEdeNmYEWxwBs" />
-                <entry key="urlBase" value="http://10.66.2.254/" />
+                <entry key="authenticationToken" value="${import.gitlab.authenticationToken}" />
+                <entry key="urlBase" value="${import.gitlab.host}/" />
                 <entry key="dateFormat" value="YYYY-MM-dd'T'HH:mm:ss'Z'" />
                 <entry key="commitDateFormat" value="yyyy-MM-dd'T'HH:mm:ssXXX" />
                 <entry key="profileBaseURL" value="api/v3/users?private_token={auth_token}&amp;per_page=100&amp;page={page_id}" />
@@ -167,14 +167,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
 
     <bean name="jiveImporter" class="com.surevine.neon.inload.importers.jive.JiveImporter" parent="baseImporter">
-        <property name="enabled" value="true" />
-        <property name="cacheTimeout" value="120" />
-        <property name="sourcePriority" value="1" />
-        <property name="username" value="admin" />
-        <property name="password" value="admin" />
+        <property name="enabled" value="${import.jive.enabled}" />
+        <property name="cacheTimeout" value="${import.jive.cacheTimeout}" />
+        <property name="sourcePriority" value="${import.jive.sourcePriority}" />
+        <property name="username" value="${import.jive.username}" />
+        <property name="password" value="${import.jive.password}" />
         <property name="additionalConfiguration">
             <map>
-                <entry key="hostname" value="10.66.2.89" />
+                <entry key="hostname" value="${import.jive.host}" />
                 <entry key="jiveUrlBase" value="http://{hostname}/api/core/v3/" />
                 <entry key="peopleService" value="people/username/{username}" />
                 <entry key="followersService" value="people/{username}/@followers" />

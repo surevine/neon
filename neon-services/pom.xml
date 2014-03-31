@@ -103,7 +103,7 @@
             </resource>
         </resources>
         <filters>
-            <filter>neon-maven.properties</filter>
+            <filter>config/neon.properties</filter>
         </filters>
 		<plugins>
 			<plugin>
@@ -121,9 +121,9 @@
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>1.0.0.Beta1</version>
 				<configuration>
-					<hostname>127.0.0.1</hostname>
-					<username>admin</username>
-					<password>password</password>
+					<hostname>${wildfly.hostname}</hostname>
+					<username>${wildfly.username}</username>
+					<password>${wildfly.password}</password>
 				</configuration>
 				<executions>
 					<execution>
@@ -134,7 +134,94 @@
 					</execution>
 				</executions>
 			</plugin>
-
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <filters>
+                        <filter>config/neon.properties</filter>
+                        <filter>${web.filter.propfile}</filter>
+                    </filters>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF</targetPath>
+                        </resource>
+                    </webResources>
+                    
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
+    
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>local</value>
+                </property>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <web.filter.propfile>config/local.properties</web.filter.propfile>
+                <wildfly.hostname>127.0.0.1</wildfly.hostname>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>password</wildfly.password>
+            </properties>
+            <build>
+                <filters>
+                    <filter>config/local.properties</filter>
+                </filters>
+            </build>
+        </profile>
+
+        <profile>
+            <id>ec2</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>ec2</value>
+                </property>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <web.filter.propfile>config/ec2.properties</web.filter.propfile>
+                <wildfly.hostname>10.66.2.126</wildfly.hostname>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>password</wildfly.password>
+            </properties>
+            <build>
+                <filters>
+                    <filter>config/ec2.properties</filter>
+                </filters>
+            </build>
+        </profile>
+
+        <profile>
+            <id>onsite</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>onsite</value>
+                </property>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <web.filter.propfile>config/onsite.properties</web.filter.propfile>
+                <wildfly.hostname>127.0.0.1</wildfly.hostname>
+                <wildfly.username>admin</wildfly.username>
+                <wildfly.password>password</wildfly.password>
+            </properties>
+            <build>
+                <filters>
+                    <filter>config/onsite.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        
+    </profiles>
 </project>
