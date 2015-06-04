@@ -12,6 +12,7 @@ public class VCardBean {
     private VCardPhotoBean photo = new VCardPhotoBean();
     private Set<VCardTelBean> telephoneNumbers = new HashSet<VCardTelBean>();
     private String email;
+    private String jid;
 
     public String getVCardVersion() {
         return VCARD_VERSION;
@@ -63,5 +64,13 @@ public class VCardBean {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getJid() {
+        return jid;
+    }
+
+    public void setJid(String jid) {
+        this.jid = jid;
     }
 }

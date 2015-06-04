@@ -1,0 +1,9 @@
+<section class="profile-section" ng-show="profile.status.presence">
+	<h3>Current Status</h3>
+	<p><a href="xmpp:{{profile.vcard.jid}}">{{profile.vcard.fn}}</a> is
+	<a href="xmpp:{{profile.vcard.jid}}">
+		<img src="img/presence-icons/{{profile.status.presence | lowercase}}.gif" class="presence-icon" />
+	</a>
+	{{profile.status.presence}}
+	<span ng-if="profile.status.presence != 'offline'"> at {{profile.status.location}}</span>.</p>
+</section>

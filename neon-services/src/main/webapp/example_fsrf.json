@@ -1,8 +1,8 @@
 {
-   "displayName":"Mr Simon White (simonw)",
-   "bst":"SUREVINE007",
+   "displayName":"Jonny Heavey",
+   "bst":"SUREVINE",
    "description":"Making things and chatting",
-   "pfNumber":"007007",
+   "pfNumber":"123456",
    "roomNumber":"Z1A",
    "typeOfEmployment":"employee",
    "manager":{
@@ -53,8 +53,8 @@
       }
    ],
    "type":"person",
-   "name":"Mr Simon White (simonw)",
-   "userid":"simonw",
-   "familiarName":"Simey",
-   "surname":"White"
+   "name":"Jonny Heavey",
+   "userid":"jonny",
+   "familiarName":"Jonny",
+   "surname":"Heavey"
 }

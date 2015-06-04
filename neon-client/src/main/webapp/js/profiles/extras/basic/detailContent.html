@@ -9,6 +9,10 @@
 			<th>Email</th>
 			<td><a href="mailto:{{profile.vcard.email}}">{{profile.vcard.email}}</a></td>
 		</tr>
+		<tr ng-show="profile.vcard.jid">
+			<th>Jid (XMPP)</th>
+			<td><a href="xmpp:{{profile.vcard.jid}}">{{profile.vcard.jid}}</a></td>
+		</tr>
 		<tr ng-repeat="tel in profile.vcard.telephoneNumbers">
 			<th>Telephone ({{tel.type}})</th>
 			<td>{{tel.number}}</td>

@@ -4,10 +4,10 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
+
     <!-- APPLICATION AND SYSTEM BEANS -->
     <bean class="com.surevine.neon.util.SpringApplicationContext"/>
-    
+
     <bean class="com.surevine.neon.Bootstrap" init-method="bootstrap">
         <property name="issuerOrganisationDAO" ref="issuerOrganisationDAO" />
         <property name="badgeClassDAO" ref="badgeClassDAO" />
@@ -15,18 +15,19 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="profileDAO" ref="profileDAO" />
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO" />
     </bean>
-    
+
     <bean name="systemHealthService" class="com.surevine.neon.service.impl.SystemHealthServiceImpl">
         <property name="inloadControlService" ref="inloadControlService" />
     </bean>
-    
+
     <!-- PROFILE BEANS -->
-    
+
     <!-- Profile registries -->
     <bean name="importRegistry" class="com.surevine.neon.inload.ImportRegistry" factory-method="getInstance">
         <property name="registry">
             <set>
                 <ref bean="mockImporter" />
+                <ref bean="presenceImporter" />
                 <ref bean="findImporter" />
                 <ref bean="mediaWikiImporter" />
                 <ref bean="gitlabImporter" />
@@ -42,15 +43,15 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             </set>
         </property>
     </bean>
-    
+
     <!-- Profile DAO and data handlers -->
     <bean name="jedis" class="com.surevine.neon.redis.PooledJedisProxy" />
-    
+
     <bean name="abstractPersistenceHandler" class="com.surevine.neon.dao.impl.AbstractNamespaceHandler" abstract="true">
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO" />
         <property name="jedis" ref="jedis" />
     </bean>
-    
+
     <bean name="profileDAO" class="com.surevine.neon.dao.impl.ProfileDAOImpl">
         <property name="jedis" ref="jedis" />
         <property name="handlers">
@@ -70,7 +71,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             </set>
         </property>
     </bean>
-    
+
     <bean name="searchDAO" class="com.surevine.neon.dao.impl.SimpleIteratingSearchDAOIml">
     	<property name="profileDAO" ref="profileDAO"/>
     </bean>
@@ -82,13 +83,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="feedConfigurationDAO" class="com.surevine.neon.dao.impl.FeedConfigurationDAOImpl">
         <property name="jedis" ref="jedis" />
     </bean>
-    
+
     <!-- Profile service definitions -->
     <bean name="profileService" class="com.surevine.neon.service.impl.ProfileServiceImpl">
         <property name="dao" ref="profileDAO" />
         <property name="importRegistry" ref="importRegistry" />
     </bean>
-    
+
     <bean name="skillService" class="com.surevine.neon.service.impl.SkillServiceImpl">
         <property name="searchDAO" ref="searchDAO" />
         <property name="profileDAO" ref="profileDAO" />
@@ -98,21 +99,21 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="registry" ref="importRegistry" />
         <property name="importerConfigurationDAO" ref="importerConfigurationDAO"/>
     </bean>
-    
+
     <!-- Profile data importers - add to importRegistry above -->
     <bean name="baseImporter" class="com.surevine.neon.inload.importers.AbstractDataImporter" abstract="true">
-        <!-- 
+        <!--
              If clearConfig is set to true (globally here or in a specific concrete importer below) then ALL old config
-             for an importer will be deleted the first time any configuration updates or additions are made to an 
+             for an importer will be deleted the first time any configuration updates or additions are made to an
              importer (this will usually be an initialisation when the properties are set from this spring.xml file).
-             
+
              If false then old configuration is left in the database and only overwrites will affect any old config options.
         -->
         <property name="clearConfig" value="false"/>
         <property name="configurationDAO" ref="importerConfigurationDAO"/>
         <property name="profileDAO" ref="profileDAO"/>
     </bean>
-    
+
     <!-- this is here to provide mock importer metadata to use with mocked profiles - do not remove -->
     <bean name="mockImporter" class="com.surevine.neon.inload.importers.MockImporter" parent="baseImporter">
         <property name="enabled" value="false" />
@@ -182,24 +183,39 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             </map>
         </property>
     </bean>
-    
+
+    <bean name="presenceImporter" class="com.surevine.neon.inload.importers.xmpp.PresenceImporter" parent="baseImporter">
+        <property name="enabled" value="${import.presence.enabled}" />
+        <property name="cacheTimeout" value="${import.presence.cacheTimeout}" />
+        <property name="sourcePriority" value="${import.presence.sourcePriority}" />
+        <property name="additionalConfiguration">
+            <map>
+   				<entry key="presenceHost" value="http://${import.presence.host}:9090" />
+                <entry key="xmppDomain" value="${import.presence.host}" />
+                <entry key="externalStatusPrefix" value="EXTERNAL" />
+                <entry key="externalLocationName" value="Centre" />
+                <entry key="internalLocationName" value="Office" />
+            </map>
+        </property>
+    </bean>
+
     <!-- Profile data feeds - add to feedRegistry above -->
     <bean name="baseFeed" class="com.surevine.neon.inload.feeds.AbstractDataFeed" abstract="true">
         <property name="configurationDAO" ref="feedConfigurationDAO"/>
     </bean>
-    
+
     <bean name="doesNothingExampleFeed" class="com.surevine.neon.inload.feeds.DoesNothingExampleFeed" parent="baseFeed">
         <property name="enabled" value="true" />
         <property name="sourcePriority" value="1" />
     </bean>
-    
+
     <!-- BADGE SERVICE BEANS -->
-    
+
     <!-- Badge DAOs -->
     <bean name="abstractBadgeDAO" class="com.surevine.neon.badges.dao.impl.AbstractRedisJSONDAO" abstract="true">
         <property name="jedis" ref="jedis" />
     </bean>
-    
+
     <bean name="badgeAssertionDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONBadgeAssertionDAOImpl" parent="abstractBadgeDAO" />
 
     <bean name="badgeClassDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONBadgeClassDAOImpl" parent="abstractBadgeDAO" />
@@ -207,7 +223,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="issuerOrganisationDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONIssuerOrganisationDAOImpl" parent="abstractBadgeDAO" />
 
     <bean name="revocationListDAO" class="com.surevine.neon.badges.dao.impl.RedisJSONRevocationListDAOImpl" parent="abstractBadgeDAO" />
-    
+
     <!-- Badge service definitions -->
     <bean name="badgeAssertionService" class="com.surevine.neon.badges.service.impl.BadgeAssertionServiceImpl">
         <property name="dao" ref="badgeAssertionDAO" />
@@ -230,13 +246,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="revocationListService" class="com.surevine.neon.badges.service.impl.RevocationListServiceImpl">
         <property name="dao" ref="revocationListDAO" />
     </bean>
-    
+
     <!-- Badge criteria checking -->
     <bean name="abstractBadgeCriteriaChecker" class="com.surevine.neon.badges.criteria.BadgeCriteriaChecker" abstract="true">
         <property name="badgeAssertionDAO" ref="badgeAssertionDAO" />
         <property name="badgeClassDAO" ref="badgeClassDAO" />
     </bean>
-    
+
     <bean name="badgeCriteriaProfileListener" class="com.surevine.neon.badges.criteria.BadgeCriteriaProfileListener">
         <property name="criteriaCheckers">
             <set>

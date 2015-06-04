@@ -1,7 +1,7 @@
 define([], function() {
 	return ({
-		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
-//		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
+//		restBaseUrl : 'http://10.66.2.126:8080/neon-services/rest/',
+		restBaseUrl: 'http://localhost:8080/neon-services/rest/',
 //		restBaseUrl: 'test-data/rest/',
 //		restBaseUrl: '/neon-services/rest/',
 		metastatsBaseUrl : 'http://10.66.2.25/si/',
@@ -19,6 +19,11 @@ define([], function() {
 			id : 'badges',
 			sections : {
 				summary : true
+			}
+		}, {
+			id : 'status',
+			sections: {
+				detail : true,
 			}
 		}, {
 			id : 'skills',

@@ -43,7 +43,7 @@ public class Bootstrap {
             } catch (IOException e) {
                 logger.error("Could not read bootstrap.json",e);
             }
-            
+
             if (buffer.length() > 0) {
                 processBootstrapJSON(new JSONObject(buffer.toString()));
             }
@@ -52,7 +52,7 @@ public class Bootstrap {
         }
         persistMockProfile();
     }
-    
+
     public void bootstrap(String bootstrapJSON) {
         processBootstrapJSON(new JSONObject(bootstrapJSON));
         persistMockProfile();
@@ -123,12 +123,12 @@ public class Bootstrap {
             }
         }
     }
-    
+
     private void parseBadgeTemplates(JSONObject bootstrapJSON) {
         if (bootstrapJSON.has("badgeEnabledProjects") && bootstrapJSON.has("projectBadgeClassTemplates")) {
             JSONArray badgeTemplates = bootstrapJSON.getJSONArray("projectBadgeClassTemplates");
             JSONArray projects = bootstrapJSON.getJSONArray("badgeEnabledProjects");
-            
+
             for (int i = 0; i < badgeTemplates.length(); i++) {
                 JSONObject badgeTemplateJSO = badgeTemplates.getJSONObject(i);
                 if (badgeTemplateJSO != null) {
@@ -178,10 +178,14 @@ public class Bootstrap {
         bean.getAdditionalProperties().put("Favourite colour", "Red");
         bean.getAdditionalProperties().put("First car", "Ferrari");
         bean.getAdditionalProperties().put("Browser of choice", "Firefox");
+        bean.getAdditionalProperties().put("Job Title", "Software Engineer");
+        bean.getAdditionalProperties().put("Current Location Fine Details", "");
+
 
         bean.getVcard().setOrg("HR");
         bean.getVcard().setFn("Michael Mock");
         bean.getVcard().setEmail("mmock@localhost");
+        bean.getVcard().setJid("m.mock.jid@localhost");
         bean.getVcard().setTitle("Java Developer");
         try {
             bean.getVcard().getPhoto().setMimeType("image/jpg");
@@ -195,8 +199,9 @@ public class Bootstrap {
         bean.getVcard().getTelephoneNumbers().add(new VCardTelBean("Mobile", "07777 777777"));
 
         StatusBean statusBean = new StatusBean();
-        statusBean.setLocation("Building B");
-        statusBean.setPresence("Away");
+        statusBean.setLocation("Centre");
+//        statusBean.setPresence("Online");
+        statusBean.setPresence("Unavailable");
         statusBean.setPresenceLastUpdated(new Date());
         bean.setStatus(statusBean);
 
@@ -281,27 +286,27 @@ public class Bootstrap {
         pab5.setActivityDescription("Closed a merge request");
         pab5.setType(ProjectActivityBean.ProjectActivityType.UNKNOWN);
         bean.getProjectActivity().add(pab5);
-        
+
         ConnectionBean con1 = new ConnectionBean();
         con1.setUserID("smithj");
-        con1.setAnnotation("Member of same project");
+        con1.setAnnotation("Member of same project as smithj");
         bean.getConnections().add(con1);
 
         ConnectionBean con2 = new ConnectionBean();
         con2.setUserID("jonesa");
-        con2.setAnnotation("Member of same project");
+        con2.setAnnotation("Member of same project as jonesa");
         bean.getConnections().add(con2);
 
         ConnectionBean con3 = new ConnectionBean();
         con3.setUserID("davisd");
-        con3.setAnnotation("Manager");
+        con3.setAnnotation("Managed by davisd");
         bean.getConnections().add(con3);
 
         ConnectionBean con4 = new ConnectionBean();
         con4.setUserID("potterp");
-        con4.setAnnotation("Manages");
+        con4.setAnnotation("Manages potterp");
         bean.getConnections().add(con4);
-        
+
         MockImporter imp = new MockImporter();
         profileDAO.persistProfile(bean, imp);
         importerConfigurationDAO.addImporterConfigurationOption(imp.getImporterName(), ImporterConfigurationDAO.NS_LAST_IMPORT, DateUtil.dateToString(new Date()));

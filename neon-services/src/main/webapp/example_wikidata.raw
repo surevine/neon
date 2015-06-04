@@ -3,7 +3,7 @@ Here is some text that I have put in here in order to make the [parsers] [[job]]
 
 it even includes {{some other templates}} even one with a name similar to {{personable}} {person}
 
-{{person|imgsrc=Foobar.jpg|name=Simon White|job=Senior Software Engineer|sid=simonw|nsec=08454681066|russett=12345|room=Z1A|pf=012345|section=SUREVINE}}
+{{person|imgsrc=Foobar.jpg|name=Jonny Heavey|job=Software Engineer|sid=jonnyh|nsec=08454681066|russett=12345|room=Z1A|pf=012345|section=SUREVINE}}
 
 
 Some more text here
